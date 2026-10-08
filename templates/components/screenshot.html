@@ -1,0 +1,31 @@
+<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure {{FIGURE_CLASS}}">
+
+  <button
+    data-lightbox
+    data-caption="{{SCREENSHOT_CAPTION}}"
+  >
+
+    <img
+      src="{{SCREENSHOT_SRC}}"
+      alt="{{SCREENSHOT_ALT}}"
+    >
+
+  </button>
+
+  <figcaption>
+    {{SCREENSHOT_CAPTION}}
+  </figcaption>
+
+</figure>

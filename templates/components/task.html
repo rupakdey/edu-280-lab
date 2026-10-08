@@ -1,0 +1,44 @@
+<!--
+  Canonical lab-task component.
+
+  Rules:
+  - Use simple numbered steps inside TASK_CONTENT.
+  - Do not reproduce PDF a/b/c or i/ii/iii numbering.
+  - Screenshots belong immediately after the step they illustrate.
+  - Every task must include EXPECTED_RESULT_BLOCK.
+-->
+
+<section class="task" id="{{TASK_ID}}">
+  <article class="card task-shell">
+
+    <header class="task-head">
+
+      <div class="task-num">
+        {{TASK_NUMBER}}
+      </div>
+
+      <div>
+        <h2>{{TASK_TITLE}}</h2>
+        <p>{{TASK_DESCRIPTION}}</p>
+      </div>
+
+      <label class="task-complete">
+        <input
+          type="checkbox"
+          data-task-check="{{TASK_NUMBER}}"
+        >
+        Mark complete
+      </label>
+
+    </header>
+
+    <div class="task-body">
+
+      {{TASK_CONTENT}}
+
+      {{EXPECTED_RESULT_BLOCK}}
+
+    </div>
+
+  </article>
+</section>

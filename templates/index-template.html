@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="description"
+    content="Unofficial web edition of the {{COURSE_ID}} {{COURSE_TITLE}} hands-on lab guide."
+  >
+
+  <title>{{COURSE_ID}} | {{COURSE_TITLE}} Hands-on Lab Guide</title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="assets/images/shared/favicon.svg"
+  >
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    try {
+      const t = localStorage.getItem('{{STORAGE_PREFIX}}-theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+
+<body
+  data-page="home"
+  data-course-id="{{COURSE_ID}}"
+  data-storage-prefix="{{STORAGE_PREFIX}}"
+>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Built by site.js -->
+<div id="course-nav"></div>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <button
+      class="icon-btn mobile-menu"
+      data-menu-toggle
+      aria-label="Open course navigation"
+    >☰</button>
+
+    <div class="breadcrumb">
+      <strong>{{COURSE_ID}}</strong> / Web Lab Guide
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <div class="global-search">
+      <input
+        id="global-search-input"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Search course"
+      >
+      <div
+        id="global-search-results"
+        class="global-search-results"
+      ></div>
+    </div>
+
+    <button
+      class="icon-btn"
+      data-theme-toggle
+      aria-label="Toggle dark or light mode"
+    >
+      <span data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+<main class="main" id="main">
+<div class="content">
+
+  <!-- =========================================================
+       HERO
+       ========================================================= -->
+
+  <section class="hero" id="overview">
+    <div class="eyebrow">
+      {{COURSE_FAMILY}} · Unofficial Web Edition
+    </div>
+
+    <h1>{{COURSE_ID}} Hands-on Lab Guide</h1>
+
+    <p>{{COURSE_HERO_DESCRIPTION}}</p>
+
+    <div class="author-line">
+      Web edition by <strong>{{AUTHOR}}</strong>
+    </div>
+
+    <div class="hero-meta">
+      <span>{{LAB_COUNT}} labs</span>
+      <span>Current Experience Center navigation</span>
+      <span>Persistent chapter navigation</span>
+      <span>Light + dark mode</span>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       UNOFFICIAL GUIDE NOTICE
+       ========================================================= -->
+
+  <div class="callout warning unofficial-note">
+    <div class="callout-symbol">!</div>
+
+    <div>
+      <div class="callout-title">Unofficial learning aid</div>
+
+      <p>
+        This is an independent, simplified web adaptation created to
+        make the hands-on labs easier to follow. It is
+        <strong>not an official Zscaler lab guide</strong>.
+        If the live tenant, instructor guidance, or current product UI
+        differs from this site, follow the live environment.
+      </p>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       COURSE OUTCOMES
+       Builder creates 2–4 concise cards from the source guide.
+       Do not reproduce long source scenario prose.
+       ========================================================= -->
+
+  <section class="section" id="course-outcomes">
+    <div class="section-head stacked">
+      <div class="eyebrow">Course outcome</div>
+      <h2>What you will practice</h2>
+      <p>{{COURSE_OUTCOME_SUMMARY}}</p>
+    </div>
+
+    <div class="grid grid-3">
+      {{COURSE_OUTCOME_CARDS}}
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       EXPERIENCE CENTER NAVIGATION
+
+       Builder must:
+       - use verified current navigation where known
+       - otherwise provide Search Menu keywords
+       - never treat source screenshots as authoritative nav maps
+       ========================================================= -->
+
+  <section class="section" id="navigation-guide">
+    <div class="section-head stacked">
+      <div class="eyebrow">Experience Center navigation</div>
+
+      <h2>{{NAVIGATION_GUIDE_TITLE}}</h2>
+
+      <p>{{NAVIGATION_GUIDE_DESCRIPTION}}</p>
+    </div>
+
+    <div class="card pad">
+
+      {{NAVIGATION_GUIDE_CONTENT}}
+
+      <div class="callout success">
+        <div class="callout-symbol">✓</div>
+
+        <div>
+          <div class="callout-title">
+            What changes — and what does not
+          </div>
+
+          <p>
+            Navigation and menu placement can change while the underlying
+            policy, resource, and configuration objects remain the same.
+            Follow the current written guidance in this web edition.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       ENVIRONMENT / TOPOLOGY
+       Course-specific content generated from the source.
+       ========================================================= -->
+
+  <section class="section" id="environment">
+    <div class="section-head stacked">
+      <div class="eyebrow">Lab foundation</div>
+      <h2>Environment at a glance</h2>
+      <p>{{ENVIRONMENT_DESCRIPTION}}</p>
+    </div>
+
+    {{ENVIRONMENT_CONTENT}}
+  </section>
+
+
+  <!-- =========================================================
+       OPTIONAL ACCESS / SESSION INFORMATION
+
+       Omit completely when the course does not need a dedicated
+       access checkpoint on the index page.
+       ========================================================= -->
+
+  {{ACCESS_OVERVIEW_SECTION}}
+
+
+  <!-- =========================================================
+       COURSE INDEX
+       ========================================================= -->
+
+  <section class="section" id="contents">
+
+    <div class="section-head stacked">
+      <div class="eyebrow">Course index</div>
+
+      <h2>{{LAB_COUNT}} hands-on labs</h2>
+
+      <p>{{COURSE_INDEX_DESCRIPTION}}</p>
+    </div>
+
+    <div class="card pad" style="padding:14px;margin-bottom:14px">
+      <label
+        for="lab-filter"
+        class="eyebrow"
+        style="display:block;margin-bottom:6px"
+      >
+        Quick filter
+      </label>
+
+      <input
+        id="lab-filter"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Filter course labs"
+        style="
+          width:100%;
+          border:1px solid var(--border);
+          background:var(--surface-solid);
+          color:var(--text);
+          padding:11px 13px;
+          border-radius:11px;
+          outline:none
+        "
+      >
+    </div>
+
+    <div class="lab-list">
+
+      <!--
+        Generated items must use the approved structures:
+          <details class="lab-card ...">
+          <a class="checkpoint-card" ...>
+
+        See reference/approved-index.html.
+      -->
+
+      {{COURSE_INDEX_ITEMS}}
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       PAGE NAVIGATION
+       ========================================================= -->
+
+  <div class="page-nav">
+    <div class="disabled">
+      <small>Start here</small>
+      <strong>Introduction &amp; course index</strong>
+    </div>
+
+    <a class="next" href="{{FIRST_LAB_HREF}}">
+      <small>Next</small>
+      <strong>Lab {{FIRST_LAB_NUMBER}} →</strong>
+    </a>
+  </div>
+
+
+  <footer class="footer">
+    <span>
+      Unofficial {{COURSE_ID}} web edition · Author: {{AUTHOR}}
+    </span>
+
+    <span>
+      Designed for static hosting / GitHub Pages
+    </span>
+  </footer>
+
+</div>
+</main>
+
+
+<a
+  class="floating-logo"
+  href="#main"
+  aria-label="Back to top"
+>
+  <img
+    src="assets/images/shared/zscaler-logo.svg"
+    alt="Zscaler"
+  >
+</a>
+
+
+<dialog class="modal" id="image-modal">
+  <img alt="Expanded lab screenshot">
+
+  <div class="modal-bar">
+    <span data-modal-caption></span>
+
+    <button
+      class="modal-close"
+      data-modal-close
+    >
+      Close
+    </button>
+  </div>
+</dialog>
+
+
+<!-- Course data must load before the reusable site behavior. -->
+<script src="assets/js/course-data.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+
+</body>
+</html>

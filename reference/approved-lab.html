@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Course-neutral visual reference for the Zscaler Web Lab Guide lab page design.">
+  <title>Approved Lab Page — Design Reference</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/images/shared/favicon.svg">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script>
+    // Illustrative navigation data for THIS reference page only.
+    // Do not copy these example lab titles or task values into a real course.
+    window.LAB_GUIDE_COURSE = {
+      id: "LAB SAMPLE",
+      title: "Approved Lab Design Reference",
+      subtitle: "Unofficial Web Lab Guide",
+      storagePrefix: "zscaler-reference-sample",
+      labs: [{
+        number: 1,
+        title: "Illustrative Configuration Lab",
+        href: "approved-lab.html",
+        tasks: [
+          { id: "task-1-1", title: "Locate the feature", keywords: "search menu navigation" },
+          { id: "task-1-2", title: "Review example settings", keywords: "table copy configuration" },
+          { id: "task-1-3", title: "Verify the expected outcome", keywords: "validation evidence" }
+        ],
+        explainers: [{
+          id: "technical-context",
+          title: "Technical context",
+          href: "approved-lab.html#technical-context"
+        }]
+      }]
+    };
+    try {
+      const theme = localStorage.getItem("zscaler-reference-sample-theme");
+      if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+    } catch (e) { /* Local storage may be disabled. */ }
+  </script>
+</head>
+<body data-page="lab-01" data-course-id="LAB SAMPLE" data-storage-prefix="zscaler-reference-sample">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="course-nav"></div>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="icon-btn mobile-menu" data-menu-toggle aria-label="Open course navigation" aria-expanded="false">☰</button>
+      <div class="breadcrumb">
+        <a href="approved-index.html">Design reference</a> / <strong>Sample Lab 1</strong>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <div class="global-search">
+        <input id="global-search-input" type="search" placeholder="Search labs or tasks…" aria-label="Search course">
+        <div id="global-search-results" class="global-search-results" hidden></div>
+      </div>
+      <button class="icon-btn" data-theme-toggle aria-label="Toggle dark or light mode">
+        <span data-theme-icon aria-hidden="true">☾</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="main" id="main">
+    <div class="content">
+      <!-- This file is visual/design authority only; all technical content is illustrative. -->
+      <section class="lab-hero" aria-labelledby="lab-title">
+        <div>
+          <div class="eyebrow">Lab 1 · Approved design example</div>
+          <h1 id="lab-title">Illustrative Configuration Lab</h1>
+          <p>This example demonstrates how a finished hands-on lab should look: a clear goal, concise numbered actions, screenshots beside the relevant step, and a verifiable result for each task. It is <strong>not</strong> a real product configuration procedure.</p>
+          <div class="lab-facts">
+            <span class="fact"><strong>3 sample tasks</strong></span>
+            <span class="fact"><strong>Design reference only</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <div class="callout info unofficial-note">
+        <div class="callout-symbol" aria-hidden="true">i</div>
+        <div>
+          <div class="callout-title">Unofficial learning aid · Reference only</div>
+          <p>Illustrative names, values, and instructions on this page are placeholders. For a real course, use the source lab guide for technical intent and values, and verify current Zscaler navigation. Author: <strong>Rupak Dey</strong>.</p>
+        </div>
+      </div>
+
+      <section class="section" aria-labelledby="objectives-title">
+        <div class="section-head stacked">
+          <div class="eyebrow">Lab objectives</div>
+          <h2 id="objectives-title">What you will accomplish</h2>
+          <p>Introduce the learner to the configuration flow and show how each activity connects to a measurable goal. This description should use the available width rather than an artificially narrow column.</p>
+        </div>
+        <div class="card pad">
+          <ul class="clean-list">
+            <li>Recognize the lab topology and the purpose of the exercise.</li>
+            <li>Find the relevant feature using verified navigation or Search Menu.</li>
+            <li>Capture essential settings in a concise configuration table.</li>
+            <li>Verify the outcome before marking each task complete.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- An optional technical explainer precedes task execution. -->
+      <section class="section concept-primer technical-explainer" id="technical-context" aria-labelledby="technical-title">
+        <div class="section-head stacked">
+          <div class="eyebrow">Technical context · Optional</div>
+          <h2 id="technical-title">Why the network foundation matters</h2>
+          <p>A technical explainer should establish relationships and rationale before learners start clicking. It should help them understand <em>why</em> they are doing the lab without duplicating the numbered task instructions.</p>
+        </div>
+        <div class="grid grid-3 concept-grid">
+          <article class="card pad">
+            <div class="concept-kicker">01 · Environment</div>
+            <h3>Know what is connected</h3>
+            <p>Identify the assigned lab systems and the relevant network boundaries.</p>
+          </article>
+          <article class="card pad">
+            <div class="concept-kicker accent">02 · Configuration</div>
+            <h3>Apply one logical change</h3>
+            <p>Group related settings into a meaningful, learner-friendly task.</p>
+          </article>
+          <article class="card pad">
+            <div class="concept-kicker purple">03 · Validation</div>
+            <h3>Prove the result</h3>
+            <p>Check the operational state or observed behavior rather than assuming the save succeeded.</p>
+          </article>
+        </div>
+        <figure class="figure compact">
+          <button type="button" data-lightbox data-caption="Sample topology placement — replace this image with the actual topology for each course.">
+            <img src="../assets/images/samples/sample-lab-topology.png" alt="Illustrative example of a lab topology layout; not a reusable network architecture." loading="lazy">
+          </button>
+          <figcaption><strong>Sample only:</strong> an example of how a topology can be presented. Replace it with the course-specific topology; never reuse the depicted network as an assumed design.</figcaption>
+        </figure>
+      </section>
+
+      <!-- Task pattern: section.task > article.task-shell > header + task-body. -->
+      <section class="task" id="task-1-1" aria-labelledby="task-title-1-1">
+        <article class="card task-shell">
+          <header class="task-head">
+            <div class="task-num">1.1</div>
+            <div>
+              <h2 id="task-title-1-1">Locate the feature</h2>
+              <p>Demonstrate verified navigation and put the screenshot immediately after the step it explains.</p>
+            </div>
+            <label class="task-complete"><input type="checkbox" data-task-check="1.1"> Mark complete</label>
+          </header>
+          <div class="task-body">
+            <ol class="steps">
+              <li>
+                <div class="step-content">
+                  Open the assigned Zscaler administration portal using the lab-provided access details. Confirm you are working in the intended training environment.
+                  <div class="callout warning">
+                    <div class="callout-symbol" aria-hidden="true">!</div>
+                    <div>
+                      <div class="callout-title">Use the assigned lab environment</div>
+                      <p>Do not apply example configuration changes to a production tenant. Replace this warning with a course-specific caution when appropriate.</p>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="step-content">
+                  Open the <strong>Search Menu</strong> and locate the feature named in the course instructions. Do not infer a current navigation path from an old source screenshot.
+                  <div class="search-hint">Search menu → <strong>Course-specific feature keyword</strong></div>
+                  <figure class="figure">
+                    <button type="button" data-lightbox data-caption="Example of using Search Menu to find a Zscaler feature.">
+                      <img src="../assets/images/shared/search-option.png" alt="Zscaler Experience Center Search Menu reference screenshot." loading="lazy">
+                    </button>
+                    <figcaption>Search Menu reference. The screenshot belongs directly under the step that uses it.</figcaption>
+                  </figure>
+                </div>
+              </li>
+              <li>
+                <div class="step-content">
+                  Confirm the feature's heading and available settings before continuing. When a navigation path has been verified, use the current path in the final guide.
+                </div>
+              </li>
+            </ol>
+            <div class="callout success expected-result">
+              <div class="callout-symbol" aria-hidden="true">✓</div>
+              <div>
+                <div class="callout-title">Expected result</div>
+                <p>The learner has reached the intended feature and confirmed that it belongs to the assigned lab environment.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="task" id="task-1-2" aria-labelledby="task-title-1-2">
+        <article class="card task-shell">
+          <header class="task-head">
+            <div class="task-num">1.2</div>
+            <div>
+              <h2 id="task-title-1-2">Review example settings</h2>
+              <p>Use a table for settings and values rather than a paragraph of dense configuration text.</p>
+            </div>
+            <label class="task-complete"><input type="checkbox" data-task-check="1.2"> Mark complete</label>
+          </header>
+          <div class="task-body">
+            <ol class="steps">
+              <li>
+                <div class="step-content">
+                  Review the source guide and record only the values that the learner must enter. The values below are <strong>illustrative placeholders</strong>, not actual product defaults.
+                  <table class="credentials settings-table">
+                    <thead><tr><th>Setting</th><th>Example value / guidance</th></tr></thead>
+                    <tbody>
+                      <tr><td>Object name</td><td><span class="inline-value"><span class="value">SAMPLE-LAB-OBJECT</span> <button type="button" class="copy-btn" data-copy="SAMPLE-LAB-OBJECT" aria-label="Copy sample object name">Copy</button></span></td></tr>
+                      <tr><td>Target environment</td><td>Assigned lab tenant, as provided in the course</td></tr>
+                      <tr><td>Other settings</td><td>Replace with the required, source-verified values</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </li>
+              <li>
+                <div class="step-content">
+                  In a real lab, configure the actual values from the source and save the change. Keep instructions concise; do not reproduce the PDF's nested numbering structure.
+                </div>
+              </li>
+            </ol>
+            <div class="callout success expected-result">
+              <div class="callout-symbol" aria-hidden="true">✓</div>
+              <div>
+                <div class="callout-title">Expected result</div>
+                <p>The learner can identify the required settings, understand their purpose, and confirm that the configuration was saved.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="task" id="task-1-3" aria-labelledby="task-title-1-3">
+        <article class="card task-shell">
+          <header class="task-head">
+            <div class="task-num">1.3</div>
+            <div>
+              <h2 id="task-title-1-3">Verify the expected outcome</h2>
+              <p>Give the learner a clear, observable success condition.</p>
+            </div>
+            <label class="task-complete"><input type="checkbox" data-task-check="1.3"> Mark complete</label>
+          </header>
+          <div class="task-body">
+            <ol class="steps">
+              <li>
+                <div class="step-content">
+                  Return to the relevant status or configuration view and check that the saved object or setting is visible.
+                </div>
+              </li>
+              <li>
+                <div class="step-content">
+                  Check the operational result specified in the real course guide. Where appropriate, include a screenshot immediately below this step showing the verified state.
+                </div>
+              </li>
+              <li>
+                <div class="step-content">
+                  Mark the task complete only after the observed result agrees with the expected result.
+                </div>
+              </li>
+            </ol>
+            <div class="callout success expected-result">
+              <div class="callout-symbol" aria-hidden="true">✓</div>
+              <div>
+                <div class="callout-title">Expected result</div>
+                <p>The intended state or behavior is confirmed by observable evidence, not merely by the absence of a save error.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <div class="callout success">
+        <div class="callout-symbol" aria-hidden="true">✓</div>
+        <div>
+          <div class="callout-title">Sample lab complete</div>
+          <p>This reference demonstrates lab objectives, an optional explainer, numbered tasks, contextual media, copyable configuration values, cautions, and Expected Result blocks.</p>
+        </div>
+      </div>
+
+      <nav class="page-nav" aria-label="Page navigation">
+        <a href="approved-index.html"><small>Previous</small><strong>← Approved course index</strong></a>
+        <a class="next" href="approved-sdc-access.html"><small>Next reference</small><strong>Approved SDC checkpoint →</strong></a>
+      </nav>
+
+      <footer class="footer">
+        <span>Unofficial lab guide design reference · Author: Rupak Dey</span>
+        <span>Sample content only · Use the course PDF for technical source material</span>
+      </footer>
+    </div>
+  </main>
+
+  <a class="floating-logo" href="#main" aria-label="Back to top">
+    <img src="../assets/images/shared/zscaler-logo.svg" alt="Zscaler logo">
+  </a>
+
+  <dialog class="modal" id="image-modal" aria-label="Expanded screenshot">
+    <img alt="Expanded screenshot">
+    <div class="modal-bar">
+      <span data-modal-caption></span>
+      <button type="button" class="modal-close" data-modal-close>Close</button>
+    </div>
+  </dialog>
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>
