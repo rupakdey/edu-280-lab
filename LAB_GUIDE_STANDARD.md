@@ -56,3 +56,23 @@
 - Screenshots must not exceed two-thirds of the maximum guide content width.
 - Images must never be enlarged beyond their native resolution.
 - Images may scale down responsively when the available viewport or column is narrower than the image.
+
+## Navigation Verification and Switching
+
+- On the Introduction page, explain how to find **Account Settings → Settings → New Navigation Experience**, where the option is available; show the approved shared screenshot with a caption identifying it as illustrative. Some tenants or rollout stages may no longer allow returning to Original Navigation, so never promise that both options are available.
+- Prefer a currently documented **help.zscaler.com** product/resource path; also give the learner a **Search Menu** keyword and, when useful, a direct official-documentation link.
+- Do not copy menu paths from the source PDF without checking current official documentation. If official documents conflict, explain the discrepancy, use a relevant recent product-specific page as the primary reference, and offer Search Menu as fallback. Never invent a path or claim the PDF breadcrumb is current.
+- Include source URLs in the generated guide for traceability; learners' live UI and entitlements may differ.
+
+## Source Lab Topology and VM Access
+
+- When the source PDF provides a topology, include the original **source topology** prominently in **Environment at a Glance**, preserving interface names, addresses, subnet relationships, and routing/service paths. A simplified SVG may supplement it, but must not replace the source technical diagram.
+- Allow technical topology figures to use the full guide content width, subject to native-resolution/no-upscaling rules for raster images.
+- Immediately below the topology, add a **VM access/credentials table** if the source explicitly gives VM or gateway usernames/passwords. Distinguish console credentials, RDP credentials and session-provided logins. Clearly mark fields that the source does not specify; never infer credentials.
+- Do not publish session-specific passwords, provisioning keys, activation codes, or user secrets; refer learners to their session email/assigned environment. Warn when a documented default password must be changed.
+
+## Screenshot Height and Aspect Ratio
+
+- Standard screenshots: maximum width **two-thirds of guide maximum content width** and maximum height **the smaller of 1,490 CSS pixels or 80vh**. Apply both constraints together without stretching; preserve the intrinsic aspect ratio.
+- Never upscale raster screenshots above their native size. The lightbox may display a larger view within viewport limits.
+- Topology diagrams are an explicit width/height exception; use a dedicated `.topology-figure` class instead of forcing network drawings into ordinary screenshot dimensions.

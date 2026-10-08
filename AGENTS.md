@@ -46,3 +46,10 @@ The source PDF is NOT authoritative for:
 
 If the PDF conflicts with this repository's design system,
 the repository design system wins.
+
+## Mandatory reusable refinements
+
+- Read the Navigation Verification, Source Lab Topology/VM Access, and Screenshot Height sections of LAB_GUIDE_STANDARD.md.
+- Use current help.zscaler.com product pages to substantiate a documented resource/policy route; provide a Search Menu fallback, identify conflicting documentation, and link sources.
+- When present, place the original source topology in the Environment section, with any explicit VM credentials table immediately below. Do not infer credentials.
+- Keep standard screenshots within 2/3 guide width and min(1490px,80vh) height at natural aspect ratio; allow full-width source topology diagrams.

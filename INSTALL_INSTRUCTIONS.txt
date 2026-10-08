@@ -1,0 +1,9 @@
+EDU-280 PILOT — REFINEMENT PATCH
+Apply to edu-280-web-lab-guide-v2 branch pilot-intro-lab1, preserving paths.
+Changed: AGENTS.md, LAB_GUIDE_STANDARD.md, QA_CHECKLIST.md, assets/css/style.css,
+index.html, lab-01.html, adds assets/images/course/ztb-source-lab-topology.png,
+and adds PILOT_REFINEMENT_NOTES.md.
+The PDF's original technical topology is added; source-specific VM credentials and
+verified current/alternate navigation paths are placed in the pilot.
+After committing, run Actions > Validate Lab Guide.
+Keep the repository PRIVATE because the source PDF is marked confidential.

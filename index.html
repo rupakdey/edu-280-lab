@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="description"
+    content="Unofficial web edition of the EDU-280 Zscaler Zero Trust Branch hands-on lab guide."
+  >
+
+  <title>EDU-280 | Zscaler Zero Trust Branch Hands-on Lab Guide</title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="assets/images/shared/favicon.svg"
+  >
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    try {
+      const t = localStorage.getItem('edu280-theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+
+<body
+  data-page="home"
+  data-course-id="EDU-280"
+  data-storage-prefix="edu280"
+>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Built by site.js -->
+<div id="course-nav"></div>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <button
+      class="icon-btn mobile-menu"
+      data-menu-toggle
+      aria-label="Open course navigation"
+    >☰</button>
+
+    <div class="breadcrumb">
+      <strong>EDU-280</strong> / Web Lab Guide
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <div class="global-search">
+      <input
+        id="global-search-input"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Search course"
+      >
+      <div
+        id="global-search-results"
+        class="global-search-results"
+      ></div>
+    </div>
+
+    <button
+      class="icon-btn"
+      data-theme-toggle
+      aria-label="Toggle dark or light mode"
+    >
+      <span data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+<main class="main" id="main">
+<div class="content">
+
+  <!-- =========================================================
+       HERO
+       ========================================================= -->
+
+  <section class="hero" id="overview">
+    <div class="eyebrow">
+      Zero Trust Branch · Unofficial Web Edition
+    </div>
+
+    <h1>EDU-280 Hands-on Lab Guide</h1>
+
+    <p>Deploy virtual Zero Trust Branch gateways in high availability, secure traffic between branch segments, and connect workloads to Zscaler services. This pilot publishes Lab Access and the first four tasks of Lab 1.</p>
+
+    <div class="author-line">
+      Web edition by <strong>Rupak Dey</strong>
+    </div>
+
+    <div class="hero-meta">
+      <span>9 labs</span>
+      <span>Current Experience Center navigation</span>
+      <span>Persistent chapter navigation</span>
+      <span>Light + dark mode</span>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       UNOFFICIAL GUIDE NOTICE
+       ========================================================= -->
+
+  <div class="callout warning unofficial-note">
+    <div class="callout-symbol">!</div>
+
+    <div>
+      <div class="callout-title">Unofficial learning aid</div>
+
+      <p>
+        This is an independent, simplified web adaptation created to
+        make the hands-on labs easier to follow. It is
+        <strong>not an official Zscaler lab guide</strong>.
+        If the live tenant, instructor guidance, or current product UI
+        differs from this site, follow the live environment.
+      </p>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       COURSE OUTCOMES
+       Builder creates 2–4 concise cards from the source guide.
+       Do not reproduce long source scenario prose.
+       ========================================================= -->
+
+  <section class="section" id="course-outcomes">
+    <div class="section-head stacked">
+      <div class="eyebrow">Course outcome</div>
+      <h2>What you will practice</h2>
+      <p>A practical progression from bringing up HA branch gateways to controlling east–west traffic and observing Zscaler service paths.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <article class="card feature-card"><div class="feature-icon">HA</div><h3>Bring a branch online</h3><p>Provision a Zero Trust Branch site, activate active and standby virtual gateways, and prepare LAN/WAN connectivity.</p></article>
+<article class="card feature-card"><div class="feature-icon">ZT</div><h3>Segment branch workloads</h3><p>Explore VLAN-level and OT microsegmentation policies for east–west security.</p></article>
+<article class="card feature-card"><div class="feature-icon">↗</div><h3>Route, inspect, observe</h3><p>Apply PBR and DNS policy, then examine ZTB, ZIA, and ZPA visibility. Optional labs include troubleshooting and kill switch testing.</p></article>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       EXPERIENCE CENTER NAVIGATION
+
+       Builder must:
+       - use verified current navigation where known
+       - otherwise provide Search Menu keywords
+       - never treat source screenshots as authoritative nav maps
+       ========================================================= -->
+
+  <section class="section" id="navigation-guide">
+    <div class="section-head stacked">
+      <div class="eyebrow">Experience Center navigation</div>
+
+      <h2>Find your ZTB tools in Experience Center</h2>
+
+      <p>Use the live portal Search Menu when a feature has moved. The course PDF is the source of technical values, not a guarantee of current menu placement.</p>
+    </div>
+
+    <div class="card pad">
+
+      <div class="grid grid-2">
+  <div><h3>Find a feature in the current portal</h3><p>Menu placement can change between Experience Center releases. Use <strong>Search Menu</strong> to locate <strong>Zero Trust Branch</strong>, <strong>Sites</strong>, or <strong>App Connector Keys</strong>. Only use a breadcrumb when you can verify it in your assigned tenant.</p>
+  <div class="search-hint">Search menu → <strong>Zero Trust Branch</strong></div>
+  <div class="search-hint">Search menu → <strong>App Connector Keys</strong></div>
+  <p style="margin-top:15px;color:var(--muted);font-size:.9rem">The PDF screenshots demonstrate configuration options but may show older navigation labels. You will work mostly in Zero Trust Branch site settings, segmentation policies, and logs.</p></div>
+  <figure class="figure" style="margin:0"><button type="button" data-lightbox data-caption="Experience Center Search Menu illustration"><img src="assets/images/shared/search-option.png" alt="Search Menu in the Zscaler Experience Center, used to locate current resources" loading="lazy"></button><figcaption>Use Search Menu instead of relying on legacy breadcrumb paths in screenshots.</figcaption></figure>
+</div>
+
+<div class="card pad" style="margin-top:18px">
+  <h3>Switch your navigation experience (if the option is offered)</h3>
+  <ol class="steps compact-steps">
+    <li><div class="step-content">Open the account/profile menu in the Experience Center top bar and select <strong>Account Settings</strong>.</div></li>
+    <li><div class="step-content">Under <strong>Settings</strong>, locate <strong>New Navigation Experience</strong>. If available, choose <strong>New</strong> to follow this guide's primary routes.</div></li>
+    <li><div class="step-content">If you cannot change the navigation experience, stay in the available interface and use the <strong>Search Menu</strong> keywords alongside each documented path.</div></li>
+  </ol>
+  <figure class="figure" style="margin-top:12px">
+    <button type="button" data-lightbox data-caption="Example Account Settings navigation selector; availability may vary">
+      <img src="assets/images/shared/account-settings-navigation.png" alt="Account Settings panel showing New Navigation Experience selection" loading="lazy">
+    </button>
+    <figcaption>Example from a training environment. The screenshot contains a time-specific rollout notice, which may no longer apply. See <a href="https://help.zscaler.com/unified/customizing-your-account-settings" target="_blank" rel="noopener noreferrer">Zscaler's account settings guidance ↗</a>.</figcaption>
+  </figure>
+</div>
+<div class="resource-locator">
+  <p><strong>Finding Sites:</strong> the <a href="https://help.zscaler.com/zero-trust-branch/adding-site" target="_blank" rel="noopener noreferrer">Managing Sites guide ↗</a> describes <strong>Zero Trust Branch → Deployments → Sites</strong>; the <a href="https://help.zscaler.com/zero-trust-branch/creating-zero-trust-branch-high-availability-cluster" target="_blank" rel="noopener noreferrer">HA-cluster guide ↗</a> also uses <strong>Infrastructure → Connectors → Edge → Sites</strong>. These are different documented navigation presentations, not competing lab configuration instructions.</p>
+  <div class="search-hint">Search menu → <strong>Sites</strong></div>
+</div>
+
+      <div class="callout success">
+        <div class="callout-symbol">✓</div>
+
+        <div>
+          <div class="callout-title">
+            What changes — and what does not
+          </div>
+
+          <p>
+            Navigation and menu placement can change while the underlying
+            policy, resource, and configuration objects remain the same.
+            Follow the current written guidance in this web edition.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       ENVIRONMENT / TOPOLOGY
+       Course-specific content generated from the source.
+       ========================================================= -->
+
+  <section class="section" id="environment">
+    <div class="section-head stacked">
+      <div class="eyebrow">Lab foundation</div>
+      <h2>Environment at a glance</h2>
+      <p>One assigned POD contains a shared DIA router, two virtual ZTB gateways, three workload zones, and a ZPA App Connector. The source PDF topology below contains detailed interface, IP and workload relationships.</p>
+    </div>
+
+    <figure class="figure topology-figure" style="margin:0 auto 18px">
+      <button type="button" data-lightbox data-caption="Original EDU-280 source lab topology with gateway ports, VLANs, WAN addressing, DNS, HA connections and Zscaler services">
+        <img src="assets/images/course/ztb-source-lab-topology.png" alt="Original Zero Trust Branch lab topology with ZTE, dual HA ZTB devices, GE1/GE2 WAN, GE4 HA, GE6/7/8 LAN interfaces, data center DNS and Subnet10/20/30 workloads" loading="lazy">
+      </button>
+      <figcaption><strong>Source topology (PDF, page 9).</strong> Includes WAN/LAN interface labels, gateway IP ranges, HA connection, server and workload VLANs. Select the image to enlarge. The diagram is technical source material, not a live inventory of your assigned POD.</figcaption>
+    </figure>
+<div class="card pad vm-access-table" id="vm-access" style="margin-top:16px">
+  <div class="eyebrow">VM and gateway access</div>
+  <h3>Credentials explicitly documented in the lab guide</h3>
+  <p>The source gives a common initial console password for the two gateways and a Windows RDP login used in a later lab. These are <strong>different access methods</strong>. Other Skytap VMs normally auto-open; the PDF does not state a static username/password for their console sessions.</p>
+  <div class="vm-access-table-wrap">
+    <table class="credentials settings-table">
+      <thead><tr><th>System / access method</th><th>Username</th><th>Initial password</th><th>Important note</th></tr></thead>
+      <tbody>
+        <tr><td>ZTB-1 · Skytap gateway console</td><td><code>admin</code></td><td><code>a!rg@p</code></td><td>Source Lab 1.2: change the initial password when prompted.</td></tr>
+        <tr><td>ZTB-2 · Skytap gateway console</td><td><code>admin</code></td><td><code>a!rg@p</code></td><td>Source Lab 1.3: change the initial password when prompted.</td></tr>
+        <tr><td>Windows Server · Remote Desktop (later Lab 3)</td><td><code>administrator</code></td><td><code>Zscaler123!</code></td><td>Used for the RDP connection in Lab 3; not claimed as a Skytap console password.</td></tr>
+        <tr><td>IoT / OT1 / OT2 / ZCC lab VMs · Skytap</td><td>Not stated</td><td>Not stated</td><td>Use Skytap auto-login or its Copy/Paste credential control if prompted.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="source-route-note"><strong>Session-specific credentials:</strong> Experience Center portal password, POD/FQDN and Skytap passcode are sent separately for each session and are not embedded in this guide. Never reuse the displayed factory/default gateway password after changing it.</p>
+</div>
+<details class="card pad" style="margin-top:16px"><summary><strong>Show simplified HA architecture overview</strong></summary>
+  <figure class="figure topology-figure" style="margin-top:14px">
+    <button type="button" data-lightbox data-caption="Simplified conceptual EDU-280 lab architecture">
+      <img src="assets/images/course/ztb-lab-foundation.svg" alt="Simplified ZTB active/standby architecture and three workload subnets" loading="lazy">
+    </button><figcaption>Simplified conceptual overview; use the original source topology above for port and IP details.</figcaption>
+  </figure>
+</details>
+<div class="grid grid-3"><article class="card pad"><h3>Two virtual gateways</h3><p><strong>ZTB-1</strong> (primary) and <strong>ZTB-2</strong> (secondary) provide HA. Each pod includes two WAN, three LAN, one management, and one HA interface.</p></article>
+<article class="card pad"><h3>Three internal zones</h3><p><strong>Subnet10:</strong> Windows server; <strong>Subnet20:</strong> IoT Ubuntu; <strong>Subnet30:</strong> OT1 and OT2 Linux hosts.</p></article>
+<article class="card pad"><h3>Cloud connectivity</h3><p>Shared direct-internet links connect the branch to Zscaler services; an App Connector supports private-application access through ZPA.</p></article></div>
+  </section>
+
+
+  <!-- =========================================================
+       OPTIONAL ACCESS / SESSION INFORMATION
+
+       Omit completely when the course does not need a dedicated
+       access checkpoint on the index page.
+       ========================================================= -->
+
+  <section class="section" id="lab-access">
+  <div class="section-head stacked"><div class="eyebrow">Getting started · Lab 0</div><h2>Access your assigned POD</h2><p>This source lab is an access checkpoint, not one of the nine numbered labs. Your POD ID, administrator password, domain and Skytap passcode are supplied separately for the session.</p></div>
+  <div class="callout warning"><div class="callout-symbol">!</div><div><div class="callout-title">Use your assigned session details</div><p>Names and example IDs in screenshots are illustrative. Do not copy another student's POD, domain, access code, or password.</p></div></div>
+  <div class="card pad"><h3>1 · Gather your credentials</h3><p>Confirm your POD number (for example <code class="value">POD01</code>), portal login ID in the form <code class="value">pod##-student@&lt;FQDN&gt;</code>, session password, and Skytap passcode from the training email.</p>
+    <div class="grid grid-2"><div><strong>Experience Center</strong><p style="margin-top:6px"><span class="inline-value"><code class="value">https://console.zscaler.com/</code> <button type="button" class="copy-btn" data-copy="https://console.zscaler.com/" aria-label="Copy https://console.zscaler.com/">Copy</button></span></p></div><div><strong>Skytap</strong><p style="margin-top:6px"><span class="inline-value"><code class="value">https://zscaler.skytap-portal.com/</code> <button type="button" class="copy-btn" data-copy="https://zscaler.skytap-portal.com/" aria-label="Copy https://zscaler.skytap-portal.com/">Copy</button></span></p></div></div>
+  </div>
+  <div class="card pad" style="margin-top:16px"><h3>2 · Open the Skytap lab consoles</h3><ol class="steps">
+    <li><div class="step-content">Go to the assigned Skytap portal and enter the <strong>passcode from your course email</strong>.<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Skytap portal access — enter the session-specific passcode."
+  >
+
+    <img
+      src="assets/images/course/lab-access-skytap-signin.jpg"
+      alt="Skytap portal access — enter the session-specific passcode."
+    >
+
+  </button>
+
+  <figcaption>
+    Skytap portal access — enter the session-specific passcode.
+  </figcaption>
+
+</figure>
+</div></li>
+    <li><div class="step-content">Confirm that the consoles include <strong>IoT, OT1, OT2, Server, ZCC Lab Machine, ZTB-1, and ZTB-2</strong>. Select a console to open it.<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Assigned Skytap pod — verify the seven VM/console entries."
+  >
+
+    <img
+      src="assets/images/course/lab-access-skytap-consoles.jpg"
+      alt="Assigned Skytap pod — verify the seven VM/console entries."
+    >
+
+  </button>
+
+  <figcaption>
+    Assigned Skytap pod — verify the seven VM/console entries.
+  </figcaption>
+
+</figure>
+</div></li>
+    <li><div class="step-content">If a console does not sign in automatically, use its provided Copy/Paste credential control; do not guess a password.</div></li>
+  </ol></div>
+  <div class="card pad" style="margin-top:16px"><h3>3 · Sign in to the Experience Center</h3><ol class="steps">
+    <li><div class="step-content">Open <strong>console.zscaler.com</strong>. Sign in using <code class="value">pod##-student@&lt;FQDN&gt;</code>, replacing both placeholders with your assigned values.<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Experience Center sign-in example — use your assigned login ID, not the one shown."
+  >
+
+    <img
+      src="assets/images/course/lab-access-experience-login.jpg"
+      alt="Experience Center sign-in example — use your assigned login ID, not the one shown."
+    >
+
+  </button>
+
+  <figcaption>
+    Experience Center sign-in example — use your assigned login ID, not the one shown.
+  </figcaption>
+
+</figure>
+</div></li>
+    <li><div class="step-content">Enter the password supplied for your POD; confirm that the <strong>Experience Center dashboard</strong> opens.<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Successful Experience Center sign-in opens the portal dashboard."
+  >
+
+    <img
+      src="assets/images/course/lab-access-experience-dashboard.jpg"
+      alt="Successful Experience Center sign-in opens the portal dashboard."
+    >
+
+  </button>
+
+  <figcaption>
+    Successful Experience Center sign-in opens the portal dashboard.
+  </figcaption>
+
+</figure>
+</div></li>
+  </ol></div>
+  <div class="callout success"><div class="callout-symbol">✓</div><div><div class="callout-title">Access checkpoint complete</div><p>You can open ZTB-1 and ZTB-2 in Skytap and use Experience Center as the assigned administrator. Proceed to Lab 1.</p></div></div>
+</section>
+
+
+  <!-- =========================================================
+       COURSE INDEX
+       ========================================================= -->
+
+  <section class="section" id="contents">
+
+    <div class="section-head stacked">
+      <div class="eyebrow">Course index</div>
+
+      <h2>9 hands-on labs</h2>
+
+      <p>All nine numbered labs are listed below. Only Lab 1 Tasks 1.1–1.4 are published in this pilot; Labs 7–9 are optional in the source course.</p>
+    </div>
+
+    <div class="card pad" style="padding:14px;margin-bottom:14px">
+      <label
+        for="lab-filter"
+        class="eyebrow"
+        style="display:block;margin-bottom:6px"
+      >
+        Quick filter
+      </label>
+
+      <input
+        id="lab-filter"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Filter course labs"
+        style="
+          width:100%;
+          border:1px solid var(--border);
+          background:var(--surface-solid);
+          color:var(--text);
+          padding:11px 13px;
+          border-radius:11px;
+          outline:none
+        "
+      >
+    </div>
+
+    <div class="lab-list">
+
+      <!--
+        Generated items must use the approved structures:
+          <details class="lab-card ...">
+          <a class="checkpoint-card" ...>
+
+        See reference/approved-index.html.
+      -->
+
+      <details class="lab-card available" id="lab-1" data-keywords="zero trust branch ztb site ha standby active dns nat vrrp" open><summary><div class="lab-number">01</div><div><div class="lab-title">Zero Trust Branch Device Interface Configuration</div><div class="lab-meta">Pilot: Tasks 1.1–1.4 available · Remaining Lab 1 tasks not yet published</div></div><span class="status live">Pilot live</span></summary><div class="lab-tasks"><a href="lab-01.html#task-1-1">1.1 Add Site</a><a href="lab-01.html#task-1-2">1.2 Activate the Active Device</a><a href="lab-01.html#task-1-3">1.3 Activate the Standby Device</a><a href="lab-01.html#task-1-4">1.4 Validate and Configure Site-Level Settings</a><span>Tasks 1.5–1.9: planned for full guide</span></div></details>
+<details class="lab-card planned" id="lab-2" data-keywords="Secure Internal Communication (Inter-VLAN Traffic Filtering) Implement macrosegmentation and site-level inter-VLAN policy."><summary><div class="lab-number">02</div><div><div class="lab-title">Secure Internal Communication (Inter-VLAN Traffic Filtering)</div><div class="lab-meta">Implement macrosegmentation and site-level inter-VLAN policy.</div></div><span class="status">Planned</span></summary><div class="lab-tasks"><span>This lab is listed for course orientation only. Instructions and links will be added after the pilot review.</span></div></details>
+<details class="lab-card planned" id="lab-3" data-keywords="Validate Securing Internal and External Communication Policies Validate cloud forwarding, DNS, outbound connectivity, and ZPA access."><summary><div class="lab-number">03</div><div><div class="lab-title">Validate Securing Internal and External Communication Policies</div><div class="lab-meta">Validate cloud forwarding, DNS, outbound connectivity, and ZPA access.</div></div><span class="status">Planned</span></summary><div class="lab-tasks"><span>This lab is listed for course orientation only. Instructions and links will be added after the pilot review.</span></div></details>
+<details class="lab-card planned" id="lab-4" data-keywords="Configure Microsegmentation Policy Enforce targeted protections between OT endpoints."><summary><div class="lab-number">04</div><div><div class="lab-title">Configure Microsegmentation Policy</div><div class="lab-meta">Enforce targeted protections between OT endpoints.</div></div><span class="status">Planned</span></summary><div class="lab-tasks"><span>This lab is listed for course orientation only. Instructions and links will be added after the pilot review.</span></div></details>
+<details class="lab-card planned" id="lab-5" data-keywords="Configure Policy-Based Routing (PBR) Policies Test cloud-forwarded traffic and configure direct ICMP routing."><summary><div class="lab-number">05</div><div><div class="lab-title">Configure Policy-Based Routing (PBR) Policies</div><div class="lab-meta">Test cloud-forwarded traffic and configure direct ICMP routing.</div></div><span class="status">Planned</span></summary><div class="lab-tasks"><span>This lab is listed for course orientation only. Instructions and links will be added after the pilot review.</span></div></details>
+<details class="lab-card planned" id="lab-6" data-keywords="Configure DNS Policies Redirect and block selected domain traffic using DNS policy."><summary><div class="lab-number">06</div><div><div class="lab-title">Configure DNS Policies</div><div class="lab-meta">Redirect and block selected domain traffic using DNS policy.</div></div><span class="status">Planned</span></summary><div class="lab-tasks"><span>This lab is listed for course orientation only. Instructions and links will be added after the pilot review.</span></div></details>
+<details class="lab-card planned" id="lab-7" data-keywords="Logs and Monitoring Review packets, flows, alarms, and web insights."><summary><div class="lab-number">07</div><div><div class="lab-title">Logs and Monitoring</div><div class="lab-meta">Review packets, flows, alarms, and web insights. · Optional</div></div><span class="status">Optional · Planned</span></summary><div class="lab-tasks"><span>This lab is listed for course orientation only. Instructions and links will be added after the pilot review.</span></div></details>
+<details class="lab-card planned" id="lab-8" data-keywords="Troubleshoot and Debug Zero Trust Branch Environment Use interface and system diagnostics for investigation."><summary><div class="lab-number">08</div><div><div class="lab-title">Troubleshoot and Debug Zero Trust Branch Environment</div><div class="lab-meta">Use interface and system diagnostics for investigation. · Optional</div></div><span class="status">Optional · Planned</span></summary><div class="lab-tasks"><span>This lab is listed for course orientation only. Instructions and links will be added after the pilot review.</span></div></details>
+<details class="lab-card planned" id="lab-9" data-keywords="Configure Ransomware Kill Switch Policy Configure SSH policies and test the ransomware kill switch."><summary><div class="lab-number">09</div><div><div class="lab-title">Configure Ransomware Kill Switch Policy</div><div class="lab-meta">Configure SSH policies and test the ransomware kill switch. · Optional</div></div><span class="status">Optional · Planned</span></summary><div class="lab-tasks"><span>This lab is listed for course orientation only. Instructions and links will be added after the pilot review.</span></div></details>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       PAGE NAVIGATION
+       ========================================================= -->
+
+  <div class="page-nav">
+    <div class="disabled">
+      <small>Start here</small>
+      <strong>Introduction &amp; course index</strong>
+    </div>
+
+    <a class="next" href="lab-01.html">
+      <small>Next</small>
+      <strong>Lab 1 →</strong>
+    </a>
+  </div>
+
+
+  <footer class="footer">
+    <span>
+      Unofficial EDU-280 web edition · Author: Rupak Dey
+    </span>
+
+    <span>
+      Designed for static hosting / GitHub Pages
+    </span>
+  </footer>
+
+</div>
+</main>
+
+
+<a
+  class="floating-logo"
+  href="#main"
+  aria-label="Back to top"
+>
+  <img
+    src="assets/images/shared/zscaler-logo.svg"
+    alt="Zscaler"
+  >
+</a>
+
+
+<dialog class="modal" id="image-modal">
+  <img alt="Expanded lab screenshot">
+
+  <div class="modal-bar">
+    <span data-modal-caption></span>
+
+    <button
+      class="modal-close"
+      data-modal-close
+    >
+      Close
+    </button>
+  </div>
+</dialog>
+
+
+<!-- Course data must load before the reusable site behavior. -->
+<script src="assets/js/course-data.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+
+</body>
+</html>
