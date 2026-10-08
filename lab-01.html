@@ -1,0 +1,1512 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="description"
+    content="Unofficial EDU-280 web lab guide — Lab 1: Zero Trust Branch Device Interface Configuration"
+  >
+
+  <title>
+    Lab 1 — Zero Trust Branch Device Interface Configuration | EDU-280
+  </title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="assets/images/shared/favicon.svg"
+  >
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    try {
+      const t = localStorage.getItem('edu280-theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+
+
+<body
+  data-page="lab-01"
+  data-course-id="EDU-280"
+  data-storage-prefix="edu280"
+>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Built by site.js -->
+<div id="course-nav"></div>
+
+
+<header class="topbar">
+
+  <div class="topbar-left">
+
+    <button
+      class="icon-btn mobile-menu"
+      data-menu-toggle
+      aria-label="Open course navigation"
+    >☰</button>
+
+    <div class="breadcrumb">
+      <a href="index.html">EDU-280</a>
+      /
+      <strong>Lab 1</strong>
+      /
+      Zero Trust Branch Device Interface Configuration
+    </div>
+
+  </div>
+
+
+  <div class="topbar-actions">
+
+    <div class="global-search">
+
+      <input
+        id="global-search-input"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Search course"
+      >
+
+      <div
+        id="global-search-results"
+        class="global-search-results"
+      ></div>
+
+    </div>
+
+
+    <button
+      class="icon-btn"
+      data-theme-toggle
+      aria-label="Toggle dark or light mode"
+    >
+      <span data-theme-icon>☾</span>
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="main" id="main">
+<div class="content">
+
+
+  <!-- =========================================================
+       LAB HERO
+
+       Important:
+       The description must use the full available page width.
+       ========================================================= -->
+
+  <section class="lab-hero">
+
+    <div>
+
+      <div class="eyebrow">
+        Lab 1 · Hands-on · Pilot
+      </div>
+
+      <h1>Zero Trust Branch Device Interface Configuration</h1>
+
+      <p>Create a Zero Trust Branch virtual HA site, onboard the primary and secondary gateways, then verify site services and provision a ZPA App Connector. Pilot coverage ends at Task 1.4; later source tasks 1.5–1.9 are not included.</p>
+
+      <div class="lab-facts">
+        <span class="fact">
+          <strong>4 tasks</strong>
+        </span>
+
+        <span class="fact">Source full Lab 1: about 45 minutes</span>
+
+        <span class="fact">Pilot subset only</span>
+
+        <span class="fact">Assigned POD + Skytap</span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       LAB OBJECTIVES
+
+       Rewrite source objectives concisely.
+       Do not paste long scenario text.
+       ========================================================= -->
+
+  <section class="section">
+
+    <div class="section-head stacked">
+      <div class="eyebrow">Lab objectives</div>
+      <h2>What you will accomplish</h2>
+    </div>
+
+    <div class="card pad">
+      <ul class="clean-list">
+        <li>Create a site from <code>vm-ha-edu280</code>.</li><li>Activate ZTB-1 as Active and ZTB-2 as Standby.</li><li>Verify Debug/DNS/NAT/VRRP/DHCP/IPSec and connect the pre-provisioned ZPA App Connector.</li>
+      </ul>
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       OPTIONAL TECHNICAL EXPLAINER
+
+       Insert only when it materially improves learner understanding.
+
+       Use:
+         templates/components/technical-explainer.html
+
+       Keep it visually separate from hands-on instructions.
+       ========================================================= -->
+
+  <!--
+  Optional technical-context component.
+
+  Use only when understanding the concept materially improves the lab.
+
+  Rules:
+  - Explain WHY before HOW.
+  - Keep it concise.
+  - Prefer flows, relationships, diagrams, or compact comparisons.
+  - Do not duplicate the numbered configuration instructions.
+-->
+
+<section
+  class="section technical-explainer"
+  id="ztb-ha-context"
+>
+
+  <div class="section-head stacked">
+
+    <div class="eyebrow">
+      Technical context
+    </div>
+
+    <h2>
+      How a Zero Trust Branch HA site fits together
+    </h2>
+
+    <p>
+      The site groups both gateways under one branch configuration. WAN interfaces reach Zscaler services; HA keeps an active and standby unit; VLANs define internal workload boundaries, and a ZPA App Connector links private applications to ZPA.
+    </p>
+
+  </div>
+
+
+  <div class="card pad">
+
+    <div class="grid grid-3 concept-grid"><article><div class="eyebrow">01 · Site</div><h3>Common configuration</h3><p>Begin with a site cloned from the <code>vm-ha-edu280</code> template. The site is the management unit for its HA pair.</p></article><article><div class="eyebrow">02 · Gateways</div><h3>Active / Standby</h3><p>Activate each virtual gateway separately. An HA interface (<code>ge4</code>) and VRRP settings support the pair.</p></article><article><div class="eyebrow">03 · Services</div><h3>Traffic and private access</h3><p>ZIA IPSec provides the service-forwarding path; the ZPA App Connector adds private-application connectivity.</p></article></div>
+
+    <figure class="figure" style="margin-top:20px"><button type="button" data-lightbox data-caption="Conceptual Zero Trust Branch HA deployment"><img src="assets/images/course/ztb-lab-foundation.svg" alt="Conceptual Zero Trust Branch HA site with two gateway units, WAN, internal VLANs and ZPA App Connector" loading="lazy"></button><figcaption>Conceptual relationships—not a literal port-by-port cabling diagram.</figcaption></figure>
+
+  </div>
+
+</section>
+
+
+
+  <!-- =========================================================
+       TASKS
+
+       Every task must use templates/components/task.html.
+
+       Required rules:
+       - simple numbered steps only
+       - no PDF a/b/c/i/ii hierarchy
+       - configuration tables where useful
+       - screenshot immediately after the step it illustrates
+       - current navigation or Search Menu keyword
+       - Expected Result at the end of every task
+       ========================================================= -->
+
+  <!--
+  Canonical lab-task component.
+
+  Rules:
+  - Use simple numbered steps inside TASK_CONTENT.
+  - Do not reproduce PDF a/b/c or i/ii/iii numbering.
+  - Screenshots belong immediately after the step they illustrate.
+  - Every task must include EXPECTED_RESULT_BLOCK.
+-->
+
+<section class="task" id="task-1-1">
+  <article class="card task-shell">
+
+    <header class="task-head">
+
+      <div class="task-num">
+        1.1
+      </div>
+
+      <div>
+        <h2>Add Site</h2>
+        <p>Create the POD-specific ZTB site from the preconfigured virtual HA template.</p>
+      </div>
+
+      <label class="task-complete">
+        <input
+          type="checkbox"
+          data-task-check="1.1"
+        >
+        Mark complete
+      </label>
+
+    </header>
+
+    <div class="task-body">
+
+      <ol class="steps">
+  <li><div class="step-content">Find <strong>Zero Trust Branch → Sites</strong> in the Experience Center and select <strong>Add Site</strong>. <!--
+  Use when Search Menu is the fastest or safest way to locate a feature.
+
+  Never invent a navigation path.
+  If current navigation is verified, it may be stated in the task text
+  immediately before this hint.
+-->
+
+<div class="search-hint">
+  Search menu →
+  <strong>Zero Trust Branch</strong>
+</div>
+<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Locate Sites and choose Add Site. The screenshot may show an earlier navigation layout."
+  >
+
+    <img
+      src="assets/images/course/site-list-add.jpg"
+      alt="Locate Sites and choose Add Site. The screenshot may show an earlier navigation layout."
+    >
+
+  </button>
+
+  <figcaption>
+    Locate Sites and choose Add Site. The screenshot may show an earlier navigation layout.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Complete the form using the assigned POD number. Keep the provided template and WAN options exactly as shown.<!--
+  Canonical configuration table.
+
+  Use when several settings/values would otherwise create dense prose.
+-->
+
+<table class="credentials settings-table">
+
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>Required value / action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <tr><td>Name</td><td><span class="inline-value"><code class="value">POD##-Student-Lab</code> <button type="button" class="copy-btn" data-copy="POD##-Student-Lab" aria-label="Copy POD##-Student-Lab">Copy</button></span> — replace ## with your POD number</td></tr><tr><td>Platform</td><td><span class="inline-value"><code class="value">vm</code> <button type="button" class="copy-btn" data-copy="vm" aria-label="Copy vm">Copy</button></span></td></tr><tr><td>Template</td><td><span class="inline-value"><code class="value">vm-ha-edu280</code> <button type="button" class="copy-btn" data-copy="vm-ha-edu280" aria-label="Copy vm-ha-edu280">Copy</button></span></td></tr><tr><td>Location</td><td>New Location</td></tr><tr><td>Location Name</td><td><span class="inline-value"><code class="value">POD##-Student-Location</code> <button type="button" class="copy-btn" data-copy="POD##-Student-Location" aria-label="Copy POD##-Student-Location">Copy</button></span></td></tr><tr><td>Country</td><td>Select your actual country</td></tr><tr><td>Gateway 1 WAN</td><td><span class="inline-value"><code class="value">ge1|(wan)</code> <button type="button" class="copy-btn" data-copy="ge1|(wan)" aria-label="Copy ge1|(wan)">Copy</button></span> · Use DHCP for IP: enabled</td></tr><tr><td>Gateway 2 WAN</td><td><span class="inline-value"><code class="value">ge1|(wan)</code> <button type="button" class="copy-btn" data-copy="ge1|(wan)" aria-label="Copy ge1|(wan)">Copy</button></span> · Use DHCP for IP: enabled</td></tr>
+
+  </tbody>
+
+</table>
+
+<!--
+  Example CONFIG_ROWS:
+
+  <tr>
+    <td>Rule Name</td>
+    <td><strong>Allow_Private_App</strong></td>
+  </tr>
+
+  <tr>
+    <td>Action</td>
+    <td><strong>Allow</strong></td>
+  </tr>
+-->
+<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Add Site form with template, location and two DHCP-enabled WAN gateway fields."
+  >
+
+    <img
+      src="assets/images/course/site-form.jpg"
+      alt="Add Site form with template, location and two DHCP-enabled WAN gateway fields."
+    >
+
+  </button>
+
+  <figcaption>
+    Add Site form with template, location and two DHCP-enabled WAN gateway fields.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Select <strong>Add</strong> and verify that the new site appears in the Sites inventory. Avoid creating a duplicate if the site already exists.</div></li>
+</ol>
+
+      <!--
+  Required at the end of every hands-on task.
+-->
+
+<div class="callout success expected-result">
+
+  <div class="callout-symbol">
+    ✓
+  </div>
+
+  <div>
+
+    <div class="callout-title">
+      Expected result
+    </div>
+
+    <p>
+      The site <strong>POD##-Student-Lab</strong> exists with virtual platform <strong>vm</strong>, template <strong>vm-ha-edu280</strong>, and two ge1 WAN entries using DHCP.
+    </p>
+
+  </div>
+
+</div>
+
+
+    </div>
+
+  </article>
+</section>
+
+<!--
+  Canonical lab-task component.
+
+  Rules:
+  - Use simple numbered steps inside TASK_CONTENT.
+  - Do not reproduce PDF a/b/c or i/ii/iii numbering.
+  - Screenshots belong immediately after the step they illustrate.
+  - Every task must include EXPECTED_RESULT_BLOCK.
+-->
+
+<section class="task" id="task-1-2">
+  <article class="card task-shell">
+
+    <header class="task-head">
+
+      <div class="task-num">
+        1.2
+      </div>
+
+      <div>
+        <h2>Activate the Active Device</h2>
+        <p>Onboard ZTB-1 as the primary gateway and confirm that it reaches Active status.</p>
+      </div>
+
+      <label class="task-complete">
+        <input
+          type="checkbox"
+          data-task-check="1.2"
+        >
+        Mark complete
+      </label>
+
+    </header>
+
+    <div class="task-body">
+
+      <ol class="steps">
+  <li><div class="step-content">Open your new site in <strong>Sites</strong> and use its <strong>activation-code</strong> control for the primary gateway. Keep the code temporarily in a private local note. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Site activation-code control for the active gateway. Do not publish your actual activation code."
+  >
+
+    <img
+      src="assets/images/course/active-site-code.jpg"
+      alt="Site activation-code control for the active gateway. Do not publish your actual activation code."
+    >
+
+  </button>
+
+  <figcaption>
+    Site activation-code control for the active gateway. Do not publish your actual activation code.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Open <strong>ZTB-1</strong> in Skytap. Sign in at the console using <code class="value">admin</code> and the lab-provided initial password <code class="value">a!rg@p</code>. When prompted, <strong>change that initial password</strong> and keep the new value private.<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Select the ZTB-1 primary gateway console in Skytap."
+  >
+
+    <img
+      src="assets/images/course/active-console-login.jpg"
+      alt="Select the ZTB-1 primary gateway console in Skytap."
+    >
+
+  </button>
+
+  <figcaption>
+    Select the ZTB-1 primary gateway console in Skytap.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">At the gateway menu, select <strong>2 — Configure Gateway</strong>, then <strong>1 — Configure Network</strong>. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Gateway console menu used to enter network configuration."
+  >
+
+    <img
+      src="assets/images/course/active-network-menu.jpg"
+      alt="Gateway console menu used to enter network configuration."
+    >
+
+  </button>
+
+  <figcaption>
+    Gateway console menu used to enter network configuration.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Configure the primary WAN as DHCP, then apply the change when prompted.<!--
+  Canonical configuration table.
+
+  Use when several settings/values would otherwise create dense prose.
+-->
+
+<table class="credentials settings-table">
+
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>Required value / action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <tr><td>WAN interface</td><td><span class="inline-value"><code class="value">ge1</code> <button type="button" class="copy-btn" data-copy="ge1" aria-label="Copy ge1">Copy</button></span></td></tr><tr><td>WAN VLAN ID</td><td><span class="inline-value"><code class="value">1</code> <button type="button" class="copy-btn" data-copy="1" aria-label="Copy 1">Copy</button></span></td></tr><tr><td>Use DHCP for WAN</td><td>y</td></tr><tr><td>Use DHCP for WAN nameservers</td><td>y</td></tr><tr><td>Apply configuration</td><td>y</td></tr>
+
+  </tbody>
+
+</table>
+
+<!--
+  Example CONFIG_ROWS:
+
+  <tr>
+    <td>Rule Name</td>
+    <td><strong>Allow_Private_App</strong></td>
+  </tr>
+
+  <tr>
+    <td>Action</td>
+    <td><strong>Allow</strong></td>
+  </tr>
+-->
+<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Console values for ge1 with VLAN 1 and DHCP enabled."
+  >
+
+    <img
+      src="assets/images/course/active-wan-dhcp.jpg"
+      alt="Console values for ge1 with VLAN 1 and DHCP enabled."
+    >
+
+  </button>
+
+  <figcaption>
+    Console values for ge1 with VLAN 1 and DHCP enabled.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Check that the configuration reports <strong>OK</strong>, return to the main menu (option <strong>4</strong> in the configuration submenu), then choose <strong>1 — Activate Gateway</strong> and <strong>1 — Activate Airgap Gateway</strong>. Enter the copied activation code. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Airgap Gateway activation menu. The code must come from your assigned site."
+  >
+
+    <img
+      src="assets/images/course/active-activation-console.jpg"
+      alt="Airgap Gateway activation menu. The code must come from your assigned site."
+    >
+
+  </button>
+
+  <figcaption>
+    Airgap Gateway activation menu. The code must come from your assigned site.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Return to the Experience Center site inventory and wait for the primary gateway to move from <strong>Post-update</strong> to <strong>Active</strong>. The source notes this can take about 15 minutes. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Site inventory showing the activation status transition for the primary gateway."
+  >
+
+    <img
+      src="assets/images/course/active-status.jpg"
+      alt="Site inventory showing the activation status transition for the primary gateway."
+    >
+
+  </button>
+
+  <figcaption>
+    Site inventory showing the activation status transition for the primary gateway.
+  </figcaption>
+
+</figure>
+</div></li>
+</ol>
+
+      <!--
+  Required at the end of every hands-on task.
+-->
+
+<div class="callout success expected-result">
+
+  <div class="callout-symbol">
+    ✓
+  </div>
+
+  <div>
+
+    <div class="callout-title">
+      Expected result
+    </div>
+
+    <p>
+      The ZTB-1 gateway is associated with the site and eventually shows <strong>Active</strong> after the post-update stage. If it has not changed after the documented wait, check its console and request instructor assistance.
+    </p>
+
+  </div>
+
+</div>
+
+
+    </div>
+
+  </article>
+</section>
+
+<!--
+  Canonical lab-task component.
+
+  Rules:
+  - Use simple numbered steps inside TASK_CONTENT.
+  - Do not reproduce PDF a/b/c or i/ii/iii numbering.
+  - Screenshots belong immediately after the step they illustrate.
+  - Every task must include EXPECTED_RESULT_BLOCK.
+-->
+
+<section class="task" id="task-1-3">
+  <article class="card task-shell">
+
+    <header class="task-head">
+
+      <div class="task-num">
+        1.3
+      </div>
+
+      <div>
+        <h2>Activate the Standby Device</h2>
+        <p>Onboard the second gateway with the same WAN configuration to establish the HA pair.</p>
+      </div>
+
+      <label class="task-complete">
+        <input
+          type="checkbox"
+          data-task-check="1.3"
+        >
+        Mark complete
+      </label>
+
+    </header>
+
+    <div class="task-body">
+
+      <ol class="steps">
+  <li><div class="step-content">In the same site, obtain the activation code for the <strong>standby gateway</strong>. Do not reuse a stale or previously consumed code. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Site activation-code control for the standby unit."
+  >
+
+    <img
+      src="assets/images/course/standby-site-code.jpg"
+      alt="Site activation-code control for the standby unit."
+    >
+
+  </button>
+
+  <figcaption>
+    Site activation-code control for the standby unit.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Open <strong>ZTB-2</strong> in Skytap. Sign in as <code class="value">admin</code> with the lab-provided initial password <code class="value">a!rg@p</code>, and change it when required. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Select ZTB-2, the secondary/standby branch gateway."
+  >
+
+    <img
+      src="assets/images/course/standby-console-login.jpg"
+      alt="Select ZTB-2, the secondary/standby branch gateway."
+    >
+
+  </button>
+
+  <figcaption>
+    Select ZTB-2, the secondary/standby branch gateway.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Choose <strong>2 — Configure Gateway</strong> → <strong>1 — Configure Network</strong>. Set <strong>ge1</strong>, <strong>VLAN 1</strong>, DHCP for the WAN address (<strong>y</strong>), and DHCP for WAN name servers (<strong>y</strong>). Apply the changes (<strong>y</strong>). <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Standby gateway uses the same ge1 / VLAN 1 DHCP settings as the active gateway."
+  >
+
+    <img
+      src="assets/images/course/standby-wan-dhcp.jpg"
+      alt="Standby gateway uses the same ge1 / VLAN 1 DHCP settings as the active gateway."
+    >
+
+  </button>
+
+  <figcaption>
+    Standby gateway uses the same ge1 / VLAN 1 DHCP settings as the active gateway.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Verify the configuration, return to the main menu (configuration option <strong>4</strong>), then choose <strong>1 — Activate Gateway</strong> → <strong>1 — Activate Airgap Gateway</strong>. Enter the standby code from this site. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Standby Airgap Gateway activation menu."
+  >
+
+    <img
+      src="assets/images/course/standby-activation-console.jpg"
+      alt="Standby Airgap Gateway activation menu."
+    >
+
+  </button>
+
+  <figcaption>
+    Standby Airgap Gateway activation menu.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">In Sites, wait for <strong>Post-update</strong> to progress to <strong>Standby</strong>; allow approximately 15 minutes according to the source. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="HA site inventory showing Active and Standby states."
+  >
+
+    <img
+      src="assets/images/course/standby-status.jpg"
+      alt="HA site inventory showing Active and Standby states."
+    >
+
+  </button>
+
+  <figcaption>
+    HA site inventory showing Active and Standby states.
+  </figcaption>
+
+</figure>
+</div></li>
+</ol>
+
+      <!--
+  Required at the end of every hands-on task.
+-->
+
+<div class="callout success expected-result">
+
+  <div class="callout-symbol">
+    ✓
+  </div>
+
+  <div>
+
+    <div class="callout-title">
+      Expected result
+    </div>
+
+    <p>
+      Both gateways are enrolled in the site; the primary reads <strong>Active</strong> and the secondary reads <strong>Standby</strong>.
+    </p>
+
+  </div>
+
+</div>
+
+
+    </div>
+
+  </article>
+</section>
+
+<!--
+  Canonical lab-task component.
+
+  Rules:
+  - Use simple numbered steps inside TASK_CONTENT.
+  - Do not reproduce PDF a/b/c or i/ii/iii numbering.
+  - Screenshots belong immediately after the step they illustrate.
+  - Every task must include EXPECTED_RESULT_BLOCK.
+-->
+
+<section class="task" id="task-1-4">
+  <article class="card task-shell">
+
+    <header class="task-head">
+
+      <div class="task-num">
+        1.4
+      </div>
+
+      <div>
+        <h2>Validate and Configure Site-Level Settings</h2>
+        <p>Validate branch services and connect the pre-provisioned ZPA App Connector.</p>
+      </div>
+
+      <label class="task-complete">
+        <input
+          type="checkbox"
+          data-task-check="1.4"
+        >
+        Mark complete
+      </label>
+
+    </header>
+
+    <div class="task-body">
+
+      <ol class="steps">
+  <li><div class="step-content">Open the configured site <strong>POD##-Student-Lab</strong> and select <strong>Settings → Debug Options</strong>. Enable <strong>Debug Logs</strong> and verify <strong>WAN SSH is disabled</strong> for both gateways. <!--
+  Use when Search Menu is the fastest or safest way to locate a feature.
+
+  Never invent a navigation path.
+  If current navigation is verified, it may be stated in the task text
+  immediately before this hint.
+-->
+
+<div class="search-hint">
+  Search menu →
+  <strong>Zero Trust Branch</strong>
+</div>
+<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Debug Options: enable Debug Logs, keep external WAN SSH disabled."
+  >
+
+    <img
+      src="assets/images/course/settings-debug.jpg"
+      alt="Debug Options: enable Debug Logs, keep external WAN SSH disabled."
+    >
+
+  </button>
+
+  <figcaption>
+    Debug Options: enable Debug Logs, keep external WAN SSH disabled.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">In <strong>DNS</strong>, verify the WAN resolvers and set the private resolvers below; save the settings. <!--
+  Canonical configuration table.
+
+  Use when several settings/values would otherwise create dense prose.
+-->
+
+<table class="credentials settings-table">
+
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>Required value / action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <tr><td>WAN DNS server 1</td><td><span class="inline-value"><code class="value">1.1.1.1</code> <button type="button" class="copy-btn" data-copy="1.1.1.1" aria-label="Copy 1.1.1.1">Copy</button></span></td></tr><tr><td>WAN DNS server 2</td><td><span class="inline-value"><code class="value">8.8.8.8</code> <button type="button" class="copy-btn" data-copy="8.8.8.8" aria-label="Copy 8.8.8.8">Copy</button></span></td></tr><tr><td>Private DNS server 1</td><td><span class="inline-value"><code class="value">10.73.50.20</code> <button type="button" class="copy-btn" data-copy="10.73.50.20" aria-label="Copy 10.73.50.20">Copy</button></span></td></tr><tr><td>Private DNS server 2</td><td><span class="inline-value"><code class="value">10.73.50.21</code> <button type="button" class="copy-btn" data-copy="10.73.50.21" aria-label="Copy 10.73.50.21">Copy</button></span></td></tr>
+
+  </tbody>
+
+</table>
+
+<!--
+  Example CONFIG_ROWS:
+
+  <tr>
+    <td>Rule Name</td>
+    <td><strong>Allow_Private_App</strong></td>
+  </tr>
+
+  <tr>
+    <td>Action</td>
+    <td><strong>Allow</strong></td>
+  </tr>
+-->
+<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Site Settings → DNS: WAN and private resolver fields."
+  >
+
+    <img
+      src="assets/images/course/settings-dns.jpg"
+      alt="Site Settings → DNS: WAN and private resolver fields."
+    >
+
+  </button>
+
+  <figcaption>
+    Site Settings → DNS: WAN and private resolver fields.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Open <strong>NAT</strong>, switch NAT to <strong>Enable</strong>, and accept the confirmation. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="NAT tab with enable and confirmation controls."
+  >
+
+    <img
+      src="assets/images/course/settings-nat.jpg"
+      alt="NAT tab with enable and confirmation controls."
+    >
+
+  </button>
+
+  <figcaption>
+    NAT tab with enable and confirmation controls.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Open <strong>VRRP</strong>. The course screenshot shows <strong>VRRP Group ID 155</strong> and interface <strong>ge4 [ha]</strong> selected for both gateways; confirm these values in your assigned POD before saving. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="HA VRRP settings on ge4 for the gateway pair."
+  >
+
+    <img
+      src="assets/images/course/settings-vrrp.jpg"
+      alt="HA VRRP settings on ge4 for the gateway pair."
+    >
+
+  </button>
+
+  <figcaption>
+    HA VRRP settings on ge4 for the gateway pair.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Under <strong>DHCP Service</strong>, verify that <strong>DHCP Server</strong> is selected. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="DHCP Service option selected in site settings."
+  >
+
+    <img
+      src="assets/images/course/settings-dhcp.jpg"
+      alt="DHCP Service option selected in site settings."
+    >
+
+  </button>
+
+  <figcaption>
+    DHCP Service option selected in site settings.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">In the site’s <strong>ZIA → IPSec Tunnels</strong> view, confirm tunnel status is <strong>Established</strong> or <strong>Up</strong>. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="IPSec tunnel status is operational for the ZIA service path."
+  >
+
+    <img
+      src="assets/images/course/settings-ipsec.jpg"
+      alt="IPSec tunnel status is operational for the ZIA service path."
+    >
+
+  </button>
+
+  <figcaption>
+    IPSec tunnel status is operational for the ZIA service path.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Find <strong>App Connector Keys</strong> in Experience Center. Filter for your POD ID (for example <code class="value">pod01</code>) and copy the <strong>existing provisioning key</strong> assigned to your POD. Treat the key as a secret; do not paste it into notes or screenshots for publication. <!--
+  Use when Search Menu is the fastest or safest way to locate a feature.
+
+  Never invent a navigation path.
+  If current navigation is verified, it may be stated in the task text
+  immediately before this hint.
+-->
+
+<div class="search-hint">
+  Search menu →
+  <strong>App Connector Keys</strong>
+</div>
+<!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Find the pre-provisioned App Connector key for your assigned POD."
+  >
+
+    <img
+      src="assets/images/course/appc-key-list.jpg"
+      alt="Find the pre-provisioned App Connector key for your assigned POD."
+    >
+
+  </button>
+
+  <figcaption>
+    Find the pre-provisioned App Connector key for your assigned POD.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Return to <strong>Zero Trust Branch → Sites</strong>, select the site, then go to <strong>Settings → ZPA → Add</strong>. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Use the ZPA integration tab of the ZTB site to add the App Connector."
+  >
+
+    <img
+      src="assets/images/course/appc-ztb-integration.jpg"
+      alt="Use the ZPA integration tab of the ZTB site to add the App Connector."
+    >
+
+  </button>
+
+  <figcaption>
+    Use the ZPA integration tab of the ZTB site to add the App Connector.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Name the connector <code class="value">pod##StudentAppC</code> (replace ## with your POD number), paste the provisioning key, then <strong>Save</strong>. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="Add App Connector: enter the POD-specific name and provisioning key; source image masks the key."
+  >
+
+    <img
+      src="assets/images/course/appc-add.jpg"
+      alt="Add App Connector: enter the POD-specific name and provisioning key; source image masks the key."
+    >
+
+  </button>
+
+  <figcaption>
+    Add App Connector: enter the POD-specific name and provisioning key; source image masks the key.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Wait a few minutes for the connector to show <strong>Connected</strong> under the ZPA tab. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="The site App Connector shows Connected after provisioning."
+  >
+
+    <img
+      src="assets/images/course/appc-connected.jpg"
+      alt="The site App Connector shows Connected after provisioning."
+    >
+
+  </button>
+
+  <figcaption>
+    The site App Connector shows Connected after provisioning.
+  </figcaption>
+
+</figure>
+</div></li>
+  <li><div class="step-content">Open <strong>VLANs</strong> and inspect the preconfigured interfaces. This pilot stops here: the configuration of additional LAN and WAN interfaces begins in source Task 1.5. <!--
+  Canonical screenshot component.
+
+  Place immediately after the instruction it illustrates.
+
+  Rules:
+  - Never upscale beyond native resolution.
+  - Maximum screenshot width is controlled globally by style.css.
+  - Caption should explain what the learner should notice.
+  - Alt text must describe the screenshot meaningfully.
+-->
+
+<figure class="figure ">
+
+  <button type="button"
+    data-lightbox
+    data-caption="VLANs tab showing existing interfaces before the next source task."
+  >
+
+    <img
+      src="assets/images/course/settings-vlans.jpg"
+      alt="VLANs tab showing existing interfaces before the next source task."
+    >
+
+  </button>
+
+  <figcaption>
+    VLANs tab showing existing interfaces before the next source task.
+  </figcaption>
+
+</figure>
+</div></li>
+</ol>
+
+      <!--
+  Required at the end of every hands-on task.
+-->
+
+<div class="callout success expected-result">
+
+  <div class="callout-symbol">
+    ✓
+  </div>
+
+  <div>
+
+    <div class="callout-title">
+      Expected result
+    </div>
+
+    <p>
+      Site Debug Logs are enabled while WAN SSH remains disabled; DNS, NAT, VRRP, DHCP and IPSec have been reviewed; the App Connector shows <strong>Connected</strong>; preconfigured VLANs are visible.
+    </p>
+
+  </div>
+
+</div>
+
+
+    </div>
+
+  </article>
+</section>
+
+
+
+  <!-- =========================================================
+       LAB COMPLETION
+       ========================================================= -->
+
+  <div class="callout success">
+
+    <div class="callout-symbol">✓</div>
+
+    <div>
+
+      <div class="callout-title">
+        Pilot checkpoint reached
+      </div>
+
+      <p>
+        You have completed published pilot Tasks 1.1–1.4. Source Tasks 1.5–1.9 will be added after the pilot review.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       PREVIOUS / NEXT
+       ========================================================= -->
+
+  <div class="page-nav">
+
+    <a href="index.html#lab-access"><small>Previous</small><strong>← Lab Access</strong></a>
+
+    <a class="next" href="index.html#contents"><small>Next</small><strong>Course Index →</strong></a>
+
+  </div>
+
+
+  <footer class="footer">
+
+    <span>
+      Unofficial EDU-280 web edition · Author: Rupak Dey
+    </span>
+
+    <span>
+      Adapted from EDU-280 Hands-on Lab Guide, Rev. 2.3 (Aug 2026)
+    </span>
+
+  </footer>
+
+</div>
+</main>
+
+
+<a
+  class="floating-logo"
+  href="#main"
+  aria-label="Back to top"
+>
+  <img
+    src="assets/images/shared/zscaler-logo.svg"
+    alt="Zscaler"
+  >
+</a>
+
+
+<dialog class="modal" id="image-modal">
+
+  <img alt="Expanded lab screenshot">
+
+  <div class="modal-bar">
+
+    <span data-modal-caption></span>
+
+    <button
+      class="modal-close"
+      data-modal-close
+    >
+      Close
+    </button>
+
+  </div>
+
+</dialog>
+
+
+<!-- Course data must load before the reusable site behavior. -->
+<script src="assets/js/course-data.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+
+</body>
+</html>
