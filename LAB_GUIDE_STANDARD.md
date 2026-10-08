@@ -76,3 +76,15 @@
 - Standard screenshots: maximum width **two-thirds of guide maximum content width** and maximum height **the smaller of 1,490 CSS pixels or 80vh**. Apply both constraints together without stretching; preserve the intrinsic aspect ratio.
 - Never upscale raster screenshots above their native size. The lightbox may display a larger view within viewport limits.
 - Topology diagrams are an explicit width/height exception; use a dedicated `.topology-figure` class instead of forcing network drawings into ordinary screenshot dimensions.
+
+## Explainer Plan (Course-Controlled Technical Context)
+
+- Each course must include `explainer-plan.yaml`, copied from `explainer-plan-template.yaml`. Read it before writing any lab or technical context. Its purpose is to control **where, why, and how deeply** technical explainers are added.
+- `settings.generation: specified_only` is the default: render only `explainers` entries with `enabled: true`. Entries with `enabled: false` are suggestions and must not appear in HTML or course-data navigation. `suggest_additional_topics: true` permits suggestions in build notes, **not automatic insertion** in this mode.
+- `specified_plus_auto` may add carefully justified context beyond enabled entries; document each added explainer and avoid unnecessary concepts in straightforward labs. Do not silently override explicit disabled entries.
+- A `lab_intro` explainer appears after lab objectives and before the first task; a task-specific `before_steps` explainer (with `task: "N.M"`) appears immediately before that task's numbered steps. Never displace or duplicate the Expected Result.
+- Each enabled explainer must have a stable `id` matching its rendered HTML anchor (`id="..."`) and the corresponding `course-data.js` `labs[].explainers[]` record, so sidebar and global search can find it. When changing a pre-existing explainer, revise rather than duplicating it.
+- Recommended word ranges: `brief` 50–100, `standard` 150–250, `detailed` 250–400, subject to replacing prose with a useful diagram or table. Explain **what/why/how it relates to the exercise**, not click-by-click steps.
+- Valid visual hints: `none`, `flow_diagram`, `architecture_diagram`, `comparison_table`, `sequence_diagram`, or `auto`. The builder should select a visual only when it improves clarity. Never manufacture unsupported product details.
+- Cite relevant official Zscaler documentation when adding product-specific architecture or behavior; keep source-derived claims distinct from verified external explanations. The course PDF remains authoritative for lab steps and values.
+- The YAML is **build-time input only**: do not load it in the browser. Validate it with `scripts/validate.py` and maintain its references as the course is built.

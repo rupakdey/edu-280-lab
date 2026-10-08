@@ -1,0 +1,15 @@
+Instructions:
+
+Template package -> zscaler-web-lab-guide-template, branch main.
+EDU package -> edu-280-web-lab-guide-v2, branch pilot-intro-lab1.
+
+Unzip and upload files preserving relative paths. Existing HTML pages, JS,
+images and CSS are NOT changed by this update.
+
+Python validation now requires PyYAML. The included validate.yml installs it
+through requirements-validation.txt. For a local run:
+  python3 -m pip install -r requirements-validation.txt
+  python3 scripts/validate.py --json-report validation-report.json
+
+The EDU-280 Lab 1 HA explainer is active and already published. Additional
+suggested topics for Labs 2/4/5/6/9 are disabled until the user opts in.

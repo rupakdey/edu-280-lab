@@ -53,3 +53,11 @@ the repository design system wins.
 - Use current help.zscaler.com product pages to substantiate a documented resource/policy route; provide a Search Menu fallback, identify conflicting documentation, and link sources.
 - When present, place the original source topology in the Environment section, with any explicit VM credentials table immediately below. Do not infer credentials.
 - Keep standard screenshots within 2/3 guide width and min(1490px,80vh) height at natural aspect ratio; allow full-width source topology diagrams.
+
+## Course-Specific Explainer Plan (Mandatory)
+
+- Read `explainer-plan.yaml` (generated course) or `explainer-plan-template.yaml` (reusable template) before drafting a lab. If a new course lacks its plan, copy the template with `explainers: []`; do not invent an explainer list.
+- Treat `enabled: true` entries as approved content requirements; `enabled: false` entries are suggestions only and must not be rendered or added to search/navigation.
+- Use `placement: lab_intro` after objectives and before tasks, or `placement: before_steps` for the named task (`task: "N.M"`). Reuse `templates/components/technical-explainer.html` and preserve the standard task structure.
+- Match each explainer's stable YAML `id` with the HTML `id` and `assets/js/course-data.js` link. Reuse already-published explainers rather than duplicating them.
+- `specified_only` is the default: recommendations belong in build notes for user review, never auto-inserted. Follow the depth and visual preferences in the plan and the design standard.

@@ -1,0 +1,30 @@
+# Technical explainer plan — reusable template
+# Copy this file to explainer-plan.yaml in a generated course repository.
+# The plan guides the HTML builder; it is not loaded by the browser.
+# Disabled entries are suggestions only: they must not be rendered.
+# See README.md and LAB_GUIDE_STANDARD.md for usage.
+
+settings:
+  generation: specified_only       # specified_only | specified_plus_auto
+  suggest_additional_topics: true  # recommendations only in specified_only mode
+  default_depth: standard          # brief | standard | detailed
+  prefer_visuals: true
+
+explainers: []
+
+# Example entry (uncomment and edit in a course-specific explainer-plan.yaml):
+# explainers:
+#   - id: concept-context
+#     enabled: true
+#     lab: 2
+#     topic: Example Architecture Topic
+#     placement: lab_intro       # lab_intro (lab) | before_steps (task)
+#     depth: standard
+#     visual: architecture_diagram
+#     cover:
+#       - What the components do
+#       - Why the behavior matters for this lab
+#       - How the components relate to the task
+#
+# For a task-specific explainer add task: "2.3" and placement: before_steps.
+# Each id must be unique and match its rendered HTML id and course-data.js link.

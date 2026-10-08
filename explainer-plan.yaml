@@ -1,0 +1,86 @@
+# EDU-280 — Technical Explainer Plan
+# Only enabled: true entries are required when their lab is published.
+# Suggestions stay disabled until you choose to include them.
+# This is builder input only (not JavaScript or a browser-loaded file).
+
+settings:
+  generation: specified_only
+  suggest_additional_topics: true
+  default_depth: standard
+  prefer_visuals: true
+
+explainers:
+  # Already present in the approved Lab 1 pilot. Do NOT regenerate/duplicate.
+  - id: ztb-ha-context
+    enabled: true
+    lab: 1
+    topic: Zero Trust Branch high availability architecture
+    placement: lab_intro
+    depth: standard
+    visual: architecture_diagram
+    cover:
+      - The site as a common configuration for two gateways
+      - Active and standby gateway responsibilities
+      - WAN, internal VLANs, ZIA services and ZPA App Connector relationship
+      - What HA/VRRP contributes to continuity
+
+  # Potential explainers for the unbuilt labs below. Enable selectively.
+  - id: macrosegmentation-context
+    enabled: false
+    lab: 2
+    topic: Macrosegmentation and inter-VLAN communication
+    placement: lab_intro
+    depth: standard
+    visual: architecture_diagram
+    cover:
+      - Security boundaries between VLANs
+      - How site-level filtering affects traffic between subnet groups
+      - What the learner will validate in this lab
+
+  - id: microsegmentation-context
+    enabled: false
+    lab: 4
+    topic: Microsegmentation compared with macrosegmentation
+    placement: lab_intro
+    depth: standard
+    visual: comparison_table
+    cover:
+      - Difference between broad network and workload-specific rules
+      - Why OT endpoint-to-endpoint communication needs finer controls
+      - How to interpret allow and block validation results
+
+  - id: pbr-context
+    enabled: false
+    lab: 5
+    topic: Policy-based routing and traffic-path selection
+    placement: lab_intro
+    depth: standard
+    visual: flow_diagram
+    cover:
+      - How routing decisions can depend on traffic characteristics
+      - Direct internet access versus cloud-forwarded paths
+      - Why different traffic tests may use different routes
+
+  - id: dns-policy-context
+    enabled: false
+    lab: 6
+    topic: DNS request flow and policy enforcement
+    placement: lab_intro
+    depth: standard
+    visual: sequence_diagram
+    cover:
+      - Where DNS requests originate and are evaluated
+      - Differences between redirect, resolve and block outcomes
+      - What to look for when validating DNS policy behavior
+
+  - id: ransomware-kill-switch-context
+    enabled: false
+    lab: 9
+    topic: Ransomware kill switch and emergency network isolation
+    placement: lab_intro
+    depth: brief
+    visual: flow_diagram
+    cover:
+      - The purpose of an emergency containment policy
+      - How isolation changes network access paths
+      - What successful validation should demonstrate

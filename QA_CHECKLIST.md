@@ -23,3 +23,9 @@
 [ ] No invented VM usernames/passwords or exposed session-specific secrets
 [ ] Standard screenshots <= min(1490px, 80vh) tall and <= 2/3 guide max width, without distortion/upscaling
 [ ] Topology diagrams may use full page width without upscaling raster files
+[ ] Course has explainer-plan.yaml and settings agree with intended generation mode
+[ ] Only enabled explainers are rendered; disabled suggestions remain out of the pages/search/sidebar
+[ ] Each enabled explainer appears at intended lab/task placement and uses its declared id
+[ ] Explain-the-why content does not repeat numbered configuration steps
+[ ] Active explainers appear in course-data.js search/sidebar entries and match HTML anchors
+[ ] Technical context depth/visuals match the plan; existing context is not duplicated
