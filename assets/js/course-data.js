@@ -1,77 +1,107 @@
-/*
- * Zscaler Web Lab Guide — reusable course-data template.
- *
- * This is configuration, not site behavior. Keep the structure and replace
- * placeholders and sample-free empty arrays when generating a real course.
- * Source the factual content from the course guide / course manifest.
- *
- * Load order (on EVERY generated page):
- *   <script src="assets/js/course-data.js" defer></script>
- *   <script src="assets/js/site.js" defer></script>
- *
- * Do not use async: site.js must see LAB_GUIDE_COURSE before it initializes.
- *
- * Contract with assets/js/site.js:
- * - Lab numbers are positive integers. A lab's href points to lab-NN.html.
- * - Task numbers are dotted strings (e.g. "1.1"). Task anchor IDs should
- *   be task-1-1, task-1-2, etc., matching the section in the HTML.
- * - The checkbox data-task-check uses the dotted number (e.g. "1.1").
- * - Provide every real lab/task for complete sidebar/search/progress behavior.
- * - A course without SDC sets sdcAccess to null and sdc to false/omitted.
- * - Avoid putting passwords, tokens, or personal account details in this file.
- */
-
+/* EDU-280 pilot: only published labs belong in labs[]. Planned Labs 2–9 link to Course Index anchors; source Lab 0 appears as a checkpoint. No session passwords or activation/provisioning codes are stored. */
 window.LAB_GUIDE_COURSE = {
-  // Replace these values when generating an actual course.
-  id: "{{COURSE_ID}}",
-  title: "{{COURSE_TITLE}}",
-  subtitle: "{{COURSE_EDITION}}",
-  storagePrefix: "{{STORAGE_PREFIX}}",
-
-  // Optional getting-started checkpoint. For a section on the index page:
-  //   { title: "Lab Access", href: "index.html#lab-access" }
-  // For a separate access page:
-  //   { title: "Lab Access", href: "lab-access.html" }
-  // Keep null if the course has no distinct access checkpoint.
-  labAccess: null,
-
-  // Optional SDC checkpoint; set null if no SDC is used.
-  // When required, use:
-  //   { title: "SDC access checkpoint", href: "sdc-access.html", beforeLab: 11 }
-  // Mark applicable labs below with sdc: true.
-  sdcAccess: null,
-
-  // Populate one object for EACH actual numbered lab, ordered as in the course.
-  // These are schema illustrations ONLY, not a real course or required values:
-  //
-  // {
-  //   number: 1,
-  //   title: "Example lab title",
-  //   href: "lab-01.html",
-  //   optional: false,
-  //   sdc: false,
-  //   keywords: "alternative terms for global search",
-  //   tasks: [
-  //     {
-  //       number: "1.1",
-  //       id: "task-1-1",
-  //       title: "Example task title",
-  //       href: "lab-01.html#task-1-1",
-  //       keywords: "useful alternate search terms"
-  //     }
-  //   ],
-  //   explainers: [
-  //     {
-  //       id: "context-sample",
-  //       title: "Concept overview",
-  //       href: "lab-01.html#context-sample",
-  //       keywords: "architecture workflow"
-  //     }
-  //   ]
-  // }
-  labs: [],
-
-  // Optional extra global-search items that are not already labs/tasks/explainers:
-  // { label: "Environment topology", href: "index.html#environment", keywords: "network diagram" }
-  search: []
+  "id": "EDU-280",
+  "title": "Zscaler Zero Trust Branch",
+  "subtitle": "Unofficial Web Lab Guide",
+  "storagePrefix": "edu280",
+  "labAccess": {
+    "title": "Lab Access · Getting Started",
+    "href": "index.html#lab-access"
+  },
+  "sdcAccess": null,
+  "labs": [
+    {
+      "number": 1,
+      "title": "Zero Trust Branch Device Interface Configuration",
+      "href": "lab-01.html",
+      "optional": false,
+      "sdc": false,
+      "keywords": "Zero Trust Branch ZTB high availability branch HA provisioning site DHCP NAT DNS VRRP App Connector",
+      "tasks": [
+        {
+          "number": "1.1",
+          "id": "task-1-1",
+          "title": "Add Site",
+          "href": "lab-01.html#task-1-1",
+          "keywords": "site template vm-ha"
+        },
+        {
+          "number": "1.2",
+          "id": "task-1-2",
+          "title": "Activate the Active Device",
+          "href": "lab-01.html#task-1-2",
+          "keywords": "primary gateway activation"
+        },
+        {
+          "number": "1.3",
+          "id": "task-1-3",
+          "title": "Activate the Standby Device",
+          "href": "lab-01.html#task-1-3",
+          "keywords": "secondary gateway activation standby"
+        },
+        {
+          "number": "1.4",
+          "id": "task-1-4",
+          "title": "Validate and Configure Site-Level Settings",
+          "href": "lab-01.html#task-1-4",
+          "keywords": "debug DNS NAT VRRP DHCP IPSec ZPA"
+        }
+      ],
+      "explainers": [
+        {
+          "id": "ztb-ha-context",
+          "title": "Zero Trust Branch HA architecture",
+          "href": "lab-01.html#ztb-ha-context",
+          "keywords": "network architecture topology active standby"
+        }
+      ]
+    }
+  ],
+  "search": [
+    {
+      "label": "Lab foundation / topology",
+      "href": "index.html#environment",
+      "keywords": "lab network VLAN ZTB DIA Zero Trust Exchange"
+    },
+    {
+      "label": "Lab 2 · Secure Internal Communication (Inter-VLAN Traffic Filtering) (planned)",
+      "href": "index.html#lab-2",
+      "keywords": "Implement macrosegmentation and site-level inter-VLAN policy. planned source index"
+    },
+    {
+      "label": "Lab 3 · Validate Securing Internal and External Communication Policies (planned)",
+      "href": "index.html#lab-3",
+      "keywords": "Validate cloud forwarding, DNS, outbound connectivity, and ZPA access. planned source index"
+    },
+    {
+      "label": "Lab 4 · Configure Microsegmentation Policy (planned)",
+      "href": "index.html#lab-4",
+      "keywords": "Enforce targeted protections between OT endpoints. planned source index"
+    },
+    {
+      "label": "Lab 5 · Configure Policy-Based Routing (PBR) Policies (planned)",
+      "href": "index.html#lab-5",
+      "keywords": "Test cloud-forwarded traffic and configure direct ICMP routing. planned source index"
+    },
+    {
+      "label": "Lab 6 · Configure DNS Policies (planned)",
+      "href": "index.html#lab-6",
+      "keywords": "Redirect and block selected domain traffic using DNS policy. planned source index"
+    },
+    {
+      "label": "Lab 7 · Logs and Monitoring (planned · optional)",
+      "href": "index.html#lab-7",
+      "keywords": "Review packets, flows, alarms, and web insights. planned source index"
+    },
+    {
+      "label": "Lab 8 · Troubleshoot and Debug Zero Trust Branch Environment (planned · optional)",
+      "href": "index.html#lab-8",
+      "keywords": "Use interface and system diagnostics for investigation. planned source index"
+    },
+    {
+      "label": "Lab 9 · Configure Ransomware Kill Switch Policy (planned · optional)",
+      "href": "index.html#lab-9",
+      "keywords": "Configure SSH policies and test the ransomware kill switch. planned source index"
+    }
+  ]
 };
