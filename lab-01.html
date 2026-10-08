@@ -207,7 +207,7 @@
 
     <div class="grid grid-3 concept-grid"><article><div class="eyebrow">01 · Site</div><h3>Common configuration</h3><p>Begin with a site cloned from the <code>vm-ha-edu280</code> template. The site is the management unit for its HA pair.</p></article><article><div class="eyebrow">02 · Gateways</div><h3>Active / Standby</h3><p>Activate each virtual gateway separately. An HA interface (<code>ge4</code>) and VRRP settings support the pair.</p></article><article><div class="eyebrow">03 · Services</div><h3>Traffic and private access</h3><p>ZIA IPSec provides the service-forwarding path; the ZPA App Connector adds private-application connectivity.</p></article></div>
 
-    <figure class="figure" style="margin-top:20px"><button type="button" data-lightbox data-caption="Conceptual Zero Trust Branch HA deployment"><img src="assets/images/course/ztb-lab-foundation.svg" alt="Conceptual Zero Trust Branch HA site with two gateway units, WAN, internal VLANs and ZPA App Connector" loading="lazy"></button><figcaption>Conceptual relationships—not a literal port-by-port cabling diagram.</figcaption></figure>
+    <figure class="figure topology-figure" style="margin-top:20px"><button type="button" data-lightbox data-caption="Conceptual Zero Trust Branch HA deployment"><img src="assets/images/course/ztb-lab-foundation.svg" alt="Conceptual Zero Trust Branch HA site with two gateway units, WAN, internal VLANs and ZPA App Connector" loading="lazy"></button><figcaption>Conceptual relationships—not a literal port-by-port cabling diagram.</figcaption></figure>
 
   </div>
 
@@ -264,9 +264,15 @@
     </header>
 
     <div class="task-body">
+<div class="resource-locator">
+    <p><strong>Documented path:</strong> Zero Trust Branch → Deployments → Sites (newer <em>Managing Sites</em> article)</p>
+    <div class="search-hint">Search menu → <strong>Sites</strong></div>
+    <p class="source-route-note"><strong>Official documentation:</strong> <a href="https://help.zscaler.com/zero-trust-branch/adding-site" target="_blank" rel="noopener noreferrer">Managing Sites ↗</a> · <a href="https://help.zscaler.com/zero-trust-branch/creating-zero-trust-branch-high-availability-cluster" target="_blank" rel="noopener noreferrer">HA-cluster deployment ↗</a><br>Older HA documentation also shows Infrastructure → Connectors → Edge → Sites; the live tenant menu may differ.</p>
+  </div>
+
 
       <ol class="steps">
-  <li><div class="step-content">Find <strong>Zero Trust Branch → Sites</strong> in the Experience Center and select <strong>Add Site</strong>. <!--
+  <li><div class="step-content">Go to the documented <strong>Zero Trust Branch → Deployments → Sites</strong> page (or use Search Menu → <strong>Sites</strong>) and select <strong>Add Site → New Site</strong>. <!--
   Use when Search Menu is the fastest or safest way to locate a feature.
 
   Never invent a navigation path.
@@ -446,6 +452,12 @@
     </header>
 
     <div class="task-body">
+<div class="resource-locator">
+    <p><strong>Documented path:</strong> Open the site from <strong>Zero Trust Branch → Deployments → Sites</strong>, then use that site’s activation controls.</p>
+    <div class="search-hint">Search menu → <strong>Sites</strong></div>
+    <p class="source-route-note"><strong>Official documentation:</strong> <a href="https://help.zscaler.com/zero-trust-branch/creating-zero-trust-branch-high-availability-cluster" target="_blank" rel="noopener noreferrer">HA-cluster deployment ↗</a> · <a href="https://help.zscaler.com/zero-trust-branch/adding-site" target="_blank" rel="noopener noreferrer">Managing Sites ↗</a><br>The HA guide may show the older Infrastructure → Connectors → Edge → Sites route.</p>
+  </div>
+
 
       <ol class="steps">
   <li><div class="step-content">Open your new site in <strong>Sites</strong> and use its <strong>activation-code</strong> control for the primary gateway. Keep the code temporarily in a private local note. <!--
@@ -743,6 +755,12 @@
     </header>
 
     <div class="task-body">
+<div class="resource-locator">
+    <p><strong>Documented path:</strong> Open the site from <strong>Zero Trust Branch → Deployments → Sites</strong>, then use that site’s activation controls.</p>
+    <div class="search-hint">Search menu → <strong>Sites</strong></div>
+    <p class="source-route-note"><strong>Official documentation:</strong> <a href="https://help.zscaler.com/zero-trust-branch/creating-zero-trust-branch-high-availability-cluster" target="_blank" rel="noopener noreferrer">HA-cluster deployment ↗</a> · <a href="https://help.zscaler.com/zero-trust-branch/adding-site" target="_blank" rel="noopener noreferrer">Managing Sites ↗</a><br>The HA guide may show the older Infrastructure → Connectors → Edge → Sites route.</p>
+  </div>
+
 
       <ol class="steps">
   <li><div class="step-content">In the same site, obtain the activation code for the <strong>standby gateway</strong>. Do not reuse a stale or previously consumed code. <!--
@@ -972,9 +990,15 @@
     </header>
 
     <div class="task-body">
+<div class="resource-locator">
+    <p><strong>Documented path:</strong> Zero Trust Branch → Deployments → Sites → select your site; locate its Settings, DNS, Network and integration tabs in the live UI.</p>
+    <div class="search-hint">Search menu → <strong>Sites</strong></div>
+    <p class="source-route-note"><strong>Official documentation:</strong> <a href="https://help.zscaler.com/zero-trust-branch/adding-site" target="_blank" rel="noopener noreferrer">Managing Sites ↗</a> · <a href="https://help.zscaler.com/zero-trust-branch/creating-zero-trust-branch-high-availability-cluster" target="_blank" rel="noopener noreferrer">HA-cluster deployment ↗</a><br>For the ZPA provisioning key: Infrastructure → Private Access → Component → App Connector Keys (<a href="https://help.zscaler.com/zpa/about-connector-provisioning-keys" target="_blank" rel="noopener noreferrer">App Connector provisioning keys ↗</a>).</p>
+  </div>
+
 
       <ol class="steps">
-  <li><div class="step-content">Open the configured site <strong>POD##-Student-Lab</strong> and select <strong>Settings → Debug Options</strong>. Enable <strong>Debug Logs</strong> and verify <strong>WAN SSH is disabled</strong> for both gateways. <!--
+  <li><div class="step-content">Open the configured site <strong>POD##-Student-Lab</strong> and locate <strong>Settings → Debug Options</strong> in the assigned lab UI (the PDF is the source for this site-level sub-tab). Enable <strong>Debug Logs</strong> and verify <strong>WAN SSH is disabled</strong> for both gateways. <!--
   Use when Search Menu is the fastest or safest way to locate a feature.
 
   Never invent a navigation path.
@@ -1258,7 +1282,7 @@
 
 </figure>
 </div></li>
-  <li><div class="step-content">Return to <strong>Zero Trust Branch → Sites</strong>, select the site, then go to <strong>Settings → ZPA → Add</strong>. <!--
+  <li><div class="step-content">Return to <strong>Zero Trust Branch → Deployments → Sites</strong> (or search <strong>Sites</strong>), select the site, and find its <strong>Settings → ZPA → Add</strong> control in the lab environment. This internal tab sequence comes from the lab PDF; verify it in the live UI. <!--
   Canonical screenshot component.
 
   Place immediately after the instruction it illustrates.
