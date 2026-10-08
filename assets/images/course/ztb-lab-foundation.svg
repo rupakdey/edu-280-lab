@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
+<title id="title">EDU-280 Zero Trust Branch lab topology</title>
+<desc id="desc">Zero Trust Exchange connected by shared Direct Internet Access to a high availability pair of Zero Trust Branch gateways, with branch VLAN segments and a ZPA App Connector.</desc>
+<defs><linearGradient id="sky" x2="1" y2="1"><stop stop-color="#0c2656"/><stop offset="1" stop-color="#1254a8"/></linearGradient><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10" fill="#2b73c8"/></marker></defs>
+<rect width="1440" height="820" rx="32" fill="#f5f8fc"/>
+<text x="54" y="54" fill="#173151" font-size="27" font-weight="750" font-family="Arial,sans-serif">EDU-280 • Zero Trust Branch lab foundation</text>
+<text x="54" y="85" fill="#6a7d91" font-size="16" font-family="Arial,sans-serif">Conceptual topology • not a physical wiring or interface-port map</text>
+<rect x="523" y="115" width="398" height="128" rx="24" fill="url(#sky)"/>
+<text x="722" y="166" fill="white" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold">Zero Trust Exchange</text>
+<text x="722" y="200" fill="#c9e2ff" text-anchor="middle" font-family="Arial" font-size="16">ZIA inspection • ZPA access</text>
+<rect x="100" y="308" width="275" height="132" rx="20" fill="white" stroke="#a7bcd0" stroke-width="2"/>
+<text x="237" y="359" text-anchor="middle" fill="#183b65" font-family="Arial" font-size="24" font-weight="bold">Router / DIA</text>
+<text x="237" y="390" text-anchor="middle" fill="#56738e" font-family="Arial" font-size="17">Shared WAN uplinks</text>
+<text x="237" y="413" text-anchor="middle" fill="#56738e" font-family="Arial" font-size="15">Two WAN interfaces in lab</text>
+<path d="M300 308 L570 243" fill="none" stroke="#2b73c8" stroke-width="5" marker-end="url(#arr)"/>
+<text x="330" y="263" fill="#536e87" font-family="Arial" font-size="15">Internet / Zscaler service</text>
+<rect x="470" y="286" width="881" height="462" rx="28" fill="#eaf2fd" stroke="#92b6df" stroke-width="3"/>
+<text x="496" y="327" fill="#174679" font-family="Arial" font-weight="bold" font-size="21">Branch site • POD##-Student-Lab</text>
+<path d="M375 375 H493" stroke="#2b73c8" stroke-width="5" marker-end="url(#arr)" fill="none"/>
+<rect x="517" y="363" width="337" height="115" rx="18" fill="white" stroke="#4487c4" stroke-width="2"/>
+<text x="685" y="410" text-anchor="middle" fill="#113b6c" font-family="Arial" font-size="23" font-weight="bold">ZTB-1 • Active</text>
+<text x="685" y="442" text-anchor="middle" fill="#4d718f" font-family="Arial" font-size="15">Virtual gateway / ge1 WAN</text>
+<rect x="962" y="363" width="337" height="115" rx="18" fill="white" stroke="#4487c4" stroke-width="2"/>
+<text x="1130" y="410" text-anchor="middle" fill="#113b6c" font-family="Arial" font-size="23" font-weight="bold">ZTB-2 • Standby</text>
+<text x="1130" y="442" text-anchor="middle" fill="#4d718f" font-family="Arial" font-size="15">Virtual gateway / ge1 WAN</text>
+<path d="M854 425 H962" stroke="#e39933" stroke-width="5" stroke-dasharray="10 9" fill="none"/>
+<text x="908" y="406" text-anchor="middle" fill="#9b651d" font-family="Arial" font-size="16" font-weight="bold">HA / ge4</text>
+<path d="M685 478 V542 H1130 V478" stroke="#5284bb" stroke-width="3" fill="none" stroke-dasharray="7 7"/>
+<text x="909" y="560" text-anchor="middle" fill="#617b97" font-family="Arial" font-size="15">LAN-side interfaces / VLAN segmentation</text>
+<path d="M628 542 V590 M908 542 V590 M1190 542 V590" stroke="#2b73c8" stroke-width="4" fill="none" marker-end="url(#arr)"/>
+<rect x="513" y="595" width="240" height="116" rx="17" fill="white" stroke="#b7c9da"/>
+<text x="633" y="634" text-anchor="middle" fill="#143e69" font-size="22" font-weight="bold" font-family="Arial">Subnet10</text><text x="633" y="665" text-anchor="middle" fill="#6c8197" font-family="Arial" font-size="17">Windows server</text>
+<rect x="789" y="595" width="240" height="116" rx="17" fill="white" stroke="#b7c9da"/>
+<text x="909" y="634" text-anchor="middle" fill="#143e69" font-size="22" font-weight="bold" font-family="Arial">Subnet20</text><text x="909" y="665" text-anchor="middle" fill="#6c8197" font-family="Arial" font-size="17">IoT Ubuntu VM</text>
+<rect x="1065" y="595" width="240" height="116" rx="17" fill="white" stroke="#b7c9da"/>
+<text x="1185" y="634" text-anchor="middle" fill="#143e69" font-size="22" font-weight="bold" font-family="Arial">Subnet30</text><text x="1185" y="665" text-anchor="middle" fill="#6c8197" font-family="Arial" font-size="17">OT1 + OT2 Linux</text>
+<rect x="100" y="558" width="279" height="139" rx="20" fill="#fff6e7" stroke="#e1ad5c" stroke-width="2"/>
+<text x="239" y="603" fill="#8a5b16" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="23">ZPA App Connector</text><text x="239" y="636" fill="#98774b" font-family="Arial" text-anchor="middle" font-size="16">Site integration</text>
+<path d="M379 626 H470" stroke="#e39933" stroke-width="4" stroke-dasharray="7 6" fill="none" marker-end="url(#arr)"/>
+<text x="56" y="786" fill="#637c93" font-size="15" font-family="Arial">Source context: EDU-280 Hands-on Lab Guide Rev. 2.3, pages 8–9 and 17–18. No IP addresses inferred.</text>
+</svg>
