@@ -26,7 +26,7 @@ explainers:
 
   # Potential explainers for the unbuilt labs below. Enable selectively.
   - id: macrosegmentation-context
-    enabled: false
+    enabled: true
     lab: 2
     topic: Macrosegmentation and inter-VLAN communication
     placement: lab_intro
@@ -38,7 +38,7 @@ explainers:
       - What the learner will validate in this lab
 
   - id: microsegmentation-context
-    enabled: false
+    enabled: true
     lab: 4
     topic: Microsegmentation compared with macrosegmentation
     placement: lab_intro
@@ -50,7 +50,7 @@ explainers:
       - How to interpret allow and block validation results
 
   - id: pbr-context
-    enabled: false
+    enabled: true
     lab: 5
     topic: Policy-based routing and traffic-path selection
     placement: lab_intro
@@ -62,7 +62,7 @@ explainers:
       - Why different traffic tests may use different routes
 
   - id: dns-policy-context
-    enabled: false
+    enabled: true
     lab: 6
     topic: DNS request flow and policy enforcement
     placement: lab_intro
@@ -74,7 +74,7 @@ explainers:
       - What to look for when validating DNS policy behavior
 
   - id: ransomware-kill-switch-context
-    enabled: false
+    enabled: true
     lab: 9
     topic: Ransomware kill switch and emergency network isolation
     placement: lab_intro
