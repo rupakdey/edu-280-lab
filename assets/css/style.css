@@ -667,3 +667,63 @@ p { margin:0 0 1rem; }
   max-width: none !important;
   width: 100%;
 }
+
+
+/* Reusable guide refinement: proportional screenshots + full-width topologies.
+   Both the width and height limits are applied; never force width/height
+   to fixed values, so the source aspect ratio and native detail are preserved. */
+:root {
+  --guide-image-max-height: 1490px;
+}
+.figure:not(.topology-figure) img,
+.reference-figure img,
+.media-grid .figure:not(.topology-figure) img,
+.sipa-flow-figure img,
+.concept-figure img,
+.zpa-concept-figure img,
+.access-example img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: min(var(--guide-image-max-height), 80vh) !important;
+  object-fit: contain;
+}
+/* A network topology is a technical diagram, not a typical UI screenshot.
+   Permit full guide width but never upscale raster diagrams. */
+.figure.topology-figure {
+  width: 100%;
+  max-width: 100%;
+}
+.figure.topology-figure > button {
+  width: fit-content !important;
+  max-width: 100% !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+.figure.topology-figure img {
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  margin: 0 auto;
+  object-fit: contain;
+}
+.resource-locator {
+  margin: 14px 0 19px;
+  padding: 14px 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  font-size: .89rem;
+}
+.resource-locator p { margin: 5px 0; }
+.resource-locator .search-hint { margin: 7px 0 3px; }
+.resource-locator .source-route-note { line-height: 1.5; }
+/* Credentials/access inventory immediately below source topology. */
+.vm-access-table { margin: 12px 0 20px; }
+.vm-access-table code { overflow-wrap: anywhere; }
+.vm-access-table-wrap { overflow-x: auto; }
+@media (max-width: 760px) {
+  .vm-access-table { font-size: .8rem; }
+}
