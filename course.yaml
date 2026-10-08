@@ -1,0 +1,21 @@
+# EDU-280 Zero Trust Branch web lab guide
+# Lab 0 (Lab Access) is a Getting Started checkpoint, not a numbered lab.
+# Labs 1–9 are counted below; Labs 7–9 are optional.
+course:
+  id: EDU-280
+  title: Zscaler Zero Trust Branch
+  subtitle: Unofficial Web Lab Guide
+  author: Rupak Dey
+
+labs:
+  count: 9
+  sdc_start: null
+
+environment:
+  dedicated_tenant: true
+  skytap: true
+
+design:
+  screenshot_max_page_fraction: 0.6667
+  allow_image_upscaling: false
+  current_navigation: true
