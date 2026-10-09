@@ -96,3 +96,14 @@
 - A technical-explainer heading and image caption **alone do not constitute an explainer**. A standard explainer must describe the mechanism, reason for the architecture/policy, and exactly how the upcoming lab tests it. Use a worked traffic example, comparison, sequence or decision model where appropriate.
 - Clearly distinguish a product-wide capability from the specific rule configured in the lab. In particular, /32 network-of-one endpoint isolation and a CIDR-based subnet Reject rule are related but not identical.
 - Use a concise course-specific navigation subtitle (for example, “ZTB Lab Guide”), while retaining the independent/unofficial notice in the Introduction and footer.
+
+
+## Concept-First Technical Context and Verified Navigation (Mandatory)
+
+- Treat a technical-explainer request as a **teaching requirement**, not a request for a diagram caption. Open with a plain-language definition of the technology/policy, then explain the operational problem it solves, its decision/enforcement mechanism, and its real-life consequences. Only after that map the concept to the exact lab task and its validation.
+- For `standard` and `detailed` explainers, use meaningful subsections (e.g., **What it is**, **Why it matters**, **How it works**, **How this lab demonstrates it**) and a worked example or comparison. An explainer that consists chiefly of exercise-specific settings does not satisfy the requirement.
+- For policies, distinguish **policy intent**, **matching criteria**, **action**, **enforcement point**, **operational tradeoffs**, and **what the test actually proves**. Do not conflate a DNS Override with Redirect or a routing policy with a firewall permit rule.
+- Documentation links and configuration breadcrumbs must be checked against the **relevant action and current product-specific article**, not merely an article about the same product. Write a **complete breadcrumb**, starting with the product root (e.g. **Zero Trust Branch → Resources → Objects**), rather than an abbreviated menu suffix. Link directly to the article used to verify the breadcrumb.
+- For each actionable navigation element, provide both the verified path and a **Search Menu** keyword. If documentation conflicts, prefer the newer article that explicitly states the full path; if still uncertain, label the path as potentially version-dependent instead of inventing certainty.
+- Perform a course-wide navigation audit before publication, including asset discovery, object management, site policy tabs, firewall policy screens, and routing policy screens; validate the page/document match, not just URL reachability.
+- Treat the source PDF as authoritative for exercise values and intended outcomes, while official help.zscaler.com material provides externally verified product background and navigation. Distinguish lab-specific observations from general product capabilities.

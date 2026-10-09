@@ -36,3 +36,11 @@
 - [ ] Explainers teach a mechanism and relate it to the exact lab traffic test; no empty “conceptual overview” caption substituting for explanation.
 - [ ] Product-wide behavior and actual lab-policy matches are not conflated; cite official documentation for product-specific claims.
 - [ ] Sidebar subtitle is course-specific; the unofficial learning-aid disclaimer remains visible.
+
+## Concept and Navigation Review
+
+- [ ] Each enabled technical explainer defines the feature and the operational problem it solves **before** discussing lab values.
+- [ ] Explainer covers mechanism, limits/tradeoffs, specific task purpose, and observable validation—not just a diagram caption.
+- [ ] All Zscaler navigation paths are complete, start at the product root, and match the linked current documentation article.
+- [ ] Every resource/policy task includes a Search Menu keyword; ambiguous version differences are disclosed.
+- [ ] No obsolete paths from the PDF are presented as current without verification.
