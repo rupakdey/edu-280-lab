@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="description"
+    content="Unofficial EDU-280 web lab guide — Lab 8: Troubleshoot and Debug Zero Trust Branch Environment"
+  >
+
+  <title>
+    Lab 8 — Troubleshoot and Debug Zero Trust Branch Environment | EDU-280
+  </title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="assets/images/shared/favicon.svg"
+  >
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    try {
+      const t = localStorage.getItem('edu280-theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+
+
+<body
+  data-page="lab-08"
+  data-course-id="EDU-280"
+  data-storage-prefix="edu280"
+>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Built by site.js -->
+<div id="course-nav"></div>
+
+
+<header class="topbar">
+
+  <div class="topbar-left">
+
+    <button
+      class="icon-btn mobile-menu"
+      data-menu-toggle
+      aria-label="Open course navigation"
+    >☰</button>
+
+    <div class="breadcrumb">
+      <a href="index.html">EDU-280</a>
+      /
+      <strong>Lab 8</strong>
+      /
+      Troubleshoot and Debug Zero Trust Branch Environment
+    </div>
+
+  </div>
+
+
+  <div class="topbar-actions">
+
+    <div class="global-search">
+
+      <input
+        id="global-search-input"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Search course"
+      >
+
+      <div
+        id="global-search-results"
+        class="global-search-results"
+      ></div>
+
+    </div>
+
+
+    <button
+      class="icon-btn"
+      data-theme-toggle
+      aria-label="Toggle dark or light mode"
+    >
+      <span data-theme-icon>☾</span>
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="main" id="main">
+<div class="content">
+
+
+  <!-- =========================================================
+       LAB HERO
+
+       Important:
+       The description must use the full available page width.
+       ========================================================= -->
+
+  <section class="lab-hero"><div><div class="eyebrow">Lab 8 · Optional · Hands-on</div><h1>Troubleshoot and Debug Zero Trust Branch Environment</h1><p>Use appliance console diagnostics to inspect interfaces, routes, VRRP, IPSec, and live ICMP traffic.</p><div class="lab-facts"><span class="fact"><strong>2 tasks</strong></span><span class="fact">Optional lab</span><span class="fact">~20 minutes</span><span class="fact">Assigned POD + Skytap</span></div></div></section>
+<section class="section"><div class="section-head stacked"><div class="eyebrow">Lab objectives</div><h2>What you will accomplish</h2></div><div class="card pad"><ul class="clean-list"><li>Verify interface, routing, and neighbour state in the ZTB console.</li><li>Inspect gateway services, VRRP, and IPSec state.</li><li>Generate and observe bounded ICMP traffic on GE6.</li></ul></div></section>
+<section class="section"><div class="section-head stacked"><div class="eyebrow">Diagnostic approach</div><h2>Work from link state to observed traffic</h2><p>A useful troubleshooting sequence checks whether the interface exists and is up, whether the route is correct, whether the next-hop neighbour is reachable, and finally whether the appliance sees the packets. ZTB’s console also exposes containerized services used for routing/HA and secure tunnels. These commands are read-only diagnostics in the training environment; do not change container settings.</p></div><div class="card pad"><table class="credentials settings-table"><thead><tr><th>Check</th><th>Question answered</th></tr></thead><tbody><tr><td><code>ip a</code></td><td>Is the interface up, and what addresses are assigned?</td></tr><tr><td><code>ip route</code></td><td>Which next-hop would the device use?</td></tr><tr><td><code>ip neighbour</code></td><td>Does it know the L2 neighbour/MAC for a next-hop?</td></tr><tr><td><code>docker ps</code>, VRRP, IPsec</td><td>Are service containers running and are HA/tunnel states healthy?</td></tr><tr><td><code>tcpdump</code></td><td>Do expected packets appear on the selected interface?</td></tr></tbody></table></div></section>
+<section class="task" id="task-8-1"><article class="card task-shell"><header class="task-head"><div class="task-num">8.1</div><div><h2>Inspect interfaces and routing</h2><p>Confirm the basics of gateway addressing, routing, and local resolution.</p></div><label class="task-complete"><input type="checkbox" data-task-check="8.1"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Zero Trust Branch → Deployments → Sites → [Site Name] → Console. <a href="https://help.zscaler.com/zero-trust-branch/adding-site" target="_blank" rel="noopener noreferrer">Managing Sites ↗</a> · <a href="https://help.zscaler.com/zero-trust-branch/using-zero-trust-branch-debug-console-for-troubleshooting" target="_blank" rel="noopener noreferrer">Using the Zero Trust Branch Debug Console ↗</a></p><div class="search-hint">Search menu → <strong>Sites / Console</strong></div><p class="source-route-note">If your interface differs, search for the feature rather than following older PDF screenshots.</p></div><ol class="steps"><li><div class="step-content">Navigate to your ZTB site, <strong>Zero Trust Branch → Deployments → Sites → [Site Name] → Console</strong>. Select the active appliance/console for your POD.<figure class="figure"><button type="button" data-lightbox data-caption="Open the ZTB site Console tab"><img loading="lazy" src="assets/images/course/lab8-source-p213.jpg" alt="Open the ZTB site Console tab"></button><figcaption>Open the ZTB site Console tab <span class="source-page">(Source guide p. 213; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Run <span class="inline-value"><code class="value">ip a</code> <button type="button" class="copy-btn" data-copy="ip a" aria-label="Copy ip a">Copy</button></span> and identify the assigned IP addresses and operational state of GE interfaces.<figure class="figure"><button type="button" data-lightbox data-caption="Interface addresses and state from ip a"><img loading="lazy" src="assets/images/course/lab8-source-p214.jpg" alt="Interface addresses and state from ip a"></button><figcaption>Interface addresses and state from ip a <span class="source-page">(Source guide p. 214; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Run <span class="inline-value"><code class="value">ip route</code> <button type="button" class="copy-btn" data-copy="ip route" aria-label="Copy ip route">Copy</button></span> to inspect gateway routes, default route, and nexthop selection.<figure class="figure"><button type="button" data-lightbox data-caption="Routing table in the ZTB console"><img loading="lazy" src="assets/images/course/lab8-source-p215.jpg" alt="Routing table in the ZTB console"></button><figcaption>Routing table in the ZTB console <span class="source-page">(Source guide p. 215; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Run <span class="inline-value"><code class="value">ip neighbour</code> <button type="button" class="copy-btn" data-copy="ip neighbour" aria-label="Copy ip neighbour">Copy</button></span> (or <code>ip neighbor</code>) and inspect IP-to-MAC mapping and neighbour state.<figure class="figure"><button type="button" data-lightbox data-caption="Neighbour and ARP records"><img loading="lazy" src="assets/images/course/lab8-source-p216.jpg" alt="Neighbour and ARP records"></button><figcaption>Neighbour and ARP records <span class="source-page">(Source guide p. 216; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Run <span class="inline-value"><code class="value">cat /etc/airgap/zcc/fqdn.txt</code> <button type="button" class="copy-btn" data-copy="cat /etc/airgap/zcc/fqdn.txt" aria-label="Copy cat /etc/airgap/zcc/fqdn.txt">Copy</button></span> and verify that the source lab FQDN <code>dcweb.ztwan.lab</code> appears in the mapping output.<figure class="figure"><button type="button" data-lightbox data-caption="Application hostname mapping in the diagnostic file"><img loading="lazy" src="assets/images/course/lab8-source-p217.jpg" alt="Application hostname mapping in the diagnostic file"></button><figcaption>Application hostname mapping in the diagnostic file <span class="source-page">(Source guide p. 217; UI labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected Result</div><p>The console displays interface addresses/routes/neighbours and the expected source-lab application hostname mapping.</p></div></div></div></article></section><section class="task" id="task-8-2"><article class="card task-shell"><header class="task-head"><div class="task-num">8.2</div><div><h2>Inspect gateway services and capture traffic</h2><p>Use container status and bounded packet capture to isolate data-plane issues.</p></div><label class="task-complete"><input type="checkbox" data-task-check="8.2"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Zero Trust Branch → Deployments → Sites → [Site Name] → Console. <a href="https://help.zscaler.com/zero-trust-branch/using-zero-trust-branch-debug-console-for-troubleshooting" target="_blank" rel="noopener noreferrer">Using the Zero Trust Branch Debug Console ↗</a></p><div class="search-hint">Search menu → <strong>ZTB Debug Console</strong></div><p class="source-route-note">If your interface differs, search for the feature rather than following older PDF screenshots.</p></div><div class="callout info"><div class="callout-symbol">i</div><div><div class="callout-title">Bound packet captures</div><p>Always use a finite packet-count option such as <code>-c 20</code>. Zscaler documentation warns against unbounded <code>tcpdump</code> execution in the console.</p></div></div><ol class="steps"><li><div class="step-content">In the same console, run <span class="inline-value"><code class="value">docker ps</code> <button type="button" class="copy-btn" data-copy="docker ps" aria-label="Copy docker ps">Copy</button></span> to list running services and identify the container names available in your image.<figure class="figure"><button type="button" data-lightbox data-caption="Docker process and appliance service status"><img loading="lazy" src="assets/images/course/lab8-source-p218.jpg" alt="Docker process and appliance service status"></button><figcaption>Docker process and appliance service status <span class="source-page">(Source guide p. 218; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Run the source-guide VRRP command <span class="inline-value"><code class="value">docker exec vyos_container su - vyos sh -c &quot;sudo /opt/vyatta/bin/vyatta-op-cmd-wrapper show vrrp&quot;</code> <button type="button" class="copy-btn" data-copy="docker exec vyos_container su - vyos sh -c &quot;sudo /opt/vyatta/bin/vyatta-op-cmd-wrapper show vrrp&quot;" aria-label="Copy docker exec vyos_container su - vyos sh -c &quot;sudo /opt/vyatta/bin/vyatta-op-cmd-wrapper show vrrp&quot;">Copy</button></span> to inspect the active/standby state. If this command is unsupported on your appliance image, use the current commands documented by Zscaler for your console version.<figure class="figure"><button type="button" data-lightbox data-caption="Inspect VRRP operational state"><img loading="lazy" src="assets/images/course/lab8-source-p218-detail2.jpg" alt="Inspect VRRP operational state"></button><figcaption>Inspect VRRP operational state <span class="source-page">(Source guide p. 218; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Run <span class="inline-value"><code class="value">docker exec strongswan ipsec status</code> <button type="button" class="copy-btn" data-copy="docker exec strongswan ipsec status" aria-label="Copy docker exec strongswan ipsec status">Copy</button></span> to view IPSec connection and tunnel states in the source lab image. Container names/commands can vary by software version; do not interpret a missing container as proof of tunnel failure without checking version-specific documentation.<figure class="figure"><button type="button" data-lightbox data-caption="Inspect IPSec session status"><img loading="lazy" src="assets/images/course/lab8-source-p219.jpg" alt="Inspect IPSec session status"></button><figcaption>Inspect IPSec session status <span class="source-page">(Source guide p. 219; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">In Skytap, open the <strong>Windows Server (Subnet10)</strong> VM.<figure class="figure"><button type="button" data-lightbox data-caption="Open the Windows Server VM in Skytap"><img loading="lazy" src="assets/images/course/lab8-source-p220.jpg" alt="Open the Windows Server VM in Skytap"></button><figcaption>Open the Windows Server VM in Skytap <span class="source-page">(Source guide p. 220; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">From Windows Command Prompt, generate continuous test traffic using <span class="inline-value"><code class="value">ping 8.8.8.8 -t</code> <button type="button" class="copy-btn" data-copy="ping 8.8.8.8 -t" aria-label="Copy ping 8.8.8.8 -t">Copy</button></span>. Leave it running temporarily.<figure class="figure"><button type="button" data-lightbox data-caption="Continuous ICMP traffic generated by the Windows endpoint"><img loading="lazy" src="assets/images/course/lab8-source-p221.jpg" alt="Continuous ICMP traffic generated by the Windows endpoint"></button><figcaption>Continuous ICMP traffic generated by the Windows endpoint <span class="source-page">(Source guide p. 221; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Back in the ZTB Console, capture a bounded sample with <span class="inline-value"><code class="value">tcpdump -i ge6 icmp -c 20</code> <button type="button" class="copy-btn" data-copy="tcpdump -i ge6 icmp -c 20" aria-label="Copy tcpdump -i ge6 icmp -c 20">Copy</button></span>. Check for ICMP requests/replies on the <strong>GE6</strong> interface associated with Subnet10. Stop Windows ping with <strong>Ctrl+C</strong> afterwards.<figure class="figure"><button type="button" data-lightbox data-caption="Bounded ICMP capture on the GE6 LAN interface"><img loading="lazy" src="assets/images/course/lab8-source-p222.jpg" alt="Bounded ICMP capture on the GE6 LAN interface"></button><figcaption>Bounded ICMP capture on the GE6 LAN interface <span class="source-page">(Source guide p. 222; UI labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected Result</div><p>The appropriate running services and protocol states are visible when present; the GE6 capture records the generated ICMP packets if traffic uses that path.</p></div></div></div></article></section>
+  <div class="callout success"><div class="callout-symbol">✓</div><div><div class="callout-title">Lab 8 complete · Optional</div><p>You have completed the optional exercises in <strong>Lab 8</strong>. Review the Expected Result blocks before moving on.</p></div></div>
+<div class="page-nav"><a href="lab-07.html"><small>Previous</small><strong>← Lab 7</strong></a><a class="next" href="lab-09.html"><small>Next</small><strong>Lab 9 →</strong></a></div>
+  <footer class="footer">
+
+    <span>
+      Unofficial EDU-280 web edition · Author: Rupak Dey
+    </span>
+
+    <span>
+      Adapted from EDU-280 Hands-on Lab Guide, Rev. 2.3 (Aug 2026)
+    </span>
+
+  </footer>
+
+</div>
+</main>
+
+
+<a
+  class="floating-logo"
+  href="#main"
+  aria-label="Back to top"
+>
+  <img
+    src="assets/images/shared/zscaler-logo.svg"
+    alt="Zscaler"
+  >
+</a>
+
+
+<dialog class="modal" id="image-modal">
+
+  <img alt="Expanded lab screenshot">
+
+  <div class="modal-bar">
+
+    <span data-modal-caption></span>
+
+    <button
+      class="modal-close"
+      data-modal-close
+    >
+      Close
+    </button>
+
+  </div>
+
+</dialog>
+
+
+<!-- Course data must load before the reusable site behavior. -->
+<script src="assets/js/course-data.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+
+</body>
+</html>

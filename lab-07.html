@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="description"
+    content="Unofficial EDU-280 web lab guide — Lab 7: Logs and Monitoring"
+  >
+
+  <title>
+    Lab 7 — Logs and Monitoring | EDU-280
+  </title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="assets/images/shared/favicon.svg"
+  >
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    try {
+      const t = localStorage.getItem('edu280-theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+
+
+<body
+  data-page="lab-07"
+  data-course-id="EDU-280"
+  data-storage-prefix="edu280"
+>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Built by site.js -->
+<div id="course-nav"></div>
+
+
+<header class="topbar">
+
+  <div class="topbar-left">
+
+    <button
+      class="icon-btn mobile-menu"
+      data-menu-toggle
+      aria-label="Open course navigation"
+    >☰</button>
+
+    <div class="breadcrumb">
+      <a href="index.html">EDU-280</a>
+      /
+      <strong>Lab 7</strong>
+      /
+      Logs and Monitoring
+    </div>
+
+  </div>
+
+
+  <div class="topbar-actions">
+
+    <div class="global-search">
+
+      <input
+        id="global-search-input"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Search course"
+      >
+
+      <div
+        id="global-search-results"
+        class="global-search-results"
+      ></div>
+
+    </div>
+
+
+    <button
+      class="icon-btn"
+      data-theme-toggle
+      aria-label="Toggle dark or light mode"
+    >
+      <span data-theme-icon>☾</span>
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="main" id="main">
+<div class="content">
+
+
+  <!-- =========================================================
+       LAB HERO
+
+       Important:
+       The description must use the full available page width.
+       ========================================================= -->
+
+  <section class="lab-hero"><div><div class="eyebrow">Lab 7 · Optional · Hands-on</div><h1>Logs and Monitoring</h1><p>Examine Packet Logs, Flow Logs, site alarms, and ZIA Web Insights for the assigned POD.</p><div class="lab-facts"><span class="fact"><strong>4 tasks</strong></span><span class="fact">Optional lab</span><span class="fact">~15 minutes</span><span class="fact">Assigned POD + Skytap</span></div></div></section>
+<section class="section"><div class="section-head stacked"><div class="eyebrow">Lab objectives</div><h2>What you will accomplish</h2></div><div class="card pad"><ul class="clean-list"><li>Filter Packet and Flow Logs for your POD and inspect event details.</li><li>Examine Zero Trust Branch alarms and severity categories.</li><li>Run a location-scoped Web Insights log query.</li></ul></div></section>
+<section class="section"><div class="section-head stacked"><div class="eyebrow">Operational context</div><h2>Why examine several kinds of logs?</h2><p>Packets and sessions, platform alarms, and web transactions answer different questions. A traffic record helps establish whether a connection traversed the branch and what policy applied. Alarms signal operational conditions. Web Insights provides a view of web traffic processed through the Internet &amp; SaaS service. Match each source to the question you are investigating; no single log proves every aspect of a request.</p></div><div class="card pad"><table class="credentials settings-table"><thead><tr><th>View</th><th>Use it to investigate</th></tr></thead><tbody><tr><td>Packet Logs</td><td>Traffic/policy details and the individual matching records exposed by the portal</td></tr><tr><td>Flow Logs</td><td>Flow/session-level traffic history over a selected time range</td></tr><tr><td>Alarms</td><td>Appliance/site health or other alert conditions by severity</td></tr><tr><td>Web Insights</td><td>Web transactions associated with the assigned POD location</td></tr></tbody></table></div></section>
+<section class="task" id="task-7-1"><article class="card task-shell"><header class="task-head"><div class="task-num">7.1</div><div><h2>View packet logs</h2><p>Filter ZTB traffic events for your POD and inspect a matching record.</p></div><label class="task-complete"><input type="checkbox" data-task-check="7.1"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Logs → Insights → Packet Logs. <a href="https://help.zscaler.com/zero-trust-branch/configuring-siem-integration" target="_blank" rel="noopener noreferrer">Configuring SIEM Integration (packet/flow log paths) ↗</a> · <a href="https://help.zscaler.com/zero-trust-branch/understanding-logging-and-monitoring" target="_blank" rel="noopener noreferrer">Understanding Logging and Monitoring ↗</a></p><div class="search-hint">Search menu → <strong>Packet Logs</strong></div><p class="source-route-note">If your interface differs, search for the feature rather than following older PDF screenshots.</p></div><ol class="steps"><li><div class="step-content">Open <strong>Logs → Insights → Packet Logs</strong> in Experience Center. Use the calendar to select the <strong>last 3 hours</strong> and apply the timeframe.<figure class="figure"><button type="button" data-lightbox data-caption="Packet Logs and timeframe controls"><img loading="lazy" src="assets/images/course/lab7-source-p195.jpg" alt="Packet Logs and timeframe controls"></button><figcaption>Packet Logs and timeframe controls <span class="source-page">(Source guide p. 195; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Add a filter: <strong>Field:</strong> Policy; <strong>Operator:</strong> is; <strong>Value:</strong> your assigned POD identifier, such as <span class="inline-value"><code class="value">pod01</code> <button type="button" class="copy-btn" data-copy="pod01" aria-label="Copy pod01">Copy</button></span>. Add the filter.<figure class="figure"><button type="button" data-lightbox data-caption="Filter Packet Logs by the assigned POD policy"><img loading="lazy" src="assets/images/course/lab7-source-p196.jpg" alt="Filter Packet Logs by the assigned POD policy"></button><figcaption>Filter Packet Logs by the assigned POD policy <span class="source-page">(Source guide p. 196; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Open any matching record with the detail/expand control. Review the fields in the table or JSON detail view; identify the applicable policy and traffic information shown.<figure class="figure"><button type="button" data-lightbox data-caption="Inspect an individual packet-log event and its details"><img loading="lazy" src="assets/images/course/lab7-source-p197.jpg" alt="Inspect an individual packet-log event and its details"></button><figcaption>Inspect an individual packet-log event and its details <span class="source-page">(Source guide p. 197; UI labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected Result</div><p>The Packet Logs view shows matching events for the selected window/POD; opening a record exposes useful traffic or policy fields.</p></div></div></div></article></section><section class="task" id="task-7-2"><article class="card task-shell"><header class="task-head"><div class="task-num">7.2</div><div><h2>View flow logs</h2><p>Compare flow-level events to the packet-log evidence.</p></div><label class="task-complete"><input type="checkbox" data-task-check="7.2"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Logs → Insights → Flow Logs. <a href="https://help.zscaler.com/zero-trust-branch/configuring-siem-integration" target="_blank" rel="noopener noreferrer">Configuring SIEM Integration (packet/flow log paths) ↗</a> · <a href="https://help.zscaler.com/zero-trust-branch/understanding-logging-and-monitoring" target="_blank" rel="noopener noreferrer">Understanding Logging and Monitoring ↗</a></p><div class="search-hint">Search menu → <strong>Flow Logs</strong></div><p class="source-route-note">If your interface differs, search for the feature rather than following older PDF screenshots.</p></div><div class="callout info"><div class="callout-symbol">i</div><div><div class="callout-title">Private/Incognito browser limitation</div><p>The source guide notes that third-party cookie restrictions in private/incognito mode can prevent Packet Logs and Flow Logs from loading. Use a normal browser session or adjust site cookie permissions if permitted by your lab policy.</p></div></div><ol class="steps"><li><div class="step-content">Open <strong>Logs → Insights → Flow Logs</strong>. Set the timeframe to <strong>last 3 hours</strong> and apply it.<figure class="figure"><button type="button" data-lightbox data-caption="Flow Logs screen and timeframe selector"><img loading="lazy" src="assets/images/course/lab7-source-p199.jpg" alt="Flow Logs screen and timeframe selector"></button><figcaption>Flow Logs screen and timeframe selector <span class="source-page">(Source guide p. 199; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Add the same policy filter: <strong>Policy → is →</strong> your POD identifier, such as <span class="inline-value"><code class="value">pod01</code> <button type="button" class="copy-btn" data-copy="pod01" aria-label="Copy pod01">Copy</button></span>. Apply the filter.<figure class="figure"><button type="button" data-lightbox data-caption="Use the POD policy filter for Flow Logs"><img loading="lazy" src="assets/images/course/lab7-source-p200.jpg" alt="Use the POD policy filter for Flow Logs"></button><figcaption>Use the POD policy filter for Flow Logs <span class="source-page">(Source guide p. 200; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Open a matching flow entry and inspect its metadata; compare source/destination and policy with what you observed in Packet Logs.<figure class="figure"><button type="button" data-lightbox data-caption="Flow Log entries and drill-down control"><img loading="lazy" src="assets/images/course/lab7-source-p201.jpg" alt="Flow Log entries and drill-down control"></button><figcaption>Flow Log entries and drill-down control <span class="source-page">(Source guide p. 201; UI labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected Result</div><p>Flow Logs displays POD-scoped records and permits drill-down to detailed flow information.</p></div></div></div></article></section><section class="task" id="task-7-3"><article class="card task-shell"><header class="task-head"><div class="task-num">7.3</div><div><h2>Review Zero Trust Branch alarms</h2><p>Inspect alert severity and determine whether warnings are present.</p></div><label class="task-complete"><input type="checkbox" data-task-check="7.3"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Navigation:</strong> Search Menu. <a href="https://help.zscaler.com/zero-trust-branch/understanding-alarms-and-notifications" target="_blank" rel="noopener noreferrer">Understanding Alarms and Notifications ↗</a></p><div class="search-hint">Search menu → <strong>Zero Trust Branch Alarms</strong></div><p class="source-route-note">The specific new-navigation breadcrumb could not be verified independently; the older source PDF path is noted in the steps for orientation.</p></div><ol class="steps"><li><div class="step-content">In Experience Center, search for <strong>Alarms</strong> under Zero Trust Branch. The source PDF uses the older path <em>Administration → Alerts → Zero Trust Branch → Alarms</em>. Open the alarms list for your assigned environment.<figure class="figure"><button type="button" data-lightbox data-caption="Zero Trust Branch alarm list"><img loading="lazy" src="assets/images/course/lab7-source-p204.jpg" alt="Zero Trust Branch alarm list"></button><figcaption>Zero Trust Branch alarm list <span class="source-page">(Source guide p. 204; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Filter by <strong>Warning</strong> to inspect informational health or event conditions. Other supported severity options may include Emergency, Alert, Critical, Error, Notice, Informational, and Debug; available labels depend on the tenant.<figure class="figure"><button type="button" data-lightbox data-caption="Alarm severity filtering"><img loading="lazy" src="assets/images/course/lab7-source-p205.jpg" alt="Alarm severity filtering"></button><figcaption>Alarm severity filtering <span class="source-page">(Source guide p. 205; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">If no alarms appear, review the timeframe, severity selection, site/POD scope, and whether the environment currently has any matching conditions. An empty list alone is not a failure.</div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected Result</div><p>The alarms view loads, severity filtering works, and matching warnings are visible if the environment has generated them.</p></div></div></div></article></section><section class="task" id="task-7-4"><article class="card task-shell"><header class="task-head"><div class="task-num">7.4</div><div><h2>Query POD web logs in Experience Center</h2><p>Locate web activity associated with the assigned POD.</p></div><label class="task-complete"><input type="checkbox" data-task-check="7.4"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Logs → Insights → Web Insights → Logs. <a href="https://help.zscaler.com/zia/about-insights" target="_blank" rel="noopener noreferrer">About Insights (Web Insights path) ↗</a></p><div class="search-hint">Search menu → <strong>Web Insights</strong></div><p class="source-route-note">The source uses a User filter to select a POD location. Prefer a dedicated Location filter if that is how your current tenant lists the POD.</p></div><ol class="steps"><li><div class="step-content">Go to <strong>Logs → Insights → Web Insights</strong>, then choose the <strong>Logs</strong> tab.<figure class="figure"><button type="button" data-lightbox data-caption="Web Insights entry point"><img loading="lazy" src="assets/images/course/lab7-source-p206.jpg" alt="Web Insights entry point"></button><figcaption>Web Insights entry point <span class="source-page">(Source guide p. 206; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Click <strong>Add Filter</strong> and search for the <strong>User</strong> filter (as in the source guide).<figure class="figure"><button type="button" data-lightbox data-caption="Web Insights Logs filter selection"><img loading="lazy" src="assets/images/course/lab7-source-p207.jpg" alt="Web Insights Logs filter selection"></button><figcaption>Web Insights Logs filter selection <span class="source-page">(Source guide p. 207; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Choose the assigned POD location in the filter picker (for example <code>pod01-student-location</code>) and confirm your selection. The source screenshots use the User filter; if the location appears separately in the current interface, use the <strong>Location</strong> filter for the POD instead.<figure class="figure"><button type="button" data-lightbox data-caption="Select the assigned POD location from available filter values"><img loading="lazy" src="assets/images/course/lab7-source-p208.jpg" alt="Select the assigned POD location from available filter values"></button><figcaption>Select the assigned POD location from available filter values <span class="source-page">(Source guide p. 208; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Click <strong>Run Query</strong>; inspect the returned events and scroll horizontally to view additional columns.<figure class="figure"><button type="button" data-lightbox data-caption="Run the Web Insights log query"><img loading="lazy" src="assets/images/course/lab7-source-p209.jpg" alt="Run the Web Insights log query"></button><figcaption>Run the Web Insights log query <span class="source-page">(Source guide p. 209; UI labels may differ.)</span></figcaption></figure><figure class="figure"><button type="button" data-lightbox data-caption="Example returned web-log events"><img loading="lazy" src="assets/images/course/lab7-source-p210.jpg" alt="Example returned web-log events"></button><figcaption>Example returned web-log events <span class="source-page">(Source guide p. 210; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Optionally switch to <strong>Insights</strong> and apply the same appropriate POD/location scope to explore aggregate trends.<figure class="figure"><button type="button" data-lightbox data-caption="Web Insights aggregated view"><img loading="lazy" src="assets/images/course/lab7-source-p211.jpg" alt="Web Insights aggregated view"></button><figcaption>Web Insights aggregated view <span class="source-page">(Source guide p. 211; UI labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected Result</div><p>Web Insights Logs returns matching web transactions when traffic is present in the chosen timeframe; filters reflect the intended POD scope.</p></div></div></div></article></section>
+  <div class="callout success"><div class="callout-symbol">✓</div><div><div class="callout-title">Lab 7 complete · Optional</div><p>You have completed the optional exercises in <strong>Lab 7</strong>. Review the Expected Result blocks before moving on.</p></div></div>
+<div class="page-nav"><a href="lab-06.html"><small>Previous</small><strong>← Lab 6</strong></a><a class="next" href="lab-08.html"><small>Next</small><strong>Lab 8 →</strong></a></div>
+  <footer class="footer">
+
+    <span>
+      Unofficial EDU-280 web edition · Author: Rupak Dey
+    </span>
+
+    <span>
+      Adapted from EDU-280 Hands-on Lab Guide, Rev. 2.3 (Aug 2026)
+    </span>
+
+  </footer>
+
+</div>
+</main>
+
+
+<a
+  class="floating-logo"
+  href="#main"
+  aria-label="Back to top"
+>
+  <img
+    src="assets/images/shared/zscaler-logo.svg"
+    alt="Zscaler"
+  >
+</a>
+
+
+<dialog class="modal" id="image-modal">
+
+  <img alt="Expanded lab screenshot">
+
+  <div class="modal-bar">
+
+    <span data-modal-caption></span>
+
+    <button
+      class="modal-close"
+      data-modal-close
+    >
+      Close
+    </button>
+
+  </div>
+
+</dialog>
+
+
+<!-- Course data must load before the reusable site behavior. -->
+<script src="assets/js/course-data.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+
+</body>
+</html>

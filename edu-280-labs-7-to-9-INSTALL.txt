@@ -1,0 +1,16 @@
+EDU-280 — Optional Labs 7–9 (Rev 2.3 source)
+
+Target: edu-280-web-lab-guide-v2 / pilot-intro-lab1
+
+Extract this ZIP and copy the contents of its repository-root layout into your existing repository.
+Preserve the assets/js and assets/images/course folders.
+Replace index.html, lab-06.html and assets/js/course-data.js.
+Add lab-07.html, lab-08.html, lab-09.html, LABS_7_TO_9_BUILD_NOTES.md and the new screenshot/diagram files.
+
+Do NOT delete or replace your existing Labs 1–5, CSS, shared JS or validator.
+Do NOT publish source screenshots outside a licensed/authorized environment.
+
+After committing, run Actions -> Validate Lab Guide.
+
+QA performed: local validator 0 errors / 0 warnings, JavaScript syntax, relative-file references, SVG well-formedness.
+A full visual browser test was not possible in this runtime (browser navigation blocked).

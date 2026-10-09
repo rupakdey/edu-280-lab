@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="description"
+    content="Unofficial EDU-280 web lab guide — Lab 9: Configure Ransomware Kill Switch Policy"
+  >
+
+  <title>
+    Lab 9 — Configure Ransomware Kill Switch Policy | EDU-280
+  </title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="assets/images/shared/favicon.svg"
+  >
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    try {
+      const t = localStorage.getItem('edu280-theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+
+
+<body
+  data-page="lab-09"
+  data-course-id="EDU-280"
+  data-storage-prefix="edu280"
+>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Built by site.js -->
+<div id="course-nav"></div>
+
+
+<header class="topbar">
+
+  <div class="topbar-left">
+
+    <button
+      class="icon-btn mobile-menu"
+      data-menu-toggle
+      aria-label="Open course navigation"
+    >☰</button>
+
+    <div class="breadcrumb">
+      <a href="index.html">EDU-280</a>
+      /
+      <strong>Lab 9</strong>
+      /
+      Configure Ransomware Kill Switch Policy
+    </div>
+
+  </div>
+
+
+  <div class="topbar-actions">
+
+    <div class="global-search">
+
+      <input
+        id="global-search-input"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Search course"
+      >
+
+      <div
+        id="global-search-results"
+        class="global-search-results"
+      ></div>
+
+    </div>
+
+
+    <button
+      class="icon-btn"
+      data-theme-toggle
+      aria-label="Toggle dark or light mode"
+    >
+      <span data-theme-icon>☾</span>
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="main" id="main">
+<div class="content">
+
+
+  <!-- =========================================================
+       LAB HERO
+
+       Important:
+       The description must use the full available page width.
+       ========================================================= -->
+
+  <section class="lab-hero"><div><div class="eyebrow">Lab 9 · Optional · Hands-on</div><h1>Configure Ransomware Kill Switch Policy</h1><p>Stage Green/Orange SSH rules, test incident-response containment, then restore normal mode.</p><div class="lab-facts"><span class="fact"><strong>3 tasks</strong></span><span class="fact">Optional lab</span><span class="fact">~25 minutes</span><span class="fact">Assigned POD + Skytap</span></div></div></section>
+<section class="section"><div class="section-head stacked"><div class="eyebrow">Lab objectives</div><h2>What you will accomplish</h2></div><div class="card pad"><ul class="clean-list"><li>Create and validate a Green-mode SSH Accept policy.</li><li>Clone an Orange-mode Reject policy and set its order.</li><li>Activate Orange, demonstrate SSH blocking, check hits, and return to Green.</li></ul></div></section>
+<section class="section technical-explainer" id="ransomware-kill-switch-context"><div class="section-head stacked"><div class="eyebrow">Technical context · Incident containment</div><h2>What is a ransomware Kill Switch and why use one?</h2><p>A ransomware outbreak can spread when compromised systems can reach additional devices over remote administration or file-sharing protocols. Waiting to edit dozens of firewall rules individually can delay containment. Zero Trust Branch's <strong>Ransomware Kill Switch</strong> provides a rapid, site-scoped mechanism for changing which preconfigured security policies are enforced at a selected threat level.</p></div><div class="card pad explainer-body"><h3>Why severity modes are useful</h3><p>A normal operating posture may permit administrative connections needed for maintenance. During an incident, security teams may want to reduce lateral movement quickly while preserving approved essential services. ZTB uses severity <strong>Green → Yellow → Orange → Red</strong>, from lowest to critical risk. Rules can be associated with a severity level in advance, allowing a deliberate response when an incident threshold is reached. Switching modes is an <strong>operational security action</strong>, not simply a cosmetic status change.</p><h3>How does enforcement work?</h3><p>Each firewall policy has its matching criteria: zones, source and destination objects, and protocol/port. A policy can additionally be associated with a Kill Switch color. The site’s selected Kill Switch level changes which corresponding rules are effective. Rule ordering still matters within the applicable policy evaluation; a test must examine both <em>current mode</em> and <em>policy match/order</em> rather than assume every rule is universally active.</p><p>For this lab, an <strong>Accept</strong> SSH policy is associated with <strong>Green</strong> and a cloned <strong>Reject</strong> SSH policy with <strong>Orange</strong>. Both match LAN_ZONE to LAN_ZONE, <em>Network → Private Subnets</em> for source/destination, and TCP port 22. These object selections are broader than “only Windows Server to OT1”; they can match other qualifying private-subnet SSH flows. In production, tighten source and destination scopes to the workloads and business needs.</p><figure class="figure topology-figure"><button type="button" data-lightbox data-caption="Kill Switch mode changes effective segmentation policy for SSH"><img loading="lazy" src="assets/images/course/lab09-kill-switch.svg" alt="Green mode permits the matching SSH flow; Orange mode activates the preconfigured Reject rule across the same match"></button><figcaption>Conceptual mode transition. The rule match in this lab uses LAN zones and private-subnet objects, not an endpoint-specific pair.</figcaption></figure><h3>What the learner should prove</h3><p>First, an SSH connection from the Windows Server in Subnet10 to <code>10.1.30.10</code> in Subnet30 succeeds while Green mode is active. Next, after installing the Orange Reject rule and changing the site to Orange, the same SSH attempt should fail and the matching block-policy hit count should increase. The source guide illustrates “connection refused”; the exact client-side symptom can vary by action and network conditions.</p><p><strong>Containment is not remediation.</strong> A Kill Switch cannot remove malware or replace investigation, endpoint isolation, restoration, and incident-response procedures. In the training environment, return the site to <strong>Green</strong> after validation so later activities are not unexpectedly disrupted.</p><p class="source-route-note"><strong>Official references:</strong> <a href="https://help.zscaler.com/zero-trust-branch/understanding-ransomware-kill-switch" target="_blank" rel="noopener noreferrer">Understanding the Ransomware Kill Switch</a> · <a href="https://help.zscaler.com/zero-trust-branch/configuring-ransomware-kill-switch-site" target="_blank" rel="noopener noreferrer">Configuring the Ransomware Kill Switch for a Site</a> · <a href="https://help.zscaler.com/zero-trust-branch/configuring-firewall-policies" target="_blank" rel="noopener noreferrer">Configuring Firewall Policies</a>.</p></div></section>
+<section class="task" id="task-9-1"><article class="card task-shell"><header class="task-head"><div class="task-num">9.1</div><div><h2>Create and validate Green-mode SSH access</h2><p>Install a preconfigured Allow rule and establish the baseline SSH session.</p></div><label class="task-complete"><input type="checkbox" data-task-check="9.1"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Firewall → Policies → Site Policies → Configure. <a href="https://help.zscaler.com/zero-trust-branch/configuring-firewall-policies" target="_blank" rel="noopener noreferrer">Configuring Firewall Policies ↗</a></p><div class="search-hint">Search menu → <strong>Firewall Policies</strong></div><p class="source-route-note">The source PDF shows a site-specific Policies tab under an older Sites path. The official Configuring Firewall Policies article documents the Site Policies scope; use the equivalent view in your tenant.</p></div><ol class="steps"><li><div class="step-content">Open the <strong>Site Policies</strong> view under <strong>Firewall → Policies</strong> and select the policy scope for <span class="inline-value"><code class="value">POD##-Student-Lab</code> <button type="button" class="copy-btn" data-copy="POD##-Student-Lab" aria-label="Copy POD##-Student-Lab">Copy</button></span>. Choose <strong>Configure → Add Policy</strong>. If the live tenant exposes policies within the site detail page, use that verified equivalent.<figure class="figure"><button type="button" data-lightbox data-caption="Locate the assigned ZTB site"><img loading="lazy" src="assets/images/course/lab9-source-p225.jpg" alt="Locate the assigned ZTB site"></button><figcaption>Locate the assigned ZTB site <span class="source-page">(Source guide p. 225; UI labels may differ.)</span></figcaption></figure><figure class="figure"><button type="button" data-lightbox data-caption="Open site policy configuration and Add Policy"><img loading="lazy" src="assets/images/course/lab9-source-p226-detail2.jpg" alt="Open site policy configuration and Add Policy"></button><figcaption>Open site policy configuration and Add Policy <span class="source-page">(Source guide p. 226; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Enter the following policy configuration, replacing <code>##</code> with your POD number:<table class="credentials settings-table"><thead><tr><th>Setting</th><th>Value</th></tr></thead><tbody><tr><td>Action</td><td><strong>Accept</strong></td></tr><tr><td>Name</td><td><span class="inline-value"><code class="value">POD##-Allow-ssh</code> <button type="button" class="copy-btn" data-copy="POD##-Allow-ssh" aria-label="Copy POD##-Allow-ssh">Copy</button></span></td></tr><tr><td>Source Zone</td><td>LAN_ZONE | LAN Zone</td></tr><tr><td>Destination Zone</td><td>LAN_ZONE | LAN Zone</td></tr><tr><td>Source</td><td>Network → Private Subnets</td></tr><tr><td>Destination</td><td>Network → Private Subnets</td></tr><tr><td>Ports</td><td>Custom Port → tcp:22 (SSH)</td></tr><tr><td>Ransomware Kill Switch</td><td>Green</td></tr></tbody></table><figure class="figure"><button type="button" data-lightbox data-caption="Green-mode SSH Accept policy configuration"><img loading="lazy" src="assets/images/course/lab9-source-p227.jpg" alt="Green-mode SSH Accept policy configuration"></button><figcaption>Green-mode SSH Accept policy configuration <span class="source-page">(Source guide p. 227; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Click <strong>Add</strong>, then <strong>Commit</strong> to activate the new policy.<figure class="figure"><button type="button" data-lightbox data-caption="Commit the Green-mode SSH Allow policy"><img loading="lazy" src="assets/images/course/lab9-source-p228.jpg" alt="Commit the Green-mode SSH Allow policy"></button><figcaption>Commit the Green-mode SSH Allow policy <span class="source-page">(Source guide p. 228; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">On the <strong>Windows Server (Subnet10)</strong> Skytap VM, open Command Prompt and run <span class="inline-value"><code class="value">ssh zscaler@10.1.30.10</code> <button type="button" class="copy-btn" data-copy="ssh zscaler@10.1.30.10" aria-label="Copy ssh zscaler@10.1.30.10">Copy</button></span>. Enter the training-host password <span class="inline-value"><code class="value">Zscaler123!</code> <button type="button" class="copy-btn" data-copy="Zscaler123!" aria-label="Copy Zscaler123!">Copy</button></span> when prompted; if it asks to trust the SSH host key, verify you are connecting to the lab host and enter <code>yes</code>. Exit the SSH session after successful login.<figure class="figure"><button type="button" data-lightbox data-caption="SSH from the Windows Server to the OT subnet target"><img loading="lazy" src="assets/images/course/lab9-source-p229.jpg" alt="SSH from the Windows Server to the OT subnet target"></button><figcaption>SSH from the Windows Server to the OT subnet target <span class="source-page">(Source guide p. 229; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Return to the policy list and verify the allow rule’s <strong>hit count</strong> is greater than zero after the test.<figure class="figure"><button type="button" data-lightbox data-caption="Confirm the Allow SSH policy hit count increased"><img loading="lazy" src="assets/images/course/lab9-source-p230.jpg" alt="Confirm the Allow SSH policy hit count increased"></button><figcaption>Confirm the Allow SSH policy hit count increased <span class="source-page">(Source guide p. 230; UI labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected Result</div><p>SSH from the Windows Server to 10.1.30.10 succeeds while the site is in Green mode, and the Green policy hit count increases.</p></div></div></div></article></section><section class="task" id="task-9-2"><article class="card task-shell"><header class="task-head"><div class="task-num">9.2</div><div><h2>Clone and stage the Orange SSH block rule</h2><p>Create the conditional Reject rule and place it in the prescribed order.</p></div><label class="task-complete"><input type="checkbox" data-task-check="9.2"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Firewall → Policies → Site Policies → Configure. <a href="https://help.zscaler.com/zero-trust-branch/configuring-firewall-policies" target="_blank" rel="noopener noreferrer">Configuring Firewall Policies ↗</a></p><div class="search-hint">Search menu → <strong>Firewall Policies</strong></div><p class="source-route-note">The source PDF shows a site-specific Policies tab under an older Sites path. The official Configuring Firewall Policies article documents the Site Policies scope; use the equivalent view in your tenant.</p></div><ol class="steps"><li><div class="step-content">In the site policy list, open the gear/action menu on <code>POD##-Allow-ssh</code> and choose <strong>Clone</strong>.<figure class="figure"><button type="button" data-lightbox data-caption="Clone the existing SSH Allow policy"><img loading="lazy" src="assets/images/course/lab9-source-p231.jpg" alt="Clone the existing SSH Allow policy"></button><figcaption>Clone the existing SSH Allow policy <span class="source-page">(Source guide p. 231; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Edit the cloned policy with the following values; keep the inherited source/destination criteria and port intact:<table class="credentials settings-table"><thead><tr><th>Setting</th><th>Value</th></tr></thead><tbody><tr><td>Action</td><td><strong>Reject</strong></td></tr><tr><td>Name</td><td><span class="inline-value"><code class="value">POD##-Block-ssh</code> <button type="button" class="copy-btn" data-copy="POD##-Block-ssh" aria-label="Copy POD##-Block-ssh">Copy</button></span></td></tr><tr><td>Source Zone</td><td>LAN_ZONE | LAN Zone</td></tr><tr><td>Destination Zone</td><td>LAN_ZONE | LAN Zone</td></tr><tr><td>Source</td><td>Network → Private Subnets</td></tr><tr><td>Destination</td><td>Network → Private Subnets</td></tr><tr><td>Ports</td><td>Custom Port → tcp:22 (SSH)</td></tr><tr><td>Ransomware Kill Switch</td><td>Orange</td></tr></tbody></table><figure class="figure"><button type="button" data-lightbox data-caption="Orange-mode SSH Reject policy configuration"><img loading="lazy" src="assets/images/course/lab9-source-p232.jpg" alt="Orange-mode SSH Reject policy configuration"></button><figcaption>Orange-mode SSH Reject policy configuration <span class="source-page">(Source guide p. 232; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Click <strong>Clone</strong> to create the new rule, then <strong>Commit</strong> the changes.<figure class="figure"><button type="button" data-lightbox data-caption="Commit the cloned SSH Reject policy"><img loading="lazy" src="assets/images/course/lab9-source-p233.jpg" alt="Commit the cloned SSH Reject policy"></button><figcaption>Commit the cloned SSH Reject policy <span class="source-page">(Source guide p. 233; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Click <strong>Reorder</strong>, move <code>POD##-Block-ssh</code> to <strong>position 2</strong> as shown in the source guide, then click <strong>Save Policy Order</strong>. Confirm the current effective ordering before continuing.<figure class="figure"><button type="button" data-lightbox data-caption="Enter policy reorder mode"><img loading="lazy" src="assets/images/course/lab9-source-p234.jpg" alt="Enter policy reorder mode"></button><figcaption>Enter policy reorder mode <span class="source-page">(Source guide p. 234; UI labels may differ.)</span></figcaption></figure><figure class="figure"><button type="button" data-lightbox data-caption="Move the block rule to position 2"><img loading="lazy" src="assets/images/course/lab9-source-p235.jpg" alt="Move the block rule to position 2"></button><figcaption>Move the block rule to position 2 <span class="source-page">(Source guide p. 235; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Confirm both the Green Accept rule and Orange Reject rule are present with the intended match criteria and color assignments. Do not change the Kill Switch mode until ready to test.</div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected Result</div><p>Both SSH rules are committed. The Orange Reject rule is ordered second and retains the intended zones, objects, protocol, and Orange association.</p></div></div></div></article></section><section class="task" id="task-9-3"><article class="card task-shell"><header class="task-head"><div class="task-num">9.3</div><div><h2>Activate Orange, verify SSH blocking, restore Green</h2><p>Prove containment behavior without leaving the lab in an escalated state.</p></div><label class="task-complete"><input type="checkbox" data-task-check="9.3"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Policies → Access Control → Segmentation → Kill Switch. <a href="https://help.zscaler.com/zero-trust-branch/configuring-ransomware-kill-switch-site" target="_blank" rel="noopener noreferrer">Configuring the Ransomware Kill Switch for a Site ↗</a></p><div class="search-hint">Search menu → <strong>Kill Switch</strong></div><p class="source-route-note">This breadcrumb is taken from current Zscaler Help. Confirm the selected POD/site before changing its threat level.</p></div><div class="callout warning"><div class="callout-symbol">!</div><div><div class="callout-title">Potential service disruption</div><p>Changing the Kill Switch level affects the selected site and can block legitimate traffic. Perform this exercise only in your assigned training POD and return to Green afterwards.</p></div></div><ol class="steps"><li><div class="step-content">Open <strong>Policies → Access Control → Segmentation → Kill Switch</strong>, select your assigned POD/site, turn the dial to <strong>Orange</strong>, enter <code>orange</code> in the confirmation prompt, and click <strong>Confirm</strong>.<figure class="figure"><button type="button" data-lightbox data-caption="Select Orange Kill Switch severity and confirm"><img loading="lazy" src="assets/images/course/lab9-source-p237.jpg" alt="Select Orange Kill Switch severity and confirm"></button><figcaption>Select Orange Kill Switch severity and confirm <span class="source-page">(Source guide p. 237; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Confirm the site’s overview or banner shows the Kill Switch is <strong>ON / Orange</strong> for the assigned POD.<figure class="figure"><button type="button" data-lightbox data-caption="Site overview indicating the Kill Switch is ON"><img loading="lazy" src="assets/images/course/lab9-source-p238.jpg" alt="Site overview indicating the Kill Switch is ON"></button><figcaption>Site overview indicating the Kill Switch is ON <span class="source-page">(Source guide p. 238; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">From the same Windows Server, repeat <span class="inline-value"><code class="value">ssh zscaler@10.1.30.10</code> <button type="button" class="copy-btn" data-copy="ssh zscaler@10.1.30.10" aria-label="Copy ssh zscaler@10.1.30.10">Copy</button></span>. The connection should fail under the Orange Reject rule. Record the observed error rather than assuming every client shows identical wording.<figure class="figure"><button type="button" data-lightbox data-caption="SSH connection refused during Orange-mode enforcement"><img loading="lazy" src="assets/images/course/lab9-source-p239.jpg" alt="SSH connection refused during Orange-mode enforcement"></button><figcaption>SSH connection refused during Orange-mode enforcement <span class="source-page">(Source guide p. 239; UI labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Return to the policy list and verify that the <strong>Reject/Block SSH</strong> rule has a nonzero hit count following the test.</div></li><li><div class="step-content"><strong>Restore Green mode:</strong> return to the Kill Switch page for the correct site, select <strong>Green</strong> and confirm. Recheck the site indicator. The source guide recommends this restoration after testing.</div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected Result</div><p>Orange mode becomes active; SSH is blocked and the Reject rule records matching hits. The site is returned to Green after testing.</p></div></div></div></article></section>
+  <div class="callout success"><div class="callout-symbol">✓</div><div><div class="callout-title">Lab 9 complete · Optional</div><p>You have completed the optional exercises in <strong>Lab 9</strong>. Review the Expected Result blocks before moving on.</p></div></div>
+<div class="page-nav"><a href="lab-08.html"><small>Previous</small><strong>← Lab 8</strong></a><a class="next" href="index.html#contents"><small>Next</small><strong>Course Index →</strong></a></div>
+  <footer class="footer">
+
+    <span>
+      Unofficial EDU-280 web edition · Author: Rupak Dey
+    </span>
+
+    <span>
+      Adapted from EDU-280 Hands-on Lab Guide, Rev. 2.3 (Aug 2026)
+    </span>
+
+  </footer>
+
+</div>
+</main>
+
+
+<a
+  class="floating-logo"
+  href="#main"
+  aria-label="Back to top"
+>
+  <img
+    src="assets/images/shared/zscaler-logo.svg"
+    alt="Zscaler"
+  >
+</a>
+
+
+<dialog class="modal" id="image-modal">
+
+  <img alt="Expanded lab screenshot">
+
+  <div class="modal-bar">
+
+    <span data-modal-caption></span>
+
+    <button
+      class="modal-close"
+      data-modal-close
+    >
+      Close
+    </button>
+
+  </div>
+
+</dialog>
+
+
+<!-- Course data must load before the reusable site behavior. -->
+<script src="assets/js/course-data.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+
+</body>
+</html>
