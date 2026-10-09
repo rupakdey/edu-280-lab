@@ -1,4 +1,4 @@
-/* Course-specific EDU-280 navigation data. Labs 1–6 are published; optional Labs 7–9 remain planned. Never include session secrets here. */
+/* Course-specific EDU-280 navigation. All nine labs published; Labs 7–9 are optional. No session secrets. */
 window.LAB_GUIDE_COURSE = {
   "id": "EDU-280",
   "title": "Zscaler Zero Trust Branch",
@@ -263,6 +263,100 @@ window.LAB_GUIDE_COURSE = {
           "keywords": "DNS rules inspect a request’s source and destination name before returning or forwarding an answer. The Google exercise "
         }
       ]
+    },
+    {
+      "number": 7,
+      "title": "Logs and Monitoring",
+      "href": "lab-07.html",
+      "optional": true,
+      "sdc": false,
+      "keywords": "Examine Packet Logs, Flow Logs, site alarms, and ZIA Web Insights for the assigned POD. optional",
+      "tasks": [
+        {
+          "number": "7.1",
+          "id": "task-7-1",
+          "title": "View packet logs",
+          "href": "lab-07.html#task-7-1"
+        },
+        {
+          "number": "7.2",
+          "id": "task-7-2",
+          "title": "View flow logs",
+          "href": "lab-07.html#task-7-2"
+        },
+        {
+          "number": "7.3",
+          "id": "task-7-3",
+          "title": "Review Zero Trust Branch alarms",
+          "href": "lab-07.html#task-7-3"
+        },
+        {
+          "number": "7.4",
+          "id": "task-7-4",
+          "title": "Query POD web logs in Experience Center",
+          "href": "lab-07.html#task-7-4"
+        }
+      ],
+      "explainers": []
+    },
+    {
+      "number": 8,
+      "title": "Troubleshoot and Debug Zero Trust Branch Environment",
+      "href": "lab-08.html",
+      "optional": true,
+      "sdc": false,
+      "keywords": "Use appliance console diagnostics to inspect interfaces, routes, VRRP, IPSec, and live ICMP traffic. optional",
+      "tasks": [
+        {
+          "number": "8.1",
+          "id": "task-8-1",
+          "title": "Inspect interfaces and routing",
+          "href": "lab-08.html#task-8-1"
+        },
+        {
+          "number": "8.2",
+          "id": "task-8-2",
+          "title": "Inspect gateway services and capture traffic",
+          "href": "lab-08.html#task-8-2"
+        }
+      ],
+      "explainers": []
+    },
+    {
+      "number": 9,
+      "title": "Configure Ransomware Kill Switch Policy",
+      "href": "lab-09.html",
+      "optional": true,
+      "sdc": false,
+      "keywords": "Stage Green/Orange SSH rules, test incident-response containment, then restore normal mode. optional",
+      "tasks": [
+        {
+          "number": "9.1",
+          "id": "task-9-1",
+          "title": "Create and validate Green-mode SSH access",
+          "href": "lab-09.html#task-9-1"
+        },
+        {
+          "number": "9.2",
+          "id": "task-9-2",
+          "title": "Clone and stage the Orange SSH block rule",
+          "href": "lab-09.html#task-9-2"
+        },
+        {
+          "number": "9.3",
+          "id": "task-9-3",
+          "title": "Activate Orange, verify SSH blocking, restore Green",
+          "href": "lab-09.html#task-9-3"
+        }
+      ],
+      "explainers": [
+        {
+          "id": "ransomware-kill-switch-context",
+          "title": "Ransomware Kill Switch: why and how",
+          "href": "lab-09.html#ransomware-kill-switch-context",
+          "keywords": "incident containment green orange SSH lateral movement emergency isolation"
+        }
+      ]
     }
   ],
   "search": [
@@ -272,19 +366,9 @@ window.LAB_GUIDE_COURSE = {
       "keywords": "lab network VLAN ZTB DIA Zero Trust Exchange"
     },
     {
-      "label": "Lab 7 · Logs and Monitoring (planned · optional)",
-      "href": "index.html#lab-7",
-      "keywords": "Review packets, flows, alarms, and web insights. planned source index"
-    },
-    {
-      "label": "Lab 8 · Troubleshoot and Debug Zero Trust Branch Environment (planned · optional)",
-      "href": "index.html#lab-8",
-      "keywords": "Use interface and system diagnostics for investigation. planned source index"
-    },
-    {
-      "label": "Lab 9 · Configure Ransomware Kill Switch Policy (planned · optional)",
-      "href": "index.html#lab-9",
-      "keywords": "Configure SSH policies and test the ransomware kill switch. planned source index"
+      "label": "Ransomware Kill Switch",
+      "href": "lab-09.html#ransomware-kill-switch-context",
+      "keywords": "incident containment Orange Green tiered SSH policy"
     }
   ]
 };
