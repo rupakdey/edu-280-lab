@@ -4,7 +4,7 @@
 course:
   id: EDU-280
   title: Zscaler Zero Trust Branch
-  subtitle: Unofficial Web Lab Guide
+  subtitle: ZTB Lab Guide
   author: Rupak Dey
 
 labs:

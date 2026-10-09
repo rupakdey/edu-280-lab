@@ -88,3 +88,11 @@
 - Valid visual hints: `none`, `flow_diagram`, `architecture_diagram`, `comparison_table`, `sequence_diagram`, or `auto`. The builder should select a visual only when it improves clarity. Never manufacture unsupported product details.
 - Cite relevant official Zscaler documentation when adding product-specific architecture or behavior; keep source-derived claims distinct from verified external explanations. The course PDF remains authoritative for lab steps and values.
 - The YAML is **build-time input only**: do not load it in the browser. Validate it with `scripts/validate.py` and maintain its references as the course is built.
+
+## Diagram Contrast and Explainer Substance
+
+- Network topologies must remain readable in light **and** dark website modes. If a source PDF diagram has a dark background with low-contrast labels or paths, provide an accurate high-contrast redraw as the primary diagram; keep the original as a clearly labelled optional source reference.
+- When redrawing topology, preserve documented interface names, subnet/host ranges, WAN paths and device roles. Label conceptual routes as conceptual; do not invent cabling. Review readability at normal browser zoom and when enlarged.
+- A technical-explainer heading and image caption **alone do not constitute an explainer**. A standard explainer must describe the mechanism, reason for the architecture/policy, and exactly how the upcoming lab tests it. Use a worked traffic example, comparison, sequence or decision model where appropriate.
+- Clearly distinguish a product-wide capability from the specific rule configured in the lab. In particular, /32 network-of-one endpoint isolation and a CIDR-based subnet Reject rule are related but not identical.
+- Use a concise course-specific navigation subtitle (for example, “ZTB Lab Guide”), while retaining the independent/unofficial notice in the Introduction and footer.

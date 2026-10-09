@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="description"
+    content="Unofficial EDU-280 web lab guide — Lab 2: Secure Internal Communication (Inter-VLAN Traffic Filtering)"
+  >
+
+  <title>
+    Lab 2 — Secure Internal Communication (Inter-VLAN Traffic Filtering) | EDU-280
+  </title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="assets/images/shared/favicon.svg"
+  >
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    try {
+      const t = localStorage.getItem('edu280-theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+
+
+<body
+  data-page="lab-02"
+  data-course-id="EDU-280"
+  data-storage-prefix="edu280"
+>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Built by site.js -->
+<div id="course-nav"></div>
+
+
+<header class="topbar">
+
+  <div class="topbar-left">
+
+    <button
+      class="icon-btn mobile-menu"
+      data-menu-toggle
+      aria-label="Open course navigation"
+    >☰</button>
+
+    <div class="breadcrumb">
+      <a href="index.html">EDU-280</a>
+      /
+      <strong>Lab 2</strong>
+      /
+      Secure Internal Communication (Inter-VLAN Traffic Filtering)
+    </div>
+
+  </div>
+
+
+  <div class="topbar-actions">
+
+    <div class="global-search">
+
+      <input
+        id="global-search-input"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Search course"
+      >
+
+      <div
+        id="global-search-results"
+        class="global-search-results"
+      ></div>
+
+    </div>
+
+
+    <button
+      class="icon-btn"
+      data-theme-toggle
+      aria-label="Toggle dark or light mode"
+    >
+      <span data-theme-icon>☾</span>
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="main" id="main">
+<div class="content">
+
+
+  <!-- =========================================================
+       LAB HERO
+
+       Important:
+       The description must use the full available page width.
+       ========================================================= -->
+
+  <section class="lab-hero"><div><div class="eyebrow">Lab 2 · Hands-on</div><h1>Secure Internal Communication (Inter-VLAN Traffic Filtering)</h1><p>Observe default inter-VLAN forwarding, apply macrosegmentation policies, and create a site-level OT-to-IoT exception.</p><div class="lab-facts"><span class="fact"><strong>3 tasks</strong></span><span class="fact">Assigned POD + Skytap</span><span class="fact">Source guide · Lab 2</span></div></div></section>
+
+  <section class="section"><div class="section-head stacked"><div class="eyebrow">Lab objectives</div><h2>What you will accomplish</h2></div><div class="card pad"><ul class="clean-list"><li>Verify baseline east-west communication.</li><li>Create a Drop rule, validate enforcement, then compare Skip behavior.</li><li>Create an Accept exception scoped to the assigned site.</li></ul></div></section>
+
+<section class="section technical-explainer" id="macrosegmentation-context">
+ <div class="section-head stacked"><div class="eyebrow">Technical context · Network security</div><h2>Macrosegmentation: controlling traffic between network groups</h2><p>Why separate VLANs are not sufficient by themselves—and how ZTB firewall policy changes what can cross the boundary.</p></div>
+ <div class="card pad explainer-body">
+  <h3>What is the security boundary?</h3>
+  <p>In this lab, Subnet10 hosts the Windows server, Subnet20 hosts IoT, and Subnet30 hosts OT. Different VLANs separate broadcast domains, but routed communication can still be permitted between them. <strong>Macrosegmentation</strong> uses broad boundaries—subnets, VLANs or zones—to decide whether one group can reach another. ZTB evaluates traffic that passes through its gateway against the relevant firewall policies; simply creating VLANs is not the same as creating a deny rule.</p>
+  <h3>How the Lab 2 policy proves enforcement</h3>
+  <p>The first test establishes the <strong>baseline</strong>: Windows-to-IoT ICMP succeeds. You then add a <strong>Drop</strong> rule with source <code>10.1.10.0/24</code> and destination <code>10.1.20.0/24</code>, commit it, and test again. The blocked ping and policy hit counter demonstrate that the route exists but the security decision changed. Next, <strong>Skip</strong> tells policy evaluation to move past this rule, so a subsequent applicable rule may permit the same traffic. Skip is not itself an Accept action.</p>
+  <h3>Global versus site-specific intent</h3>
+  <p>A global or template rule can provide a broad security baseline while site policy expresses a local exception. Policy <em>order and scope</em> determine which action wins; do not assume every site rule automatically overrides every global rule. In the final exercise, the OT-to-IoT test illustrates how policy placement and matching change the effective result.</p>
+  <figure class="figure topology-figure"><button type="button" data-lightbox data-caption="Macrosegmentation controls between-subnet traffic"><img src="assets/images/course/lab02-macrosegmentation.svg" loading="lazy" alt="ZTB policy boundary between server and IoT subnet"></button><figcaption>Conceptual subnet policy boundary; the numbered exercises provide the actual rule names and values.</figcaption></figure>
+  <p class="source-route-note"><strong>Further reading:</strong> <a href="https://help.zscaler.com/zero-trust-branch/configuring-firewall-policies" target="_blank" rel="noopener noreferrer">Configuring Firewall Policies (Zscaler)</a> — actions, source/destination selectors, and policy scopes.</p>
+ </div>
+</section>
+<section class="task" id="task-2-1"><article class="card task-shell"><header class="task-head"><div class="task-num">2.1</div><div><h2>Verify default inter-VLAN communication</h2><p>Establish a baseline before enforcing any segmentation policy.</p></div><label class="task-complete"><input type="checkbox" data-task-check="2.1"> Mark complete</label></header><div class="task-body"><ol class="steps"><li><div class="step-content">Open the <strong>Server</strong> VM on Skytap (Subnet10).</div></li><li><div class="step-content">In Command Prompt run <span class="inline-value"><code class="value">ping 10.1.20.10</code> <button type="button" class="copy-btn" data-copy="ping 10.1.20.10" aria-label="Copy ping 10.1.20.10">Copy</button></span> and observe the replies.<figure class="figure"><button type="button" data-lightbox data-caption="Baseline ping from Windows Server to IoT Subnet20"><img loading="lazy" src="assets/images/course/lab2-source-p81.jpg" alt="Baseline ping from Windows Server to IoT Subnet20"></button><figcaption>Baseline ping from Windows Server to IoT Subnet20 <span class="source-page">(Source guide p. 81; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>The Windows Server can reach the IoT endpoint before the new segmentation rule is enforced.</p></div></div></div></article></section>
+
+<section class="task" id="task-2-2"><article class="card task-shell"><header class="task-head"><div class="task-num">2.2</div><div><h2>Block Subnet10 to Subnet20 with macrosegmentation</h2><p>Create a Drop policy, observe enforcement, then test the Skip action.</p></div><label class="task-complete"><input type="checkbox" data-task-check="2.2"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Firewall → Policies (Global / Template / Site Policies). <a href="https://help.zscaler.com/zero-trust-branch/configuring-firewall-policies" target="_blank" rel="noopener noreferrer">Zscaler Help Portal ↗</a></p><div class="search-hint">Search menu → <strong>Firewall Policies</strong></div><p class="source-route-note">If menu labels differ, use Search Menu. Source screenshots may show earlier navigation.</p></div><div class="callout info"><div class="callout-symbol">i</div><div><div class="callout-title">About ICMP flow reuse</div><p>The source notes that an existing ping flow may reuse an ICMP ID for up to five minutes. If results seem stale, stop the ping, wait, then retest.</p></div></div><ol class="steps"><li><div class="step-content">Open the assigned site and its <strong>Policies</strong> tab. Select <strong>Configure → Add Policy</strong>.<figure class="figure"><button type="button" data-lightbox data-caption="Navigate from the ZTB site to the policy configuration"><img loading="lazy" src="assets/images/course/lab2-source-p83.jpg" alt="Navigate from the ZTB site to the policy configuration"></button><figcaption>Navigate from the ZTB site to the policy configuration <span class="source-page">(Source guide p. 83; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Create a <strong>Drop</strong> policy using the required settings; select <strong>Add</strong>.<table class="credentials settings-table"><thead><tr><th>Setting</th><th>Required value</th></tr></thead><tbody><tr><td>Action</td><td><code class="value">Drop</code></td></tr><tr><td>Name</td><td><span class="inline-value"><code class="value">POD##-Block-Subnet10-to-Subnet20</code> <button type="button" class="copy-btn" data-copy="POD##-Block-Subnet10-to-Subnet20" aria-label="Copy POD##-Block-Subnet10-to-Subnet20">Copy</button></span></td></tr><tr><td>Source Zone</td><td><code class="value">LAN Zone</code></td></tr><tr><td>Destination Zone</td><td><code class="value">LAN Zone</code></td></tr><tr><td>Source</td><td><span class="inline-value"><code class="value">10.1.10.0/24</code> <button type="button" class="copy-btn" data-copy="10.1.10.0/24" aria-label="Copy 10.1.10.0/24">Copy</button></span></td></tr><tr><td>Destination</td><td><span class="inline-value"><code class="value">10.1.20.0/24</code> <button type="button" class="copy-btn" data-copy="10.1.20.0/24" aria-label="Copy 10.1.20.0/24">Copy</button></span></td></tr><tr><td>Ports</td><td><code class="value">All</code></td></tr><tr><td>Time Schedule Group</td><td><code class="value">Mon-Fri-8-5</code> (optional in source)</td></tr></tbody></table><figure class="figure"><button type="button" data-lightbox data-caption="Macrosegmentation Drop policy settings"><img loading="lazy" src="assets/images/course/lab2-source-p85.jpg" alt="Macrosegmentation Drop policy settings"></button><figcaption>Macrosegmentation Drop policy settings <span class="source-page">(Source guide p. 85; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Select <strong>Commit</strong>; note that the policy hit count resets to zero.<figure class="figure"><button type="button" data-lightbox data-caption="Commit the new firewall policy"><img loading="lazy" src="assets/images/course/lab2-source-p86.jpg" alt="Commit the new firewall policy"></button><figcaption>Commit the new firewall policy <span class="source-page">(Source guide p. 86; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Return to the Windows Server, run <span class="inline-value"><code class="value">ping 10.1.20.10</code> <button type="button" class="copy-btn" data-copy="ping 10.1.20.10" aria-label="Copy ping 10.1.20.10">Copy</button></span>, and confirm packet loss.<figure class="figure"><button type="button" data-lightbox data-caption="Blocked ping shows request timeout"><img loading="lazy" src="assets/images/course/lab2-source-p88.jpg" alt="Blocked ping shows request timeout"></button><figcaption>Blocked ping shows request timeout <span class="source-page">(Source guide p. 88; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Edit the custom policy and change its <strong>Action</strong> to <strong>Skip</strong>. Save and <strong>Commit</strong>.<figure class="figure"><button type="button" data-lightbox data-caption="Change Drop to Skip for the policy comparison"><img loading="lazy" src="assets/images/course/lab2-source-p91.jpg" alt="Change Drop to Skip for the policy comparison"></button><figcaption>Change Drop to Skip for the policy comparison <span class="source-page">(Source guide p. 91; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Repeat the ping. Observe that traffic passes through the default allow rule, and compare the custom and default policy hit counts.<figure class="figure"><button type="button" data-lightbox data-caption="Ping succeeds after the custom policy is skipped"><img loading="lazy" src="assets/images/course/lab2-source-p93.jpg" alt="Ping succeeds after the custom policy is skipped"></button><figcaption>Ping succeeds after the custom policy is skipped <span class="source-page">(Source guide p. 93; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>Drop blocks the Windows-to-IoT test; changing that same rule to Skip allows the default policy to handle traffic. The corresponding hit counts reflect the tests.</p></div></div></div></article></section>
+
+<section class="task" id="task-2-3"><article class="card task-shell"><header class="task-head"><div class="task-num">2.3</div><div><h2>Allow OT-to-IoT at the site level</h2><p>Demonstrate that a site-specific Accept rule can permit traffic otherwise blocked by a global rule.</p></div><label class="task-complete"><input type="checkbox" data-task-check="2.3"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Firewall → Policies (Global / Template / Site Policies). <a href="https://help.zscaler.com/zero-trust-branch/configuring-firewall-policies" target="_blank" rel="noopener noreferrer">Zscaler Help Portal ↗</a></p><div class="search-hint">Search menu → <strong>Firewall Policies</strong></div><p class="source-route-note">If menu labels differ, use Search Menu. Source screenshots may show earlier navigation.</p></div><ol class="steps"><li><div class="step-content">Open <strong>Firewall → Policies → Global Policies</strong> and review the preconfigured block for <code>10.1.30.0/24</code> to <code>10.1.20.0/24</code>.<figure class="figure"><button type="button" data-lightbox data-caption="Review global OT-to-IoT blocking policy"><img loading="lazy" src="assets/images/course/lab2-source-p95.jpg" alt="Review global OT-to-IoT blocking policy"></button><figcaption>Review global OT-to-IoT blocking policy <span class="source-page">(Source guide p. 95; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">From <strong>OT1</strong> in Subnet30, run <span class="inline-value"><code class="value">ping 10.1.20.10</code> <button type="button" class="copy-btn" data-copy="ping 10.1.20.10" aria-label="Copy ping 10.1.20.10">Copy</button></span> and confirm the baseline traffic is blocked.<figure class="figure"><button type="button" data-lightbox data-caption="Baseline OT-to-IoT ping is blocked"><img loading="lazy" src="assets/images/course/lab2-source-p96.jpg" alt="Baseline OT-to-IoT ping is blocked"></button><figcaption>Baseline OT-to-IoT ping is blocked <span class="source-page">(Source guide p. 96; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Switch to <strong>Site Policies</strong> for your assigned site and select <strong>Configure → Add Policy</strong>.<figure class="figure"><button type="button" data-lightbox data-caption="Select Site Policies for the assigned site"><img loading="lazy" src="assets/images/course/lab2-source-p97.jpg" alt="Select Site Policies for the assigned site"></button><figcaption>Select Site Policies for the assigned site <span class="source-page">(Source guide p. 97; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Create a site-specific Accept policy with these values.<table class="credentials settings-table"><thead><tr><th>Setting</th><th>Required value</th></tr></thead><tbody><tr><td>Action</td><td><code class="value">Accept</code></td></tr><tr><td>Name</td><td><span class="inline-value"><code class="value">POD##-Allow-OT-to-IoT</code> <button type="button" class="copy-btn" data-copy="POD##-Allow-OT-to-IoT" aria-label="Copy POD##-Allow-OT-to-IoT">Copy</button></span></td></tr><tr><td>Source</td><td><span class="inline-value"><code class="value">10.1.30.0/24</code> <button type="button" class="copy-btn" data-copy="10.1.30.0/24" aria-label="Copy 10.1.30.0/24">Copy</button></span></td></tr><tr><td>Destination</td><td><span class="inline-value"><code class="value">10.1.20.0/24</code> <button type="button" class="copy-btn" data-copy="10.1.20.0/24" aria-label="Copy 10.1.20.0/24">Copy</button></span></td></tr><tr><td>Ports</td><td><code class="value">All</code></td></tr></tbody></table><figure class="figure"><button type="button" data-lightbox data-caption="Site-level OT-to-IoT Allow policy values"><img loading="lazy" src="assets/images/course/lab2-source-p99.jpg" alt="Site-level OT-to-IoT Allow policy values"></button><figcaption>Site-level OT-to-IoT Allow policy values <span class="source-page">(Source guide p. 99; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Select <strong>Add</strong>, then <strong>Commit</strong>. Retry the ping from OT1 and check that the site policy hit count increases.<figure class="figure"><button type="button" data-lightbox data-caption="OT1 ping reaches the IoT host after site allow policy"><img loading="lazy" src="assets/images/course/lab2-source-p101.jpg" alt="OT1 ping reaches the IoT host after site allow policy"></button><figcaption>OT1 ping reaches the IoT host after site allow policy <span class="source-page">(Source guide p. 101; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>OT1 can reach IoT through this site-specific exception, and its hit count increases; the preconfigured global rule remains present.</p></div></div></div></article></section>
+
+  <!-- =========================================================
+       LAB COMPLETION
+       ========================================================= -->
+
+  <div class="callout success">
+
+    <div class="callout-symbol">✓</div>
+
+    <div>
+
+      <div class="callout-title">
+        Lab 2 complete
+      </div>
+
+      <p>
+        You have completed the published exercises for <strong>Lab 2</strong>. Continue to the next lab when your verification results match the Expected Result blocks.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       PREVIOUS / NEXT
+       ========================================================= -->
+
+<div class="page-nav"><a href="lab-01.html"><small>Previous</small><strong>← Lab 1</strong></a><a class="next" href="lab-03.html"><small>Next</small><strong>Lab 3 →</strong></a></div>
+
+  <footer class="footer">
+
+    <span>
+      Unofficial EDU-280 web edition · Author: Rupak Dey
+    </span>
+
+    <span>
+      Adapted from EDU-280 Hands-on Lab Guide, Rev. 2.3 (Aug 2026)
+    </span>
+
+  </footer>
+
+</div>
+</main>
+
+
+<a
+  class="floating-logo"
+  href="#main"
+  aria-label="Back to top"
+>
+  <img
+    src="assets/images/shared/zscaler-logo.svg"
+    alt="Zscaler"
+  >
+</a>
+
+
+<dialog class="modal" id="image-modal">
+
+  <img alt="Expanded lab screenshot">
+
+  <div class="modal-bar">
+
+    <span data-modal-caption></span>
+
+    <button
+      class="modal-close"
+      data-modal-close
+    >
+      Close
+    </button>
+
+  </div>
+
+</dialog>
+
+
+<!-- Course data must load before the reusable site behavior. -->
+<script src="assets/js/course-data.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+
+</body>
+</html>

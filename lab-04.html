@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="description"
+    content="Unofficial EDU-280 web lab guide — Lab 4: Configure Microsegmentation Policy"
+  >
+
+  <title>
+    Lab 4 — Configure Microsegmentation Policy | EDU-280
+  </title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="assets/images/shared/favicon.svg"
+  >
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    try {
+      const t = localStorage.getItem('edu280-theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+
+
+<body
+  data-page="lab-04"
+  data-course-id="EDU-280"
+  data-storage-prefix="edu280"
+>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Built by site.js -->
+<div id="course-nav"></div>
+
+
+<header class="topbar">
+
+  <div class="topbar-left">
+
+    <button
+      class="icon-btn mobile-menu"
+      data-menu-toggle
+      aria-label="Open course navigation"
+    >☰</button>
+
+    <div class="breadcrumb">
+      <a href="index.html">EDU-280</a>
+      /
+      <strong>Lab 4</strong>
+      /
+      Configure Microsegmentation Policy
+    </div>
+
+  </div>
+
+
+  <div class="topbar-actions">
+
+    <div class="global-search">
+
+      <input
+        id="global-search-input"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Search course"
+      >
+
+      <div
+        id="global-search-results"
+        class="global-search-results"
+      ></div>
+
+    </div>
+
+
+    <button
+      class="icon-btn"
+      data-theme-toggle
+      aria-label="Toggle dark or light mode"
+    >
+      <span data-theme-icon>☾</span>
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="main" id="main">
+<div class="content">
+
+
+  <!-- =========================================================
+       LAB HERO
+
+       Important:
+       The description must use the full available page width.
+       ========================================================= -->
+
+  <section class="lab-hero"><div><div class="eyebrow">Lab 4 · Hands-on</div><h1>Configure Microsegmentation Policy</h1><p>Apply targeted isolation between OT endpoints within Subnet30.</p><div class="lab-facts"><span class="fact"><strong>3 tasks</strong></span><span class="fact">Assigned POD + Skytap</span><span class="fact">Source guide · Lab 4</span></div></div></section>
+
+  <section class="section"><div class="section-head stacked"><div class="eyebrow">Lab objectives</div><h2>What you will accomplish</h2></div><div class="card pad"><ul class="clean-list"><li>Identify OT2’s actual DHCP-assigned address.</li><li>Configure an intra-OT Reject policy.</li><li>Verify lateral traffic is blocked and the policy hit counter increases.</li></ul></div></section>
+
+<section class="section technical-explainer" id="microsegmentation-context">
+ <div class="section-head stacked"><div class="eyebrow">Technical context · Endpoint isolation</div><h2>Macro versus microsegmentation — how ZTB stops lateral movement</h2><p>A subnet boundary limits communication between network groups. ZTB's network-of-one model adds a boundary between individual endpoints, including OT devices in the same VLAN.</p></div>
+ <div class="card pad explainer-body">
+  <h3>Why a traditional subnet boundary cannot isolate OT1 from OT2</h3>
+  <p>Lab 2 filtered between <strong>Subnet10</strong> and <strong>Subnet20</strong>. That is macrosegmentation: it treats the entire subnet as one policy group. But OT1 and OT2 both belong to <code>10.1.30.0/24</code>. With conventional subnet masks, two peers in the same VLAN can exchange Ethernet frames locally without going through a routed firewall. A subnet-to-subnet rule elsewhere would not necessarily see that peer traffic.</p>
+  <h3>What ZTB changes: one endpoint, one routed boundary</h3>
+  <p>In the full <strong>Airgap / network-of-one</strong> protection model, ZTB uses intelligent DHCP assignment or supported static-device mechanisms to give an endpoint a <strong>/32 subnet mask</strong>. The endpoint regards other device addresses—even ones that share the familiar 10.1.30.x range—as destinations reached through its gateway. When ZTB is the gateway, peer-to-peer flows are therefore presented to the appliance for inspection and policy enforcement. That is how same-VLAN traffic becomes visible to ZTB rather than bypassing security by taking a direct Layer 2 path.</p>
+  <h3>What the policy in this specific lab does</h3>
+  <p>Lab 4 first proves OT1 can reach OT2. The source task then creates a site firewall <strong>Reject</strong> rule with <strong>both source and destination set to <code>10.1.30.0/24</code></strong>, using LAN Zone → LAN Zone. This is a rule for <em>traffic within the entire OT subnet</em>, not a host-specific rule listing OT1 and OT2 by their exact DHCP addresses. The /32 host model makes the flow inspectable; the broader source/destination match causes the policy to reject it. The next ping should fail and the custom rule’s hit counter should rise.</p>
+  <table class="credentials settings-table"><thead><tr><th>Dimension</th><th>Macrosegmentation (Lab 2)</th><th>Microsegmentation (Lab 4)</th></tr></thead><tbody>
+  <tr><td>Boundary</td><td>Between VLAN/subnet groups</td><td>Between individual devices, even in one VLAN</td></tr>
+  <tr><td>Why gateway sees flow</td><td>Normal routing across subnet boundaries</td><td>/32 network-of-one routes endpoint traffic through ZTB</td></tr>
+  <tr><td>Policy example</td><td>Subnet10 → Subnet20, Drop</td><td>Subnet30 → Subnet30, Reject</td></tr>
+  <tr><td>Validation</td><td>Windows → IoT ping blocked</td><td>OT1 → OT2 ping blocked, hit count rises</td></tr></tbody></table>
+  <figure class="figure topology-figure"><button type="button" data-lightbox data-caption="How macrosegmentation differs from ZTB /32 microsegmentation"><img src="assets/images/course/lab04-microsegmentation.svg" loading="lazy" alt="Comparison: inter-subnet Drop policy versus intra-subnet /32 endpoints forced through ZTB for Reject evaluation"></button><figcaption>Left: routed subnet-to-subnet policy. Right: /32 endpoints within one OT subnet, with traffic inspected by the ZTB gateway.</figcaption></figure>
+  <h3>Important exception: not every asset uses /32 mode</h3>
+  <p>Zscaler also documents <strong>Airgap-Lite</strong>, which keeps conventional subnet masks and can allow local peer communication, and <strong>Airgap+</strong>, which creates small micro-subnets where peers inside one micro-subnet may communicate directly. Those are different protection models. The Lab 4 observation of a <code>/32</code> address is central to why this exercise can enforce intra-OT isolation.</p>
+  <p class="source-route-note"><strong>Official references:</strong> <a href="https://help.zscaler.com/zero-trust-branch/what-zero-trust-branch" target="_blank" rel="noopener noreferrer">What Is Zero Trust Branch?</a> · <a href="https://help.zscaler.com/zero-trust-branch/understanding-protection-solutions" target="_blank" rel="noopener noreferrer">Understanding Protection Solutions</a> · <a href="https://help.zscaler.com/zero-trust-branch/understanding-micro-subnets" target="_blank" rel="noopener noreferrer">Understanding Micro-Subnets</a>.</p>
+ </div>
+</section>
+<section class="task" id="task-4-1"><article class="card task-shell"><header class="task-head"><div class="task-num">4.1</div><div><h2>Verify baseline OT endpoint reachability</h2><p>Find OT2’s assigned /32 address and confirm OT1 can reach it before applying a new policy.</p></div><label class="task-complete"><input type="checkbox" data-task-check="4.1"> Mark complete</label></header><div class="task-body"><div class="callout warning"><div class="callout-symbol">!</div><div><div class="callout-title">Do not hard-code the OT2 address</div><p>OT2 is DHCP-assigned. Use the real IP found in your POD, not an example shown in screenshots.</p></div></div><ol class="steps"><li><div class="step-content">In <strong>Zero Trust Branch Assets</strong>, locate the OT endpoint in <code>10.1.30.0/24</code>. Note its actual DHCP address; it may be <code>10.1.30.20</code> or <code>10.1.30.21</code>.<figure class="figure"><button type="button" data-lightbox data-caption="Locate an OT endpoint and record its assigned address"><img loading="lazy" src="assets/images/course/lab4-source-p138.jpg" alt="Locate an OT endpoint and record its assigned address"></button><figcaption>Locate an OT endpoint and record its assigned address <span class="source-page">(Source guide p. 138; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">If an endpoint is missing, check the gateway console with <span class="inline-value"><code class="value">arp -a</code> <button type="button" class="copy-btn" data-copy="arp -a" aria-label="Copy arp -a">Copy</button></span> or run <span class="inline-value"><code class="value">ifconfig</code> <button type="button" class="copy-btn" data-copy="ifconfig" aria-label="Copy ifconfig">Copy</button></span> on OT2. The source illustrates a <code>/32</code> mask.<figure class="figure"><button type="button" data-lightbox data-caption="OT endpoint IP and /32 netmask inspection"><img loading="lazy" src="assets/images/course/lab4-source-p139.jpg" alt="OT endpoint IP and /32 netmask inspection"></button><figcaption>OT endpoint IP and /32 netmask inspection <span class="source-page">(Source guide p. 139; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Open the <strong>OT1</strong> terminal and ping the actual OT2 IP you recorded.<figure class="figure"><button type="button" data-lightbox data-caption="Baseline OT1 to OT2 ping succeeds"><img loading="lazy" src="assets/images/course/lab4-source-p141.jpg" alt="Baseline OT1 to OT2 ping succeeds"></button><figcaption>Baseline OT1 to OT2 ping succeeds <span class="source-page">(Source guide p. 141; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>OT1 can reach OT2 before the finer-grained intra-OT firewall rule is installed.</p></div></div></div></article></section>
+
+<section class="task" id="task-4-2"><article class="card task-shell"><header class="task-head"><div class="task-num">4.2</div><div><h2>Reject traffic between OT endpoints</h2><p>Create a site policy that isolates endpoints communicating within Subnet30.</p></div><label class="task-complete"><input type="checkbox" data-task-check="4.2"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Firewall → Policies (Global / Template / Site Policies). <a href="https://help.zscaler.com/zero-trust-branch/configuring-firewall-policies" target="_blank" rel="noopener noreferrer">Zscaler Help Portal ↗</a></p><div class="search-hint">Search menu → <strong>Firewall Policies</strong></div><p class="source-route-note">If menu labels differ, use Search Menu. Source screenshots may show earlier navigation.</p></div><ol class="steps"><li><div class="step-content">Open your assigned ZTB site and select <strong>Policies → Configure → Add Policy</strong>.<figure class="figure"><button type="button" data-lightbox data-caption="Open the firewall policy editor for intra-OT isolation"><img loading="lazy" src="assets/images/course/lab4-source-p142.jpg" alt="Open the firewall policy editor for intra-OT isolation"></button><figcaption>Open the firewall policy editor for intra-OT isolation <span class="source-page">(Source guide p. 142; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Create the Reject rule using the exact subnet and zone values shown below.<table class="credentials settings-table"><thead><tr><th>Setting</th><th>Required value</th></tr></thead><tbody><tr><td>Action</td><td><code class="value">Reject</code></td></tr><tr><td>Name</td><td><span class="inline-value"><code class="value">POD##-Block-IntraOT</code> <button type="button" class="copy-btn" data-copy="POD##-Block-IntraOT" aria-label="Copy POD##-Block-IntraOT">Copy</button></span></td></tr><tr><td>Source Zone</td><td><code class="value">LAN Zone</code></td></tr><tr><td>Destination Zone</td><td><code class="value">LAN Zone</code></td></tr><tr><td>Source</td><td><span class="inline-value"><code class="value">10.1.30.0/24</code> <button type="button" class="copy-btn" data-copy="10.1.30.0/24" aria-label="Copy 10.1.30.0/24">Copy</button></span></td></tr><tr><td>Destination</td><td><span class="inline-value"><code class="value">10.1.30.0/24</code> <button type="button" class="copy-btn" data-copy="10.1.30.0/24" aria-label="Copy 10.1.30.0/24">Copy</button></span></td></tr><tr><td>Ports</td><td><code class="value">All</code></td></tr></tbody></table><figure class="figure"><button type="button" data-lightbox data-caption="Intra-OT Reject policy configuration"><img loading="lazy" src="assets/images/course/lab4-source-p145.jpg" alt="Intra-OT Reject policy configuration"></button><figcaption>Intra-OT Reject policy configuration <span class="source-page">(Source guide p. 145; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Select <strong>Add</strong> and <strong>Commit</strong>; the new rule hit count should initialize to zero.<figure class="figure"><button type="button" data-lightbox data-caption="Commit intra-OT policy"><img loading="lazy" src="assets/images/course/lab4-source-p146.jpg" alt="Commit intra-OT policy"></button><figcaption>Commit intra-OT policy <span class="source-page">(Source guide p. 146; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>The site-level intra-OT Reject policy is committed and initially shows zero hits.</p></div></div></div></article></section>
+
+<section class="task" id="task-4-3"><article class="card task-shell"><header class="task-head"><div class="task-num">4.3</div><div><h2>Verify OT-to-OT isolation</h2><p>Prove that the new firewall rule prevents lateral communication.</p></div><label class="task-complete"><input type="checkbox" data-task-check="4.3"> Mark complete</label></header><div class="task-body"><ol class="steps"><li><div class="step-content">Open <strong>OT1</strong> in Skytap and ping the <strong>actual OT2 IP</strong> discovered in Task 4.1.<figure class="figure"><button type="button" data-lightbox data-caption="OT1 to OT2 test fails after Reject policy"><img loading="lazy" src="assets/images/course/lab4-source-p149.jpg" alt="OT1 to OT2 test fails after Reject policy"></button><figcaption>OT1 to OT2 test fails after Reject policy <span class="source-page">(Source guide p. 149; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Return to the policy listing and verify that the custom rule’s hit count increases.<figure class="figure"><button type="button" data-lightbox data-caption="Policy hit counter increases after blocked OT ping"><img loading="lazy" src="assets/images/course/lab4-source-p150.jpg" alt="Policy hit counter increases after blocked OT ping"></button><figcaption>Policy hit counter increases after blocked OT ping <span class="source-page">(Source guide p. 150; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>The OT1-to-OT2 ping fails and the intra-OT policy hit count increases.</p></div></div></div></article></section>
+
+  <!-- =========================================================
+       LAB COMPLETION
+       ========================================================= -->
+
+  <div class="callout success">
+
+    <div class="callout-symbol">✓</div>
+
+    <div>
+
+      <div class="callout-title">
+        Lab 4 complete
+      </div>
+
+      <p>
+        You have completed the published exercises for <strong>Lab 4</strong>. Continue to the next lab when your verification results match the Expected Result blocks.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       PREVIOUS / NEXT
+       ========================================================= -->
+
+<div class="page-nav"><a href="lab-03.html"><small>Previous</small><strong>← Lab 3</strong></a><a class="next" href="lab-05.html"><small>Next</small><strong>Lab 5 →</strong></a></div>
+
+  <footer class="footer">
+
+    <span>
+      Unofficial EDU-280 web edition · Author: Rupak Dey
+    </span>
+
+    <span>
+      Adapted from EDU-280 Hands-on Lab Guide, Rev. 2.3 (Aug 2026)
+    </span>
+
+  </footer>
+
+</div>
+</main>
+
+
+<a
+  class="floating-logo"
+  href="#main"
+  aria-label="Back to top"
+>
+  <img
+    src="assets/images/shared/zscaler-logo.svg"
+    alt="Zscaler"
+  >
+</a>
+
+
+<dialog class="modal" id="image-modal">
+
+  <img alt="Expanded lab screenshot">
+
+  <div class="modal-bar">
+
+    <span data-modal-caption></span>
+
+    <button
+      class="modal-close"
+      data-modal-close
+    >
+      Close
+    </button>
+
+  </div>
+
+</dialog>
+
+
+<!-- Course data must load before the reusable site behavior. -->
+<script src="assets/js/course-data.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+
+</body>
+</html>

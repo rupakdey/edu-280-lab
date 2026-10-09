@@ -29,3 +29,10 @@
 [ ] Explain-the-why content does not repeat numbered configuration steps
 [ ] Active explainers appear in course-data.js search/sidebar entries and match HTML anchors
 [ ] Technical context depth/visuals match the plan; existing context is not duplicated
+
+## Diagram and Technical Context Review
+
+- [ ] Verify diagram labels, colors, connectors, masks and interface names are legible in both themes; source-dark diagrams have high-contrast redraws.
+- [ ] Explainers teach a mechanism and relate it to the exact lab traffic test; no empty “conceptual overview” caption substituting for explanation.
+- [ ] Product-wide behavior and actual lab-policy matches are not conflated; cite official documentation for product-specific claims.
+- [ ] Sidebar subtitle is course-specific; the unofficial learning-aid disclaimer remains visible.

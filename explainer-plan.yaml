@@ -16,7 +16,7 @@ explainers:
     lab: 1
     topic: Zero Trust Branch high availability architecture
     placement: lab_intro
-    depth: standard
+    depth: detailed
     visual: architecture_diagram
     cover:
       - The site as a common configuration for two gateways
@@ -30,7 +30,7 @@ explainers:
     lab: 2
     topic: Macrosegmentation and inter-VLAN communication
     placement: lab_intro
-    depth: standard
+    depth: detailed
     visual: architecture_diagram
     cover:
       - Security boundaries between VLANs
@@ -42,7 +42,7 @@ explainers:
     lab: 4
     topic: Microsegmentation compared with macrosegmentation
     placement: lab_intro
-    depth: standard
+    depth: detailed
     visual: comparison_table
     cover:
       - Difference between broad network and workload-specific rules
