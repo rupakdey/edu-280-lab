@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="description"
+    content="Unofficial EDU-280 web lab guide — Lab 3: Validate Securing Internal and External Communication Policies"
+  >
+
+  <title>
+    Lab 3 — Validate Securing Internal and External Communication Policies | EDU-280
+  </title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="assets/images/shared/favicon.svg"
+  >
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    try {
+      const t = localStorage.getItem('edu280-theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+
+
+<body
+  data-page="lab-03"
+  data-course-id="EDU-280"
+  data-storage-prefix="edu280"
+>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Built by site.js -->
+<div id="course-nav"></div>
+
+
+<header class="topbar">
+
+  <div class="topbar-left">
+
+    <button
+      class="icon-btn mobile-menu"
+      data-menu-toggle
+      aria-label="Open course navigation"
+    >☰</button>
+
+    <div class="breadcrumb">
+      <a href="index.html">EDU-280</a>
+      /
+      <strong>Lab 3</strong>
+      /
+      Validate Securing Internal and External Communication Policies
+    </div>
+
+  </div>
+
+
+  <div class="topbar-actions">
+
+    <div class="global-search">
+
+      <input
+        id="global-search-input"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Search course"
+      >
+
+      <div
+        id="global-search-results"
+        class="global-search-results"
+      ></div>
+
+    </div>
+
+
+    <button
+      class="icon-btn"
+      data-theme-toggle
+      aria-label="Toggle dark or light mode"
+    >
+      <span data-theme-icon>☾</span>
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="main" id="main">
+<div class="content">
+
+
+  <!-- =========================================================
+       LAB HERO
+
+       Important:
+       The description must use the full available page width.
+       ========================================================= -->
+
+  <section class="lab-hero"><div><div class="eyebrow">Lab 3 · Hands-on</div><h1>Validate Securing Internal and External Communication Policies</h1><p>Test ZIA forwarding, private app connectivity and remote ZPA access from the lab endpoints.</p><div class="lab-facts"><span class="fact"><strong>4 tasks</strong></span><span class="fact">Assigned POD + Skytap</span><span class="fact">Source guide · Lab 3</span></div></div></section>
+
+  <section class="section"><div class="section-head stacked"><div class="eyebrow">Lab objectives</div><h2>What you will accomplish</h2></div><div class="card pad"><ul class="clean-list"><li>Validate Windows Server Internet and private application reachability.</li><li>Authenticate ZCC, configure Internal DNS, and establish RDP via ZPA.</li><li>Optionally repeat security and reachability checks from IoT and OT.</li></ul></div></section>
+
+
+<section class="task" id="task-3-1"><article class="card task-shell"><header class="task-head"><div class="task-num">3.1</div><div><h2>Validate Windows server connectivity</h2><p>Confirm Internet and private-application access from the Subnet10 Windows VM.</p></div><label class="task-complete"><input type="checkbox" data-task-check="3.1"> Mark complete</label></header><div class="task-body"><ol class="steps"><li><div class="step-content">Open the Skytap <strong>Server</strong> VM and visit <span class="inline-value"><code class="value">http://ip.zscaler.com</code> <button type="button" class="copy-btn" data-copy="http://ip.zscaler.com" aria-label="Copy http://ip.zscaler.com">Copy</button></span>. Verify the Zscaler service location appears.<figure class="figure"><button type="button" data-lightbox data-caption="Windows server traffic seen through the Zscaler service"><img loading="lazy" src="assets/images/course/lab3-source-p105.jpg" alt="Windows server traffic seen through the Zscaler service"></button><figcaption>Windows server traffic seen through the Zscaler service <span class="source-page">(Source guide p. 105; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Open Command Prompt and test <span class="inline-value"><code class="value">ping 10.1.10.1</code> <button type="button" class="copy-btn" data-copy="ping 10.1.10.1" aria-label="Copy ping 10.1.10.1">Copy</button></span>, <span class="inline-value"><code class="value">ping 8.8.8.8</code> <button type="button" class="copy-btn" data-copy="ping 8.8.8.8" aria-label="Copy ping 8.8.8.8">Copy</button></span> and <span class="inline-value"><code class="value">ping cnn.com</code> <button type="button" class="copy-btn" data-copy="ping cnn.com" aria-label="Copy ping cnn.com">Copy</button></span>.<figure class="figure"><button type="button" data-lightbox data-caption="Windows gateway, public IP and FQDN ping tests"><img loading="lazy" src="assets/images/course/lab3-source-p106.jpg" alt="Windows gateway, public IP and FQDN ping tests"></button><figcaption>Windows gateway, public IP and FQDN ping tests <span class="source-page">(Source guide p. 106; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Open <span class="inline-value"><code class="value">http://www.888.com</code> <button type="button" class="copy-btn" data-copy="http://www.888.com" aria-label="Copy http://www.888.com">Copy</button></span> and observe the expected gambling-category restriction.<figure class="figure"><button type="button" data-lightbox data-caption="Gambling category blocked by Internet Security"><img loading="lazy" src="assets/images/course/lab3-source-p108.jpg" alt="Gambling category blocked by Internet Security"></button><figcaption>Gambling category blocked by Internet Security <span class="source-page">(Source guide p. 108; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Visit <span class="inline-value"><code class="value">http://dcweb.ztwan.lab/</code> <button type="button" class="copy-btn" data-copy="http://dcweb.ztwan.lab/" aria-label="Copy http://dcweb.ztwan.lab/">Copy</button></span> using the explicit <strong>http://</strong> prefix, as required by this lab.<figure class="figure"><button type="button" data-lightbox data-caption="Private datacenter web page reachable over ZPA from branch"><img loading="lazy" src="assets/images/course/lab3-source-p109.jpg" alt="Private datacenter web page reachable over ZPA from branch"></button><figcaption>Private datacenter web page reachable over ZPA from branch <span class="source-page">(Source guide p. 109; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>The Windows workload reaches the internet through Zscaler, receives the expected restricted-site response, and can open the private datacenter web service.</p></div></div></div></article></section>
+
+<section class="task" id="task-3-2"><article class="card task-shell"><header class="task-head"><div class="task-num">3.2</div><div><h2>Access the Windows server remotely through ZPA</h2><p>Authenticate ZCC, add the Internal DNS rule, and establish RDP to the branch server.</p></div><label class="task-complete"><input type="checkbox" data-task-check="3.2"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Sites → your site → DNS Policies → Configure. <a href="https://help.zscaler.com/zero-trust-branch/what-site-dns-policies" target="_blank" rel="noopener noreferrer">Zscaler Help Portal ↗</a></p><div class="search-hint">Search menu → <strong>DNS Policies</strong></div><p class="source-route-note">If menu labels differ, use Search Menu. Source screenshots may show earlier navigation.</p></div><div class="callout warning"><div class="callout-symbol">!</div><div><div class="callout-title">Session credentials and internal FQDN</div><p>Use your own POD identity. The RDP credentials in the source are <strong>administrator</strong> / <strong>Zscaler123!</strong> for this training environment; do not reuse them outside the assigned lab.</p></div></div><ol class="steps"><li><div class="step-content">Open the <strong>ZCC Lab Machine</strong> VM in Skytap and sign in using your assigned <code>pod##-student@&lt;FQDN&gt;</code> identity and session password.<figure class="figure"><button type="button" data-lightbox data-caption="Open ZCC Lab Machine from Skytap"><img loading="lazy" src="assets/images/course/lab3-source-p110.jpg" alt="Open ZCC Lab Machine from Skytap"></button><figcaption>Open ZCC Lab Machine from Skytap <span class="source-page">(Source guide p. 110; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Confirm that <strong>Private Access</strong> and <strong>Internet Security</strong> show <strong>ON</strong> and ZCC is authenticated.<figure class="figure"><button type="button" data-lightbox data-caption="ZCC status and authenticated state"><img loading="lazy" src="assets/images/course/lab3-source-p114.jpg" alt="ZCC status and authenticated state"></button><figcaption>ZCC status and authenticated state <span class="source-page">(Source guide p. 114; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Check basic connectivity: run <span class="inline-value"><code class="value">ping 8.8.8.8</code> <button type="button" class="copy-btn" data-copy="ping 8.8.8.8" aria-label="Copy ping 8.8.8.8">Copy</button></span> and <span class="inline-value"><code class="value">ping cnn.com</code> <button type="button" class="copy-btn" data-copy="ping cnn.com" aria-label="Copy ping cnn.com">Copy</button></span>; optionally visit <code>ip.zscaler.com</code>.<figure class="figure"><button type="button" data-lightbox data-caption="Connectivity baseline on ZCC VM"><img loading="lazy" src="assets/images/course/lab3-source-p116.jpg" alt="Connectivity baseline on ZCC VM"></button><figcaption>Connectivity baseline on ZCC VM <span class="source-page">(Source guide p. 116; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Open your site’s <strong>DNS Policies → Configure → Add Policy</strong>. Create the Internal DNS redirect rule.<table class="credentials settings-table"><thead><tr><th>Setting</th><th>Required value</th></tr></thead><tbody><tr><td>Rule Name</td><td><span class="inline-value"><code class="value">POD##-Internal-DNS-Policy</code> <button type="button" class="copy-btn" data-copy="POD##-Internal-DNS-Policy" aria-label="Copy POD##-Internal-DNS-Policy">Copy</button></span></td></tr><tr><td>Sources</td><td><code class="value">Local Interface IPs</code></td></tr><tr><td>Destination domain</td><td><span class="inline-value"><code class="value">pod##-winserver.ztwan.lab</code> <button type="button" class="copy-btn" data-copy="pod##-winserver.ztwan.lab" aria-label="Copy pod##-winserver.ztwan.lab">Copy</button></span> (replace ## with your POD digits)</td></tr><tr><td>Action</td><td><code class="value">Redirect</code></td></tr><tr><td>DNS Gateway</td><td><code class="value">Private DNS Servers</code> (10.73.50.20, 10.73.50.21)</td></tr></tbody></table><figure class="figure"><button type="button" data-lightbox data-caption="Internal DNS policy settings for Windows server"><img loading="lazy" src="assets/images/course/lab3-source-p119.jpg" alt="Internal DNS policy settings for Windows server"></button><figcaption>Internal DNS policy settings for Windows server <span class="source-page">(Source guide p. 119; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Select <strong>Add</strong> and <strong>Commit</strong>. Then resolve the assigned server name using <span class="inline-value"><code class="value">ping pod##-winserver.ztwan.lab</code> <button type="button" class="copy-btn" data-copy="ping pod##-winserver.ztwan.lab" aria-label="Copy ping pod##-winserver.ztwan.lab">Copy</button></span>.<figure class="figure"><button type="button" data-lightbox data-caption="Internal DNS resolution to the lab server FQDN"><img loading="lazy" src="assets/images/course/lab3-source-p121.jpg" alt="Internal DNS resolution to the lab server FQDN"></button><figcaption>Internal DNS resolution to the lab server FQDN <span class="source-page">(Source guide p. 121; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Open Remote Desktop, connect to <code>pod##-winserver.ztwan.lab</code>, and use the Windows lab server administrator credentials supplied in the guide.<figure class="figure"><button type="button" data-lightbox data-caption="Remote Desktop connection uses internal host FQDN"><img loading="lazy" src="assets/images/course/lab3-source-p122.jpg" alt="Remote Desktop connection uses internal host FQDN"></button><figcaption>Remote Desktop connection uses internal host FQDN <span class="source-page">(Source guide p. 122; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">After connecting, open Command Prompt and run <span class="inline-value"><code class="value">ipconfig</code> <button type="button" class="copy-btn" data-copy="ipconfig" aria-label="Copy ipconfig">Copy</button></span> to inspect the remote server configuration.<figure class="figure"><button type="button" data-lightbox data-caption="RDP session to the branch server"><img loading="lazy" src="assets/images/course/lab3-source-p124.jpg" alt="RDP session to the branch server"></button><figcaption>RDP session to the branch server <span class="source-page">(Source guide p. 124; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">In Experience Center, locate <strong>Diagnostics</strong> using Search Menu and review the ZPA session, user, policy and application port.<figure class="figure"><button type="button" data-lightbox data-caption="ZPA remote session diagnostics"><img loading="lazy" src="assets/images/course/lab3-source-p126.jpg" alt="ZPA remote session diagnostics"></button><figcaption>ZPA remote session diagnostics <span class="source-page">(Source guide p. 126; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>The ZCC VM resolves the private Windows host through the configured DNS forwarders, connects with RDP through ZPA, and produces a visible diagnostic session.</p></div></div></div></article></section>
+
+<section class="task" id="task-3-3"><article class="card task-shell"><header class="task-head"><div class="task-num">3.3</div><div><h2>Optional: Validate the IoT Ubuntu host</h2><p>Confirm that the IoT subnet retains expected Internet/security behavior.</p></div><label class="task-complete"><input type="checkbox" data-task-check="3.3"> Mark complete</label></header><div class="task-body"><ol class="steps"><li><div class="step-content">Open the Skytap <strong>IoT</strong> VM (Subnet20).</div></li><li><div class="step-content">Visit <code>ip.zscaler.com</code> and <code>cnn.com</code> to verify service forwarding and Internet access.<figure class="figure"><button type="button" data-lightbox data-caption="IoT Ubuntu Zscaler service check"><img loading="lazy" src="assets/images/course/lab3-source-p128.jpg" alt="IoT Ubuntu Zscaler service check"></button><figcaption>IoT Ubuntu Zscaler service check <span class="source-page">(Source guide p. 128; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Try <code>http://www.888.com</code> to observe the expected gambling-category block.<figure class="figure"><button type="button" data-lightbox data-caption="IoT Ubuntu website category restriction"><img loading="lazy" src="assets/images/course/lab3-source-p129.jpg" alt="IoT Ubuntu website category restriction"></button><figcaption>IoT Ubuntu website category restriction <span class="source-page">(Source guide p. 129; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Run <span class="inline-value"><code class="value">ping 10.1.10.10</code> <button type="button" class="copy-btn" data-copy="ping 10.1.10.10" aria-label="Copy ping 10.1.10.10">Copy</button></span> to check access from IoT to the Windows Server.<figure class="figure"><button type="button" data-lightbox data-caption="IoT-to-Windows ping connectivity"><img loading="lazy" src="assets/images/course/lab3-source-p131.jpg" alt="IoT-to-Windows ping connectivity"></button><figcaption>IoT-to-Windows ping connectivity <span class="source-page">(Source guide p. 131; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>The IoT host has the expected cloud/security behavior and its IoT-to-Windows communication remains permitted in this lab scenario.</p></div></div></div></article></section>
+
+<section class="task" id="task-3-4"><article class="card task-shell"><header class="task-head"><div class="task-num">3.4</div><div><h2>Optional: Validate the OT Ubuntu host</h2><p>Repeat the Internet, policy and inter-VLAN checks from Subnet30.</p></div><label class="task-complete"><input type="checkbox" data-task-check="3.4"> Mark complete</label></header><div class="task-body"><ol class="steps"><li><div class="step-content">Open <strong>OT1</strong> in Skytap (Subnet30).</div></li><li><div class="step-content">Visit <code>ip.zscaler.com</code> and <code>cnn.com</code> to confirm Internet access through Zscaler.<figure class="figure"><button type="button" data-lightbox data-caption="OT endpoint Zscaler forwarding test"><img loading="lazy" src="assets/images/course/lab3-source-p133.jpg" alt="OT endpoint Zscaler forwarding test"></button><figcaption>OT endpoint Zscaler forwarding test <span class="source-page">(Source guide p. 133; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Try <code>http://888.com/</code>; the lab expects the gambling category to be blocked. If Chrome Safe Browsing interferes with the test, follow your instructor’s guidance.<figure class="figure"><button type="button" data-lightbox data-caption="OT endpoint restricted site test"><img loading="lazy" src="assets/images/course/lab3-source-p135.jpg" alt="OT endpoint restricted site test"></button><figcaption>OT endpoint restricted site test <span class="source-page">(Source guide p. 135; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Run <span class="inline-value"><code class="value">ping 10.1.10.10</code> <button type="button" class="copy-btn" data-copy="ping 10.1.10.10" aria-label="Copy ping 10.1.10.10">Copy</button></span> to test OT-to-Windows reachability.<figure class="figure"><button type="button" data-lightbox data-caption="OT-to-Windows inter-VLAN reachability test"><img loading="lazy" src="assets/images/course/lab3-source-p136.jpg" alt="OT-to-Windows inter-VLAN reachability test"></button><figcaption>OT-to-Windows inter-VLAN reachability test <span class="source-page">(Source guide p. 136; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>OT1 has Internet connectivity and the expected web controls, while the lab’s OT-to-Windows traffic is permitted.</p></div></div></div></article></section>
+
+  <!-- =========================================================
+       LAB COMPLETION
+       ========================================================= -->
+
+  <div class="callout success">
+
+    <div class="callout-symbol">✓</div>
+
+    <div>
+
+      <div class="callout-title">
+        Lab 3 complete
+      </div>
+
+      <p>
+        You have completed the published exercises for <strong>Lab 3</strong>. Continue to the next lab when your verification results match the Expected Result blocks.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       PREVIOUS / NEXT
+       ========================================================= -->
+
+<div class="page-nav"><a href="lab-02.html"><small>Previous</small><strong>← Lab 2</strong></a><a class="next" href="lab-04.html"><small>Next</small><strong>Lab 4 →</strong></a></div>
+
+  <footer class="footer">
+
+    <span>
+      Unofficial EDU-280 web edition · Author: Rupak Dey
+    </span>
+
+    <span>
+      Adapted from EDU-280 Hands-on Lab Guide, Rev. 2.3 (Aug 2026)
+    </span>
+
+  </footer>
+
+</div>
+</main>
+
+
+<a
+  class="floating-logo"
+  href="#main"
+  aria-label="Back to top"
+>
+  <img
+    src="assets/images/shared/zscaler-logo.svg"
+    alt="Zscaler"
+  >
+</a>
+
+
+<dialog class="modal" id="image-modal">
+
+  <img alt="Expanded lab screenshot">
+
+  <div class="modal-bar">
+
+    <span data-modal-caption></span>
+
+    <button
+      class="modal-close"
+      data-modal-close
+    >
+      Close
+    </button>
+
+  </div>
+
+</dialog>
+
+
+<!-- Course data must load before the reusable site behavior. -->
+<script src="assets/js/course-data.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+
+</body>
+</html>

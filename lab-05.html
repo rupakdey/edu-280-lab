@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="description"
+    content="Unofficial EDU-280 web lab guide — Lab 5: Configure Policy-Based Routing (PBR) Policies"
+  >
+
+  <title>
+    Lab 5 — Configure Policy-Based Routing (PBR) Policies | EDU-280
+  </title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="assets/images/shared/favicon.svg"
+  >
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    try {
+      const t = localStorage.getItem('edu280-theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+
+
+<body
+  data-page="lab-05"
+  data-course-id="EDU-280"
+  data-storage-prefix="edu280"
+>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Built by site.js -->
+<div id="course-nav"></div>
+
+
+<header class="topbar">
+
+  <div class="topbar-left">
+
+    <button
+      class="icon-btn mobile-menu"
+      data-menu-toggle
+      aria-label="Open course navigation"
+    >☰</button>
+
+    <div class="breadcrumb">
+      <a href="index.html">EDU-280</a>
+      /
+      <strong>Lab 5</strong>
+      /
+      Configure Policy-Based Routing (PBR) Policies
+    </div>
+
+  </div>
+
+
+  <div class="topbar-actions">
+
+    <div class="global-search">
+
+      <input
+        id="global-search-input"
+        type="search"
+        placeholder="Search labs or tasks…"
+        aria-label="Search course"
+      >
+
+      <div
+        id="global-search-results"
+        class="global-search-results"
+      ></div>
+
+    </div>
+
+
+    <button
+      class="icon-btn"
+      data-theme-toggle
+      aria-label="Toggle dark or light mode"
+    >
+      <span data-theme-icon>☾</span>
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="main" id="main">
+<div class="content">
+
+
+  <!-- =========================================================
+       LAB HERO
+
+       Important:
+       The description must use the full available page width.
+       ========================================================= -->
+
+  <section class="lab-hero"><div><div class="eyebrow">Lab 5 · Hands-on</div><h1>Configure Policy-Based Routing (PBR) Policies</h1><p>Build a source- and application-specific ICMP route through the best direct WAN interface.</p><div class="lab-facts"><span class="fact"><strong>3 tasks</strong></span><span class="fact">Assigned POD + Skytap</span><span class="fact">Source guide · Lab 5</span></div></div></section>
+
+  <section class="section"><div class="section-head stacked"><div class="eyebrow">Lab objectives</div><h2>What you will accomplish</h2></div><div class="card pad"><ul class="clean-list"><li>Verify baseline ZIA IPSec forwarding.</li><li>Create an Adobe SaaS object and direct WAN ICMP routing rule.</li><li>Validate path selection with ping, tcpdump and optional PBR counters.</li></ul></div></section>
+
+<section class="section technical-explainer" id="pbr-context"><div class="section-head stacked"><div class="eyebrow">Technical context</div><h2>How policy-based routing selects a path</h2><p>A routing rule can match more than a destination network. The source exercise combines Subnet10, an Adobe SaaS application object and ICMP traffic, then chooses the best available WAN path for matching flows. Traffic that does not match uses existing routing policies, typically the ZIA IPSec route. You will validate the distinction using captures on the WAN interfaces and on ipsec0 rather than assuming all internet traffic takes one route.</p></div><div class="card pad"><figure class="figure topology-figure"><button type="button" data-lightbox data-caption="Routing decisions for matching Adobe ICMP traffic"><img src="assets/images/course/lab05-pbr.svg" loading="lazy" alt="Routing decisions for matching Adobe ICMP traffic"></button><figcaption>Conceptual explanation for this lab; source-specific policy configuration appears in the tasks below.</figcaption></figure></div></section>
+<section class="task" id="task-5-1"><article class="card task-shell"><header class="task-head"><div class="task-num">5.1</div><div><h2>Confirm baseline cloud forwarding</h2><p>Verify that internet-bound traffic uses the ZIA IPSec service before adding PBR.</p></div><label class="task-complete"><input type="checkbox" data-task-check="5.1"> Mark complete</label></header><div class="task-body"><ol class="steps"><li><div class="step-content">Open the Skytap <strong>OT1</strong> Ubuntu host (Subnet30).</div></li><li><div class="step-content">Visit <span class="inline-value"><code class="value">http://ip.zscaler.com</code> <button type="button" class="copy-btn" data-copy="http://ip.zscaler.com" aria-label="Copy http://ip.zscaler.com">Copy</button></span> and verify Zscaler service details are displayed.<figure class="figure"><button type="button" data-lightbox data-caption="Internet traffic routed through ZIA before PBR"><img loading="lazy" src="assets/images/course/lab5-source-p152.jpg" alt="Internet traffic routed through ZIA before PBR"></button><figcaption>Internet traffic routed through ZIA before PBR <span class="source-page">(Source guide p. 152; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>Baseline internet traffic uses the expected Zscaler service path.</p></div></div></div></article></section>
+
+<section class="task" id="task-5-2"><article class="card task-shell"><header class="task-head"><div class="task-num">5.2</div><div><h2>Create SaaS object and direct-ICMP PBR policy</h2><p>Match Adobe traffic originating from Subnet10 and select the preferred WAN interface.</p></div><label class="task-complete"><input type="checkbox" data-task-check="5.2"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Sites → your site → Routing Policy → Configure. <a href="https://help.zscaler.com/zero-trust-branch/configuring-routing-policies" target="_blank" rel="noopener noreferrer">Zscaler Help Portal ↗</a></p><div class="search-hint">Search menu → <strong>Routing Policy</strong></div><p class="source-route-note">If menu labels differ, use Search Menu. Source screenshots may show earlier navigation.</p></div><div class="callout info"><div class="callout-symbol">i</div><div><div class="callout-title">PBR matches source and protocol</div><p>The lab’s direct-WAN rule matches Adobe destinations <em>and</em> ICMP from Subnet10. Other traffic is expected to follow existing routing policies.</p></div></div><ol class="steps"><li><div class="step-content"><div class="resource-locator"><p><strong>Documented navigation for objects:</strong> Resources → Objects → Airgap. <a href="https://help.zscaler.com/zero-trust-branch/managing-objects" target="_blank" rel="noopener noreferrer">Managing Objects ↗</a>. The source uses an older Objects &amp; Groups path.</p><div class="search-hint">Search menu → <strong>Objects</strong></div></div>Open the ZTB object management page, choose <strong>Add → SaaS Apps</strong>, and select <strong>Adobe</strong>.<figure class="figure"><button type="button" data-lightbox data-caption="Add SaaS application object for Adobe"><img loading="lazy" src="assets/images/course/lab5-source-p154.jpg" alt="Add SaaS application object for Adobe"></button><figcaption>Add SaaS application object for Adobe <span class="source-page">(Source guide p. 154; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Create the object named <code>POD##-SaaS Apps</code> with Adobe selected.<table class="credentials settings-table"><thead><tr><th>Setting</th><th>Required value</th></tr></thead><tbody><tr><td>Object Name</td><td><span class="inline-value"><code class="value">POD##-SaaS Apps</code> <button type="button" class="copy-btn" data-copy="POD##-SaaS Apps" aria-label="Copy POD##-SaaS Apps">Copy</button></span></td></tr><tr><td>Application</td><td><code class="value">Adobe</code></td></tr></tbody></table><figure class="figure"><button type="button" data-lightbox data-caption="Adobe SaaS Apps object details"><img loading="lazy" src="assets/images/course/lab5-source-p155.jpg" alt="Adobe SaaS Apps object details"></button><figcaption>Adobe SaaS Apps object details <span class="source-page">(Source guide p. 155; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Open your assigned site’s <strong>Routing Policy → Configure → Add route</strong>.<figure class="figure"><button type="button" data-lightbox data-caption="Routing Policy and Add route controls"><img loading="lazy" src="assets/images/course/lab5-source-p157.jpg" alt="Routing Policy and Add route controls"></button><figcaption>Routing Policy and Add route controls <span class="source-page">(Source guide p. 157; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Enter the PBR match criteria and both gateway next hops, then <strong>Save</strong>.<table class="credentials settings-table"><thead><tr><th>Setting</th><th>Required value</th></tr></thead><tbody><tr><td>Rule Name</td><td><span class="inline-value"><code class="value">pod##-SaaS-Apps-WAN</code> <button type="button" class="copy-btn" data-copy="pod##-SaaS-Apps-WAN" aria-label="Copy pod##-SaaS-Apps-WAN">Copy</button></span></td></tr><tr><td>Sources</td><td><span class="inline-value"><code class="value">10.1.10.0/24</code> <button type="button" class="copy-btn" data-copy="10.1.10.0/24" aria-label="Copy 10.1.10.0/24">Copy</button></span> (Subnet/Host)</td></tr><tr><td>Destinations</td><td><code class="value">POD##-SaaS Apps</code></td></tr><tr><td>Ports</td><td><code class="value">Custom Port: icmp:0</code></td></tr><tr><td>Gateway 1 / Gateway 2</td><td><code class="value">pod##-student-lab-gw-1 / pod##-student-lab-gw-2</code> (select the actual gateway entries in your site)</td></tr><tr><td>Next-hop Interface Type</td><td><code class="value">LAN/WAN</code></td></tr><tr><td>Primary / Secondary</td><td><code class="value">ge1(wan) / ge2(wan)</code> for both gateways</td></tr><tr><td>Traffic Distribution</td><td><code class="value">Best</code></td></tr></tbody></table><figure class="figure"><button type="button" data-lightbox data-caption="Detailed direct-ICMP PBR routing rule settings"><img loading="lazy" src="assets/images/course/lab5-source-p158.jpg" alt="Detailed direct-ICMP PBR routing rule settings"></button><figcaption>Detailed direct-ICMP PBR routing rule settings <span class="source-page">(Source guide p. 158; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Select <strong>Commit</strong> to activate the PBR rule.<figure class="figure"><button type="button" data-lightbox data-caption="Commit the Adobe direct-ICMP route"><img loading="lazy" src="assets/images/course/lab5-source-p159.jpg" alt="Commit the Adobe direct-ICMP route"></button><figcaption>Commit the Adobe direct-ICMP route <span class="source-page">(Source guide p. 159; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>The Adobe SaaS object and the source-specific ICMP routing rule are committed. Its best WAN interface is selected based on current scores.</p></div></div></div></article></section>
+
+<section class="task" id="task-5-3"><article class="card task-shell"><header class="task-head"><div class="task-num">5.3</div><div><h2>Validate path selection and packet routing</h2><p>Compare direct WAN captures with IPSec-forwarded traffic.</p></div><label class="task-complete"><input type="checkbox" data-task-check="5.3"> Mark complete</label></header><div class="task-body"><div class="resource-locator"><p><strong>Documented navigation:</strong> Sites → your site → Routing Policy → Configure. <a href="https://help.zscaler.com/zero-trust-branch/configuring-routing-policies" target="_blank" rel="noopener noreferrer">Zscaler Help Portal ↗</a></p><div class="search-hint">Search menu → <strong>Routing Policy</strong></div><p class="source-route-note">If menu labels differ, use Search Menu. Source screenshots may show earlier navigation.</p></div><div class="callout warning"><div class="callout-symbol">!</div><div><div class="callout-title">WAN selection and IPs vary</div><p>Do not copy example Adobe/CDN IP addresses or assume GE1 always wins. Resolve the address during the test and observe the actual best-score interface.</p></div></div><ol class="steps"><li><div class="step-content">On the site <strong>Interfaces → WAN</strong> view, identify the active gateway and its current best WAN score. The preferred interface can change.<figure class="figure"><button type="button" data-lightbox data-caption="WAN path score and active gateway view"><img loading="lazy" src="assets/images/course/lab5-source-p160.jpg" alt="WAN path score and active gateway view"></button><figcaption>WAN path score and active gateway view <span class="source-page">(Source guide p. 160; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">From the <strong>Windows Server</strong> (Subnet10), run <span class="inline-value"><code class="value">ping adobe.com -t</code> <button type="button" class="copy-btn" data-copy="ping adobe.com -t" aria-label="Copy ping adobe.com -t">Copy</button></span> and record the IP address resolved by the ping.<figure class="figure"><button type="button" data-lightbox data-caption="Adobe ping from Windows Server"><img loading="lazy" src="assets/images/course/lab5-source-p161.jpg" alt="Adobe ping from Windows Server"></button><figcaption>Adobe ping from Windows Server <span class="source-page">(Source guide p. 161; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">On the active gateway console, capture traffic on GE1 and GE2 using the <strong>actual Adobe IP</strong> from your session. Compare where ICMP packets appear.<p>Commands: <code>tcpdump -ni ge1 -c 5 host &lt;Adobe-IP&gt;</code> and <code>tcpdump -ni ge2 -c 5 host &lt;Adobe-IP&gt;</code>.</p><figure class="figure"><button type="button" data-lightbox data-caption="tcpdump confirms direct WAN ICMP path selection"><img loading="lazy" src="assets/images/course/lab5-source-p162.jpg" alt="tcpdump confirms direct WAN ICMP path selection"></button><figcaption>tcpdump confirms direct WAN ICMP path selection <span class="source-page">(Source guide p. 162; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Stop the Windows ping. From <strong>OT1</strong> (Subnet30), ping <code>adobe.com</code>; compare with a capture on the ZIA tunnel <code>ipsec0</code>.<p>Command: <code>tcpdump -ni ipsec0 -c 5 host &lt;resolved-IP&gt;</code>.</p><figure class="figure"><button type="button" data-lightbox data-caption="IPSec capture from unmatched Subnet30 ICMP traffic"><img loading="lazy" src="assets/images/course/lab5-source-p164.jpg" alt="IPSec capture from unmatched Subnet30 ICMP traffic"></button><figcaption>IPSec capture from unmatched Subnet30 ICMP traffic <span class="source-page">(Source guide p. 164; navigation labels may differ.)</span></figcaption></figure></div></li><li><div class="step-content">Optionally inspect <span class="inline-value"><code class="value">iptables -t mangle -nvL PBR-RULES</code> <button type="button" class="copy-btn" data-copy="iptables -t mangle -nvL PBR-RULES" aria-label="Copy iptables -t mangle -nvL PBR-RULES">Copy</button></span> on the gateway to view matching packet counters.<figure class="figure"><button type="button" data-lightbox data-caption="PBR-RULES mangle table and matched packet counts"><img loading="lazy" src="assets/images/course/lab5-source-p168.jpg" alt="PBR-RULES mangle table and matched packet counts"></button><figcaption>PBR-RULES mangle table and matched packet counts <span class="source-page">(Source guide p. 168; navigation labels may differ.)</span></figcaption></figure></div></li></ol><div class="callout success expected-result"><div class="callout-symbol">✓</div><div><div class="callout-title">Expected result</div><p>Matching Adobe ICMP traffic from Subnet10 appears on the selected direct WAN path; traffic from the unmatched OT subnet follows the existing ZIA IPSec path.</p></div></div></div></article></section>
+
+  <!-- =========================================================
+       LAB COMPLETION
+       ========================================================= -->
+
+  <div class="callout success">
+
+    <div class="callout-symbol">✓</div>
+
+    <div>
+
+      <div class="callout-title">
+        Lab 5 complete
+      </div>
+
+      <p>
+        You have completed the published exercises for <strong>Lab 5</strong>. Continue to the next lab when your verification results match the Expected Result blocks.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       PREVIOUS / NEXT
+       ========================================================= -->
+
+<div class="page-nav"><a href="lab-04.html"><small>Previous</small><strong>← Lab 4</strong></a><a class="next" href="lab-06.html"><small>Next</small><strong>Lab 6 →</strong></a></div>
+
+  <footer class="footer">
+
+    <span>
+      Unofficial EDU-280 web edition · Author: Rupak Dey
+    </span>
+
+    <span>
+      Adapted from EDU-280 Hands-on Lab Guide, Rev. 2.3 (Aug 2026)
+    </span>
+
+  </footer>
+
+</div>
+</main>
+
+
+<a
+  class="floating-logo"
+  href="#main"
+  aria-label="Back to top"
+>
+  <img
+    src="assets/images/shared/zscaler-logo.svg"
+    alt="Zscaler"
+  >
+</a>
+
+
+<dialog class="modal" id="image-modal">
+
+  <img alt="Expanded lab screenshot">
+
+  <div class="modal-bar">
+
+    <span data-modal-caption></span>
+
+    <button
+      class="modal-close"
+      data-modal-close
+    >
+      Close
+    </button>
+
+  </div>
+
+</dialog>
+
+
+<!-- Course data must load before the reusable site behavior. -->
+<script src="assets/js/course-data.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+
+</body>
+</html>
