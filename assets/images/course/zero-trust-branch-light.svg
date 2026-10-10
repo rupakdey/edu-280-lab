@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1490" viewBox="0 0 1800 1490" role="img" aria-labelledby="title desc"><title id="title">Zero Trust Branch lab topology</title><desc id="desc">Two ZT800 gateways share two WAN networks, use GE4 for high availability and GE3 for management, and serve Server, IoT and OT LAN segments. ZIA provides Internet security; ZPA provides private access to the data center.</desc>
+<rect width="1800" height="1490" fill="#F4F7FB"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="70" y="48" font-size="17" fill="#2467AC" font-weight="700" text-anchor="start">EDU-280  /  LAB NETWORK</text>
+<text x="70" y="102" font-size="44" fill="#172C42" font-weight="700" text-anchor="start">Zero Trust Branch</text>
+<text x="70" y="140" font-size="23" fill="#52677B" font-weight="400" text-anchor="start">Dual-WAN branch with gateway redundancy and three LAN segments</text>
+<rect x="440" y="190" width="660" height="176" rx="16" fill="#FFFFFF" stroke="#2467AC" stroke-width="1.6"/>
+<text x="770" y="233" font-size="29" fill="#172C42" font-weight="700" text-anchor="middle">Zscaler Zero Trust Exchange</text>
+<text x="770" y="273" font-size="22" fill="#2467AC" font-weight="600" text-anchor="middle">ZIA  ·  Internet security</text>
+<text x="770" y="308" font-size="22" fill="#7851AB" font-weight="600" text-anchor="middle">ZPA  ·  Private application access</text>
+<text x="770" y="341" font-size="18" fill="#52677B" font-weight="400" text-anchor="middle">Traffic inspection and policy enforcement</text>
+<rect x="70" y="210" width="270" height="126" rx="16" fill="#FFFFFF" stroke="#C6D3E0" stroke-width="1.6"/>
+<text x="205" y="258" font-size="24" fill="#172C42" font-weight="700" text-anchor="middle">Internet &amp; SaaS</text>
+<text x="205" y="295" font-size="18" fill="#52677B" font-weight="400" text-anchor="middle">Public destinations</text>
+<path d="M340 273 H440" fill="none" stroke="#2467AC" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1310" y="190" width="420" height="270" rx="16" fill="#FFFFFF" stroke="#C6D3E0" stroke-width="1.6"/>
+<text x="1338" y="231" font-size="17" fill="#7851AB" font-weight="700" text-anchor="start">DATA CENTER</text>
+<text x="1338" y="272" font-size="26" fill="#172C42" font-weight="700" text-anchor="start">Private applications</text>
+<text x="1338" y="308" font-size="22" fill="#172C42" font-weight="400" text-anchor="start">dcweb.ztwan.lab</text>
+<text x="1338" y="345" font-size="19" fill="#52677B" font-weight="400" text-anchor="start">App Connectors for ZPA access</text>
+<path d="M1338 366 H1702" fill="none" stroke="#C6D3E0" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1338" y="398" font-size="20" fill="#172C42" font-weight="600" text-anchor="start">Private DNS</text>
+<text x="1338" y="433" font-size="21" fill="#52677B" font-weight="400" text-anchor="start">10.73.50.20  /  10.73.50.21</text>
+<path d="M1100 278 H1310" fill="none" stroke="#7851AB" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7"/>
+<text x="1205" y="256" font-size="17" fill="#7851AB" font-weight="700" text-anchor="middle">ZPA</text>
+<path d="M770 366 V435" fill="none" stroke="#2467AC" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="800" y="409" font-size="18" fill="#52677B" font-weight="400" text-anchor="start">Internet connectivity</text>
+<rect x="440" y="435" width="660" height="166" rx="16" fill="#FFFFFF" stroke="#C6D3E0" stroke-width="1.6"/>
+<text x="468" y="477" font-size="27" fill="#172C42" font-weight="700" text-anchor="start">Shared WAN router</text>
+<text x="468" y="512" font-size="19" fill="#2467AC" font-weight="700" text-anchor="start">WAN 1 / ISP 1</text>
+<text x="800" y="512" font-size="19" fill="#007F73" font-weight="700" text-anchor="start">WAN 2 / ISP 2</text>
+<text x="468" y="545" font-size="20" fill="#172C42" font-weight="400" text-anchor="start">GE1 · DHCP</text>
+<text x="800" y="545" font-size="20" fill="#172C42" font-weight="400" text-anchor="start">GE2 · DHCP</text>
+<text x="468" y="578" font-size="22" fill="#52677B" font-weight="400" text-anchor="start">100.120.1.0/24</text>
+<text x="800" y="578" font-size="22" fill="#52677B" font-weight="400" text-anchor="start">100.130.1.0/24</text>
+<rect x="70" y="402" width="295" height="175" rx="16" fill="#EAF0F6" stroke="#EAF0F6" stroke-width="1.6"/>
+<text x="92" y="438" font-size="22" fill="#2467AC" font-weight="700" text-anchor="start">ZIA IPsec tunnels</text>
+<text x="92" y="473" font-size="19" fill="#52677B" font-weight="400" text-anchor="start">Use GE1 and GE2 on</text>
+<text x="92" y="502" font-size="19" fill="#52677B" font-weight="400" text-anchor="start">each branch gateway.</text>
+<text x="92" y="543" font-size="17" fill="#52677B" font-weight="400" text-anchor="start">Router carries the uplinks.</text>
+<rect x="70" y="628" width="1660" height="498" rx="22" fill="#EAF0F6" stroke="#C6D3E0" stroke-width="1.6"/>
+<text x="94" y="662" font-size="19" fill="#52677B" font-weight="700" text-anchor="start">BRANCH SITE  /  POD##-Student-Lab</text>
+<path d="M600 601 V697 H455 V758" fill="none" stroke="#2467AC" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M940 601 V697 H1085 V758" fill="none" stroke="#2467AC" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="455" y="737" font-size="17" fill="#2467AC" font-weight="700" text-anchor="middle">GE1 + GE2</text>
+<text x="1085" y="737" font-size="17" fill="#2467AC" font-weight="700" text-anchor="middle">GE1 + GE2</text>
+<rect x="1400" y="687" width="300" height="229" rx="16" fill="#FFFFFF" stroke="#C6D3E0" stroke-width="1.6"/>
+<text x="1424" y="726" font-size="25" fill="#172C42" font-weight="700" text-anchor="start">Management</text>
+<text x="1424" y="764" font-size="21" fill="#52677B" font-weight="400" text-anchor="start">GE3 · DHCP</text>
+<text x="1424" y="801" font-size="23" fill="#172C42" font-weight="400" text-anchor="start">10.73.50.0/24</text>
+<text x="1424" y="847" font-size="18" fill="#52677B" font-weight="400" text-anchor="start">Shared by both gateways</text>
+<text x="1424" y="879" font-size="16" fill="#52677B" font-weight="400" text-anchor="start">Dashed gray connections</text>
+<path d="M1400 708 H1280 V758" fill="none" stroke="#52677B" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7"/>
+<path d="M1280 708 H1096 M1074 708 H650 V758" fill="none" stroke="#52677B" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7"/>
+<circle cx="1280" cy="708" r="4" fill="#52677B"/>
+<rect x="220" y="758" width="470" height="211" rx="16" fill="#FFFFFF" stroke="#2467AC" stroke-width="1.6"/>
+<text x="246" y="803" font-size="32" fill="#172C42" font-weight="700" text-anchor="start">ZTB-1</text>
+<rect x="536" y="775" width="128" height="30" rx="7" fill="#EAF0F6" stroke="#EAF0F6" stroke-width="1.6"/>
+<text x="600.0" y="796" font-size="16" fill="#007F73" font-weight="700" text-anchor="middle">ACTIVE</text>
+<text x="246" y="842" font-size="21" fill="#52677B" font-weight="400" text-anchor="start">Virtual ZT800 gateway</text>
+<text x="246" y="879" font-size="20" fill="#7851AB" font-weight="600" text-anchor="start">App Connector</text>
+<path d="M246 900 H664" fill="none" stroke="#C6D3E0" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="246" y="940" font-size="21" fill="#172C42" font-weight="400" text-anchor="start">LAN ports:  GE6 · GE7 · GE8</text>
+<rect x="850" y="758" width="470" height="211" rx="16" fill="#FFFFFF" stroke="#2467AC" stroke-width="1.6"/>
+<text x="876" y="803" font-size="32" fill="#172C42" font-weight="700" text-anchor="start">ZTB-2</text>
+<rect x="1166" y="775" width="128" height="30" rx="7" fill="#EAF0F6" stroke="#EAF0F6" stroke-width="1.6"/>
+<text x="1230.0" y="796" font-size="16" fill="#7851AB" font-weight="700" text-anchor="middle">STANDBY</text>
+<text x="876" y="842" font-size="21" fill="#52677B" font-weight="400" text-anchor="start">Virtual ZT800 gateway</text>
+<text x="876" y="879" font-size="20" fill="#7851AB" font-weight="600" text-anchor="start">App Connector</text>
+<path d="M876 900 H1294" fill="none" stroke="#C6D3E0" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="876" y="940" font-size="21" fill="#172C42" font-weight="400" text-anchor="start">LAN ports:  GE6 · GE7 · GE8</text>
+<text x="661" y="784" font-size="13" fill="#52677B" font-weight="600" text-anchor="start">GE3</text>
+<text x="1291" y="784" font-size="13" fill="#52677B" font-weight="600" text-anchor="start">GE3</text>
+<path d="M690 856 H850" fill="none" stroke="#936112" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7"/>
+<text x="770" y="818" font-size="20" fill="#936112" font-weight="700" text-anchor="middle">GE4</text>
+<text x="770" y="841" font-size="16" fill="#936112" font-weight="600" text-anchor="middle">HA / VRRP</text>
+<path d="M455 969 V1035" fill="none" stroke="#2467AC" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1085 969 V1035" fill="none" stroke="#2467AC" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="220" y="1035" width="1360" height="66" rx="12" fill="#FFFFFF" stroke="#2467AC" stroke-width="1.6"/>
+<text x="900" y="1063" font-size="23" fill="#172C42" font-weight="700" text-anchor="middle">Branch LAN switching</text>
+<text x="900" y="1088" font-size="18" fill="#52677B" font-weight="400" text-anchor="middle">GE6 / GE7 / GE8 from both gateways · forwarding through the active gateway</text>
+<path d="M330 1101 V1188" fill="none" stroke="#2467AC" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="330" cy="1101" r="4" fill="#2467AC"/>
+<path d="M900 1101 V1188" fill="none" stroke="#2467AC" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="900" cy="1101" r="4" fill="#2467AC"/>
+<path d="M1470 1101 V1188" fill="none" stroke="#2467AC" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1470" cy="1101" r="4" fill="#2467AC"/>
+<rect x="70" y="1188" width="520" height="224" rx="16" fill="#FFFFFF" stroke="#007F73" stroke-width="1.6"/>
+<text x="96" y="1223" font-size="18" fill="#007F73" font-weight="700" text-anchor="start">GE6  /  SUBNET10</text>
+<text x="96" y="1261" font-size="28" fill="#172C42" font-weight="700" text-anchor="start">Server</text>
+<text x="96" y="1299" font-size="28" fill="#172C42" font-weight="600" text-anchor="start">10.1.10.0/24</text>
+<text x="96" y="1335" font-size="20" fill="#52677B" font-weight="400" text-anchor="start">Gateway  10.1.10.1</text>
+<text x="96" y="1369" font-size="20" fill="#52677B" font-weight="400" text-anchor="start">Windows 10 VM · 10.1.10.10</text>
+<rect x="640" y="1188" width="520" height="224" rx="16" fill="#FFFFFF" stroke="#2467AC" stroke-width="1.6"/>
+<text x="666" y="1223" font-size="18" fill="#2467AC" font-weight="700" text-anchor="start">GE7  /  SUBNET20</text>
+<text x="666" y="1261" font-size="28" fill="#172C42" font-weight="700" text-anchor="start">IoT</text>
+<text x="666" y="1299" font-size="28" fill="#172C42" font-weight="600" text-anchor="start">10.1.20.0/24</text>
+<text x="666" y="1335" font-size="20" fill="#52677B" font-weight="400" text-anchor="start">Gateway  10.1.20.1</text>
+<text x="666" y="1369" font-size="20" fill="#52677B" font-weight="400" text-anchor="start">Ubuntu VM · 10.1.20.10</text>
+<rect x="1210" y="1188" width="520" height="224" rx="16" fill="#FFFFFF" stroke="#7851AB" stroke-width="1.6"/>
+<text x="1236" y="1223" font-size="18" fill="#7851AB" font-weight="700" text-anchor="start">GE8  /  SUBNET30</text>
+<text x="1236" y="1261" font-size="28" fill="#172C42" font-weight="700" text-anchor="start">OT</text>
+<text x="1236" y="1299" font-size="28" fill="#172C42" font-weight="600" text-anchor="start">10.1.30.0/24</text>
+<text x="1236" y="1335" font-size="20" fill="#52677B" font-weight="400" text-anchor="start">Gateway  10.1.30.1</text>
+<text x="1236" y="1369" font-size="20" fill="#52677B" font-weight="400" text-anchor="start">OT1 + OT2 · Linux VMs</text>
+<text x="1236" y="1396" font-size="17" fill="#52677B" font-weight="400" text-anchor="start">Use assigned OT IPs; DHCP may vary.</text>
+<text x="70" y="1456" font-size="17" fill="#52677B" font-weight="400" text-anchor="start">Source: EDU-280 Lab Guide v2.3 · Logical topology · HA roles can change after failover</text>
+<text x="1730" y="1456" font-size="15" fill="#52677B" font-weight="700" text-anchor="end">LIGHT EDITION</text>
+</g></svg>
