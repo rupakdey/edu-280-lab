@@ -18,8 +18,40 @@
 [ ] Introduction explains navigation switching (only where available) with illustrative screenshot
 [ ] Current documented resource path + Search Menu keyword provided; official source linked where useful
 [ ] Conflicting documentation paths or tenant-specific UI variation disclosed, not guessed away
-[ ] Original source topology included when provided (with ports/subnets preserved)
-[ ] VM credentials table appears immediately below source topology if values are explicitly documented
+[ ] Readable, source-faithful topology included when provided (with ports/subnets preserved); no obsolete low-contrast duplicate
+[ ] VM credentials table appears immediately below the lab topology if values are explicitly documented
 [ ] No invented VM usernames/passwords or exposed session-specific secrets
 [ ] Standard screenshots <= min(1490px, 80vh) tall and <= 2/3 guide max width, without distortion/upscaling
 [ ] Topology diagrams may use full page width without upscaling raster files
+[ ] Course has explainer-plan.yaml and settings agree with intended generation mode
+[ ] Only enabled explainers are rendered; disabled suggestions remain out of the pages/search/sidebar
+[ ] Each enabled explainer appears at intended lab/task placement and uses its declared id
+[ ] Explain-the-why content does not repeat numbered configuration steps
+[ ] Active explainers appear in course-data.js search/sidebar entries and match HTML anchors
+[ ] Technical context depth/visuals match the plan; existing context is not duplicated
+
+## Diagram and Technical Context Review
+
+- [ ] Verify diagram labels, colors, connectors, masks and interface names are legible in both themes; source-dark diagrams have high-contrast redraws.
+- [ ] Explainers teach a mechanism and relate it to the exact lab traffic test; no empty “conceptual overview” caption substituting for explanation.
+- [ ] Product-wide behavior and actual lab-policy matches are not conflated; cite official documentation for product-specific claims.
+- [ ] Sidebar subtitle is course-specific; the unofficial learning-aid disclaimer remains visible.
+
+## Concept and Navigation Review
+
+- [ ] Each enabled technical explainer defines the feature and the operational problem it solves **before** discussing lab values.
+- [ ] Explainer covers mechanism, limits/tradeoffs, specific task purpose, and observable validation—not just a diagram caption.
+- [ ] All Zscaler navigation paths are complete, start at the product root, and match the linked current documentation article.
+- [ ] Every resource/policy task includes a Search Menu keyword; ambiguous version differences are disclosed.
+- [ ] No obsolete paths from the PDF are presented as current without verification.
+
+## Theme Topology and Footer QA
+
+- [ ] The readable/accurate topology is the only primary topology; any obsolete,
+      unreadable PDF rendition has been removed from learner-facing pages.
+- [ ] Light and dark SVG variants present identical technical information, and
+      the correct variant is visible and enlarges properly after theme toggles.
+- [ ] Footer appears on Introduction, **every** lab, and any access checkpoint.
+- [ ] Footer has left `Author: <name>` and right `Adapted <course ID> Lab Guide`;
+      responsive small-screen layout remains legible.
+- [ ] The unofficial-learning-aid disclaimer remains intact outside the footer.

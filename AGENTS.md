@@ -51,5 +51,34 @@ the repository design system wins.
 
 - Read the Navigation Verification, Source Lab Topology/VM Access, and Screenshot Height sections of LAB_GUIDE_STANDARD.md.
 - Use current help.zscaler.com product pages to substantiate a documented resource/policy route; provide a Search Menu fallback, identify conflicting documentation, and link sources.
-- When present, place the original source topology in the Environment section, with any explicit VM credentials table immediately below. Do not infer credentials.
-- Keep standard screenshots within 2/3 guide width and min(1490px,80vh) height at natural aspect ratio; allow full-width source topology diagrams.
+- When present, place a legible and technically faithful topology in the Environment section, with any explicit VM credentials table immediately below. Do not infer credentials.
+- Keep standard screenshots within 2/3 guide width and min(1490px,80vh) height at natural aspect ratio; allow full-width, high-contrast topology diagrams.
+
+## Course-Specific Explainer Plan (Mandatory)
+
+- Read `explainer-plan.yaml` (generated course) or `explainer-plan-template.yaml` (reusable template) before drafting a lab. If a new course lacks its plan, copy the template with `explainers: []`; do not invent an explainer list.
+- Treat `enabled: true` entries as approved content requirements; `enabled: false` entries are suggestions only and must not be rendered or added to search/navigation.
+- Use `placement: lab_intro` after objectives and before tasks, or `placement: before_steps` for the named task (`task: "N.M"`). Reuse `templates/components/technical-explainer.html` and preserve the standard task structure.
+- Match each explainer's stable YAML `id` with the HTML `id` and `assets/js/course-data.js` link. Reuse already-published explainers rather than duplicating them.
+- `specified_only` is the default: recommendations belong in build notes for user review, never auto-inserted. Follow the depth and visual preferences in the plan and the design standard.
+
+
+## Concept-First Technical Context and Verified Navigation (Mandatory)
+
+- Treat a technical-explainer request as a **teaching requirement**, not a request for a diagram caption. Open with a plain-language definition of the technology/policy, then explain the operational problem it solves, its decision/enforcement mechanism, and its real-life consequences. Only after that map the concept to the exact lab task and its validation.
+- For `standard` and `detailed` explainers, use meaningful subsections (e.g., **What it is**, **Why it matters**, **How it works**, **How this lab demonstrates it**) and a worked example or comparison. An explainer that consists chiefly of exercise-specific settings does not satisfy the requirement.
+- For policies, distinguish **policy intent**, **matching criteria**, **action**, **enforcement point**, **operational tradeoffs**, and **what the test actually proves**. Do not conflate a DNS Override with Redirect or a routing policy with a firewall permit rule.
+- Documentation links and configuration breadcrumbs must be checked against the **relevant action and current product-specific article**, not merely an article about the same product. Write a **complete breadcrumb**, starting with the product root (e.g. **Zero Trust Branch → Resources → Objects**), rather than an abbreviated menu suffix. Link directly to the article used to verify the breadcrumb.
+- For each actionable navigation element, provide both the verified path and a **Search Menu** keyword. If documentation conflicts, prefer the newer article that explicitly states the full path; if still uncertain, label the path as potentially version-dependent instead of inventing certainty.
+- Perform a course-wide navigation audit before publication, including asset discovery, object management, site policy tabs, firewall policy screens, and routing policy screens; validate the page/document match, not just URL reachability.
+- Treat the source PDF as authoritative for exercise values and intended outcomes, while official help.zscaler.com material provides externally verified product background and navigation. Distinguish lab-specific observations from general product capabilities.
+
+## Theme-Matched Topology and Course Footer
+
+- When light/dark SVG variants are supplied, show only the version matching the
+  site's actual theme using the canonical `theme-topology` component and CSS.
+- A low-contrast original PDF topology must not be shown alongside a clearer,
+  technically faithful replacement merely because it was in the source file.
+- Include `Author: {{AUTHOR}}` (left) and `Adapted {{COURSE_ID}} Lab Guide`
+  (right) on **every** page, using `.footer.guide-footer`; retain the separate
+  unofficial disclaimer.

@@ -66,7 +66,7 @@
 
 ## Source Lab Topology and VM Access
 
-- When the source PDF provides a topology, include the original **source topology** prominently in **Environment at a Glance**, preserving interface names, addresses, subnet relationships, and routing/service paths. A simplified SVG may supplement it, but must not replace the source technical diagram.
+- When the source PDF provides a topology, include a legible, technically accurate topology in **Environment at a Glance**. Prefer a faithful high-contrast redraw over the original PDF image when the source has illegible labels or low contrast; do not retain the unreadable image as a second version.
 - Allow technical topology figures to use the full guide content width, subject to native-resolution/no-upscaling rules for raster images.
 - Immediately below the topology, add a **VM access/credentials table** if the source explicitly gives VM or gateway usernames/passwords. Distinguish console credentials, RDP credentials and session-provided logins. Clearly mark fields that the source does not specify; never infer credentials.
 - Do not publish session-specific passwords, provisioning keys, activation codes, or user secrets; refer learners to their session email/assigned environment. Warn when a documented default password must be changed.
@@ -76,3 +76,60 @@
 - Standard screenshots: maximum width **two-thirds of guide maximum content width** and maximum height **the smaller of 1,490 CSS pixels or 80vh**. Apply both constraints together without stretching; preserve the intrinsic aspect ratio.
 - Never upscale raster screenshots above their native size. The lightbox may display a larger view within viewport limits.
 - Topology diagrams are an explicit width/height exception; use a dedicated `.topology-figure` class instead of forcing network drawings into ordinary screenshot dimensions.
+
+## Explainer Plan (Course-Controlled Technical Context)
+
+- Each course must include `explainer-plan.yaml`, copied from `explainer-plan-template.yaml`. Read it before writing any lab or technical context. Its purpose is to control **where, why, and how deeply** technical explainers are added.
+- `settings.generation: specified_only` is the default: render only `explainers` entries with `enabled: true`. Entries with `enabled: false` are suggestions and must not appear in HTML or course-data navigation. `suggest_additional_topics: true` permits suggestions in build notes, **not automatic insertion** in this mode.
+- `specified_plus_auto` may add carefully justified context beyond enabled entries; document each added explainer and avoid unnecessary concepts in straightforward labs. Do not silently override explicit disabled entries.
+- A `lab_intro` explainer appears after lab objectives and before the first task; a task-specific `before_steps` explainer (with `task: "N.M"`) appears immediately before that task's numbered steps. Never displace or duplicate the Expected Result.
+- Each enabled explainer must have a stable `id` matching its rendered HTML anchor (`id="..."`) and the corresponding `course-data.js` `labs[].explainers[]` record, so sidebar and global search can find it. When changing a pre-existing explainer, revise rather than duplicating it.
+- Recommended word ranges: `brief` 50–100, `standard` 150–250, `detailed` 250–400, subject to replacing prose with a useful diagram or table. Explain **what/why/how it relates to the exercise**, not click-by-click steps.
+- Valid visual hints: `none`, `flow_diagram`, `architecture_diagram`, `comparison_table`, `sequence_diagram`, or `auto`. The builder should select a visual only when it improves clarity. Never manufacture unsupported product details.
+- Cite relevant official Zscaler documentation when adding product-specific architecture or behavior; keep source-derived claims distinct from verified external explanations. The course PDF remains authoritative for lab steps and values.
+- The YAML is **build-time input only**: do not load it in the browser. Validate it with `scripts/validate.py` and maintain its references as the course is built.
+
+## Diagram Contrast and Explainer Substance
+
+- Network topologies must remain readable in light **and** dark website modes. If a source PDF diagram has a dark background with low-contrast labels or paths, provide an accurate high-contrast redraw as the primary diagram; keep the original as a clearly labelled optional source reference.
+- When redrawing topology, preserve documented interface names, subnet/host ranges, WAN paths and device roles. Label conceptual routes as conceptual; do not invent cabling. Review readability at normal browser zoom and when enlarged.
+- A technical-explainer heading and image caption **alone do not constitute an explainer**. A standard explainer must describe the mechanism, reason for the architecture/policy, and exactly how the upcoming lab tests it. Use a worked traffic example, comparison, sequence or decision model where appropriate.
+- Clearly distinguish a product-wide capability from the specific rule configured in the lab. In particular, /32 network-of-one endpoint isolation and a CIDR-based subnet Reject rule are related but not identical.
+- Use a concise course-specific navigation subtitle (for example, “ZTB Lab Guide”), while retaining the independent/unofficial notice in the Introduction and footer.
+
+
+## Concept-First Technical Context and Verified Navigation (Mandatory)
+
+- Treat a technical-explainer request as a **teaching requirement**, not a request for a diagram caption. Open with a plain-language definition of the technology/policy, then explain the operational problem it solves, its decision/enforcement mechanism, and its real-life consequences. Only after that map the concept to the exact lab task and its validation.
+- For `standard` and `detailed` explainers, use meaningful subsections (e.g., **What it is**, **Why it matters**, **How it works**, **How this lab demonstrates it**) and a worked example or comparison. An explainer that consists chiefly of exercise-specific settings does not satisfy the requirement.
+- For policies, distinguish **policy intent**, **matching criteria**, **action**, **enforcement point**, **operational tradeoffs**, and **what the test actually proves**. Do not conflate a DNS Override with Redirect or a routing policy with a firewall permit rule.
+- Documentation links and configuration breadcrumbs must be checked against the **relevant action and current product-specific article**, not merely an article about the same product. Write a **complete breadcrumb**, starting with the product root (e.g. **Zero Trust Branch → Resources → Objects**), rather than an abbreviated menu suffix. Link directly to the article used to verify the breadcrumb.
+- For each actionable navigation element, provide both the verified path and a **Search Menu** keyword. If documentation conflicts, prefer the newer article that explicitly states the full path; if still uncertain, label the path as potentially version-dependent instead of inventing certainty.
+- Perform a course-wide navigation audit before publication, including asset discovery, object management, site policy tabs, firewall policy screens, and routing policy screens; validate the page/document match, not just URL reachability.
+- Treat the source PDF as authoritative for exercise values and intended outcomes, while official help.zscaler.com material provides externally verified product background and navigation. Distinguish lab-specific observations from general product capabilities.
+
+## Approved Light/Dark Topology Pair
+
+- If the supplied PDF topology is illegible, **replace it** in the learner-facing
+  guide with a faithful, accessible redrawn diagram; do not include the obsolete
+  diagram in an expandable panel solely for comparison. Preserve the PDF as the
+  technical reference outside the published guide.
+- When a matching light and dark topology pair exists, prefer SVG versions with
+  identical devices, addresses, ports, subnet labels and network relationships.
+  Use `templates/components/theme-topology.html`, which switches with the
+  guide's existing `[data-theme]` light/dark setting and keeps enlargement working.
+- Topologies may use the full content width. Check line contrast and label
+  readability in both themes, including at normal laptop viewport sizes.
+- An accurate single-theme high-contrast diagram is acceptable when two faithful
+  variants are not available. Never invent network details in a redraw.
+
+## Reusable Footer Convention
+
+- Every generated page (Introduction, each lab, and optional access checkpoint)
+  must have the same two-field footer: **Author: {{AUTHOR}}** on the left and
+  **Adapted {{COURSE_ID}} Lab Guide** on the right. Other course types may use
+  an equivalent accurate adapted-source label.
+- Use the standard `.footer.guide-footer`, `.footer-author`, and `.footer-course`
+  markup. Align left/right on desktop; stack in readable order on narrow screens.
+- Keep the separate unofficial-learning-aid disclaimer elsewhere in the guide;
+  the shorter footer is not a claim of official authorship or endorsement.
