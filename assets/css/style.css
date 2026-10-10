@@ -727,3 +727,19 @@ p { margin:0 0 1rem; }
 @media (max-width: 760px) {
   .vm-access-table { font-size: .8rem; }
 }
+
+/* Theme-matched topology diagrams: display only the appropriate SVG, including
+   in the lightbox (each image has its own existing data-lightbox button). */
+.figure.topology-figure.theme-topology > button.theme-topology-light { display: block; }
+.figure.topology-figure.theme-topology > button.theme-topology-dark { display: none; }
+html[data-theme="dark"] .figure.topology-figure.theme-topology > button.theme-topology-light { display: none; }
+html[data-theme="dark"] .figure.topology-figure.theme-topology > button.theme-topology-dark { display: block; }
+
+/* Reusable two-field footer: author left, adapted course label right. */
+.guide-footer { align-items: baseline; }
+.guide-footer .footer-author { text-align: left; }
+.guide-footer .footer-course { text-align: right; margin-left: auto; }
+@media (max-width: 680px) {
+  .guide-footer { flex-direction: column; gap: 5px; }
+  .guide-footer .footer-course { margin-left: 0; text-align: left; }
+}
