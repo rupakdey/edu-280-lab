@@ -133,3 +133,12 @@
   markup. Align left/right on desktop; stack in readable order on narrow screens.
 - Keep the separate unofficial-learning-aid disclaimer elsewhere in the guide;
   the shorter footer is not a claim of official authorship or endorsement.
+
+
+## Highlighted Experience Center Navigation Paths
+
+- Render **only verified Experience Center menu breadcrumbs** with `templates/components/navigation-path.html`. Each menu level is a separate `.ec-nav-step` blue pill; chevrons between steps use `.ec-nav-separator`.
+- Preserve the full documented breadcrumb and official Zscaler Help link. Keep Search Menu keywords in their existing `.search-hint` (not in the blue breadcrumb pills).
+- Never use the pill component for configuration instructions, UI actions within a form, CLI commands, terminal output, routing flows, network diagrams, source screenshots, or ordinary technical explanations—even when those contain arrows.
+- If a full current breadcrumb is not verified, **do not invent one**: show Search Menu guidance alone and add an appropriate note. Treat legacy paths only as a documented alternative, clearly labeled.
+- Keep labels accessible, high-contrast in both themes, and horizontally scrollable when a long breadcrumb cannot fit the available width.

@@ -82,3 +82,12 @@ the repository design system wins.
 - Include `Author: {{AUTHOR}}` (left) and `Adapted {{COURSE_ID}} Lab Guide`
   (right) on **every** page, using `.footer.guide-footer`; retain the separate
   unofficial disclaimer.
+
+
+## Highlighted Experience Center Navigation Paths
+
+- Render **only verified Experience Center menu breadcrumbs** with `templates/components/navigation-path.html`. Each menu level is a separate `.ec-nav-step` blue pill; chevrons between steps use `.ec-nav-separator`.
+- Preserve the full documented breadcrumb and official Zscaler Help link. Keep Search Menu keywords in their existing `.search-hint` (not in the blue breadcrumb pills).
+- Never use the pill component for configuration instructions, UI actions within a form, CLI commands, terminal output, routing flows, network diagrams, source screenshots, or ordinary technical explanations—even when those contain arrows.
+- If a full current breadcrumb is not verified, **do not invent one**: show Search Menu guidance alone and add an appropriate note. Treat legacy paths only as a documented alternative, clearly labeled.
+- Keep labels accessible, high-contrast in both themes, and horizontally scrollable when a long breadcrumb cannot fit the available width.

@@ -55,3 +55,12 @@
 - [ ] Footer has left `Author: <name>` and right `Adapted <course ID> Lab Guide`;
       responsive small-screen layout remains legible.
 - [ ] The unofficial-learning-aid disclaimer remains intact outside the footer.
+
+
+## Experience Center Navigation Pills
+
+- [ ] Documented, verified menu paths use `ec-nav-path` / `ec-nav-step` pills, not a plain arrow string.
+- [ ] Search Menu keywords and documentation references remain separate, functional, and legible.
+- [ ] Non-navigation arrows (traffic flows, command sequences, numbered steps) are **not** styled as breadcrumbs.
+- [ ] Long paths are horizontally scrollable on phones; legible in light and dark themes.
+- [ ] Unknown or legacy-only routes are not presented as confidently verified current paths.

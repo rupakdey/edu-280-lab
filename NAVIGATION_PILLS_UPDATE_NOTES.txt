@@ -1,0 +1,1 @@
+Apply this changes-only patch to the current EDU-280 repository preserving folder structure. Replaces index.html, labs 1–9, shared CSS and builder documentation. No new JS assets needed. Only documented navigation paths are highlighted.
