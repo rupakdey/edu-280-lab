@@ -51,8 +51,8 @@ the repository design system wins.
 
 - Read the Navigation Verification, Source Lab Topology/VM Access, and Screenshot Height sections of LAB_GUIDE_STANDARD.md.
 - Use current help.zscaler.com product pages to substantiate a documented resource/policy route; provide a Search Menu fallback, identify conflicting documentation, and link sources.
-- When present, place the original source topology in the Environment section, with any explicit VM credentials table immediately below. Do not infer credentials.
-- Keep standard screenshots within 2/3 guide width and min(1490px,80vh) height at natural aspect ratio; allow full-width source topology diagrams.
+- When present, place a legible and technically faithful topology in the Environment section, with any explicit VM credentials table immediately below. Do not infer credentials.
+- Keep standard screenshots within 2/3 guide width and min(1490px,80vh) height at natural aspect ratio; allow full-width, high-contrast topology diagrams.
 
 ## Course-Specific Explainer Plan (Mandatory)
 
@@ -72,3 +72,13 @@ the repository design system wins.
 - For each actionable navigation element, provide both the verified path and a **Search Menu** keyword. If documentation conflicts, prefer the newer article that explicitly states the full path; if still uncertain, label the path as potentially version-dependent instead of inventing certainty.
 - Perform a course-wide navigation audit before publication, including asset discovery, object management, site policy tabs, firewall policy screens, and routing policy screens; validate the page/document match, not just URL reachability.
 - Treat the source PDF as authoritative for exercise values and intended outcomes, while official help.zscaler.com material provides externally verified product background and navigation. Distinguish lab-specific observations from general product capabilities.
+
+## Theme-Matched Topology and Course Footer
+
+- When light/dark SVG variants are supplied, show only the version matching the
+  site's actual theme using the canonical `theme-topology` component and CSS.
+- A low-contrast original PDF topology must not be shown alongside a clearer,
+  technically faithful replacement merely because it was in the source file.
+- Include `Author: {{AUTHOR}}` (left) and `Adapted {{COURSE_ID}} Lab Guide`
+  (right) on **every** page, using `.footer.guide-footer`; retain the separate
+  unofficial disclaimer.

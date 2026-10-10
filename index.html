@@ -221,14 +221,24 @@
     <div class="section-head stacked">
       <div class="eyebrow">Lab foundation</div>
       <h2>Environment at a glance</h2>
-      <p>One assigned POD contains a shared DIA router, two virtual ZTB gateways, three workload zones, and a ZPA App Connector. The high-contrast redraw below makes the source PDF’s interface labels, IP ranges, and connections readable in both themes; the original source drawing remains available for comparison.</p>
+      <p>One assigned POD contains a shared DIA router, two virtual ZTB gateways, three workload zones, and a ZPA App Connector. The high-contrast topology below shows the lab’s interface roles, IP ranges and network connections clearly in both light and dark modes.</p>
     </div>
 
-    <figure class="figure topology-figure" style="margin:0 auto 18px">
-      <button type="button" data-lightbox data-caption="Original EDU-280 source lab topology with gateway ports, VLANs, WAN addressing, DNS, HA connections and Zscaler services">
-        <img src="assets/images/course/ztb-readable-lab-topology.svg" alt="High-contrast redraw of EDU-280 ZTB topology showing ZTE, HA gateway pair, GE1 and GE2 WAN, GE3 management, GE4 HA, GE6-8 LAN ports, DNS and three subnet zones" loading="lazy">
+    <figure class="figure topology-figure theme-topology" style="margin:0 auto 18px">
+      <!-- The existing light/dark guide toggle selects exactly one readable diagram. -->
+      <button type="button" class="theme-topology-light" data-lightbox
+        data-caption="EDU-280 Zero Trust Branch lab topology — light edition">
+        <img src="assets/images/course/zero-trust-branch-light.svg"
+          alt="EDU-280 ZTB branch topology in light mode, showing dual WAN, active and standby gateways, HA and management links, three LAN subnets, Zscaler services and private DNS"
+          loading="lazy">
       </button>
-      <figcaption><strong>Readable topology reconstructed from source PDF page 9.</strong> The redraw preserves the documented WAN ranges, GE3 management, GE4 HA, three LAN interfaces, subnets and Zscaler service connections. It shows logical relationships rather than literal port-to-port cabling; select to enlarge. <a href="https://help.zscaler.com/zero-trust-branch/what-zero-trust-branch" target="_blank" rel="noopener noreferrer">ZTB architecture reference ↗</a></figcaption>
+      <button type="button" class="theme-topology-dark" data-lightbox
+        data-caption="EDU-280 Zero Trust Branch lab topology — dark edition">
+        <img src="assets/images/course/zero-trust-branch-dark.svg"
+          alt="EDU-280 ZTB branch topology in dark mode, showing dual WAN, active and standby gateways, HA and management links, three LAN subnets, Zscaler services and private DNS"
+          loading="lazy">
+      </button>
+      <figcaption><strong>EDU-280 lab topology.</strong> The diagram follows your selected light or dark theme. It shows the lab gateway pair, WAN and management connections, HA interface, branch networks and their Zscaler service relationships. Select to enlarge.</figcaption>
     </figure>
 <div class="card pad vm-access-table" id="vm-access" style="margin-top:16px">
   <div class="eyebrow">VM and gateway access</div>
@@ -247,11 +257,6 @@
   </div>
   <p class="source-route-note"><strong>Session-specific credentials:</strong> Experience Center portal password, POD/FQDN and Skytap passcode are sent separately for each session and are not embedded in this guide. Never reuse the displayed factory/default gateway password after changing it.</p>
 </div>
-<details class="card pad" style="margin-top:16px">
-  <summary><strong>View original PDF topology (source page 9)</strong> — dark-background reference</summary>
-  <p>The source uses dark blue and purple labels on a black background. This image is kept for source fidelity; use the accessible redraw above for normal study.</p>
-  <figure class="figure topology-figure"><button type="button" data-lightbox data-caption="Original source topology, page 9 (dark-background figure)"><img src="assets/images/course/ztb-source-lab-topology.png" alt="Original dark-background source PDF network topology, page 9" loading="lazy"></button><figcaption>Original diagram supplied with the lab guide. Some colors may be difficult to distinguish.</figcaption></figure>
-</details>
 <details class="card pad" style="margin-top:16px" open>
   <summary><strong>Understand the HA design: active/standby, link health and traffic flow</strong></summary>
   <div class="explainer-body">
@@ -502,14 +507,9 @@
   </div>
 
 
-  <footer class="footer">
-    <span>
-      Unofficial EDU-280 web edition · Author: Rupak Dey
-    </span>
-
-    <span>
-      Designed for static hosting / GitHub Pages
-    </span>
+  <footer class="footer guide-footer">
+    <span class="footer-author">Author: <strong>Rupak Dey</strong></span>
+    <span class="footer-course">Adapted EDU-280 Lab Guide</span>
   </footer>
 
 </div>

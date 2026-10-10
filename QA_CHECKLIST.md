@@ -18,8 +18,8 @@
 [ ] Introduction explains navigation switching (only where available) with illustrative screenshot
 [ ] Current documented resource path + Search Menu keyword provided; official source linked where useful
 [ ] Conflicting documentation paths or tenant-specific UI variation disclosed, not guessed away
-[ ] Original source topology included when provided (with ports/subnets preserved)
-[ ] VM credentials table appears immediately below source topology if values are explicitly documented
+[ ] Readable, source-faithful topology included when provided (with ports/subnets preserved); no obsolete low-contrast duplicate
+[ ] VM credentials table appears immediately below the lab topology if values are explicitly documented
 [ ] No invented VM usernames/passwords or exposed session-specific secrets
 [ ] Standard screenshots <= min(1490px, 80vh) tall and <= 2/3 guide max width, without distortion/upscaling
 [ ] Topology diagrams may use full page width without upscaling raster files
@@ -44,3 +44,14 @@
 - [ ] All Zscaler navigation paths are complete, start at the product root, and match the linked current documentation article.
 - [ ] Every resource/policy task includes a Search Menu keyword; ambiguous version differences are disclosed.
 - [ ] No obsolete paths from the PDF are presented as current without verification.
+
+## Theme Topology and Footer QA
+
+- [ ] The readable/accurate topology is the only primary topology; any obsolete,
+      unreadable PDF rendition has been removed from learner-facing pages.
+- [ ] Light and dark SVG variants present identical technical information, and
+      the correct variant is visible and enlarges properly after theme toggles.
+- [ ] Footer appears on Introduction, **every** lab, and any access checkpoint.
+- [ ] Footer has left `Author: <name>` and right `Adapted <course ID> Lab Guide`;
+      responsive small-screen layout remains legible.
+- [ ] The unofficial-learning-aid disclaimer remains intact outside the footer.

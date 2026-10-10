@@ -66,7 +66,7 @@
 
 ## Source Lab Topology and VM Access
 
-- When the source PDF provides a topology, include the original **source topology** prominently in **Environment at a Glance**, preserving interface names, addresses, subnet relationships, and routing/service paths. A simplified SVG may supplement it, but must not replace the source technical diagram.
+- When the source PDF provides a topology, include a legible, technically accurate topology in **Environment at a Glance**. Prefer a faithful high-contrast redraw over the original PDF image when the source has illegible labels or low contrast; do not retain the unreadable image as a second version.
 - Allow technical topology figures to use the full guide content width, subject to native-resolution/no-upscaling rules for raster images.
 - Immediately below the topology, add a **VM access/credentials table** if the source explicitly gives VM or gateway usernames/passwords. Distinguish console credentials, RDP credentials and session-provided logins. Clearly mark fields that the source does not specify; never infer credentials.
 - Do not publish session-specific passwords, provisioning keys, activation codes, or user secrets; refer learners to their session email/assigned environment. Warn when a documented default password must be changed.
@@ -107,3 +107,29 @@
 - For each actionable navigation element, provide both the verified path and a **Search Menu** keyword. If documentation conflicts, prefer the newer article that explicitly states the full path; if still uncertain, label the path as potentially version-dependent instead of inventing certainty.
 - Perform a course-wide navigation audit before publication, including asset discovery, object management, site policy tabs, firewall policy screens, and routing policy screens; validate the page/document match, not just URL reachability.
 - Treat the source PDF as authoritative for exercise values and intended outcomes, while official help.zscaler.com material provides externally verified product background and navigation. Distinguish lab-specific observations from general product capabilities.
+
+## Approved Light/Dark Topology Pair
+
+- If the supplied PDF topology is illegible, **replace it** in the learner-facing
+  guide with a faithful, accessible redrawn diagram; do not include the obsolete
+  diagram in an expandable panel solely for comparison. Preserve the PDF as the
+  technical reference outside the published guide.
+- When a matching light and dark topology pair exists, prefer SVG versions with
+  identical devices, addresses, ports, subnet labels and network relationships.
+  Use `templates/components/theme-topology.html`, which switches with the
+  guide's existing `[data-theme]` light/dark setting and keeps enlargement working.
+- Topologies may use the full content width. Check line contrast and label
+  readability in both themes, including at normal laptop viewport sizes.
+- An accurate single-theme high-contrast diagram is acceptable when two faithful
+  variants are not available. Never invent network details in a redraw.
+
+## Reusable Footer Convention
+
+- Every generated page (Introduction, each lab, and optional access checkpoint)
+  must have the same two-field footer: **Author: {{AUTHOR}}** on the left and
+  **Adapted {{COURSE_ID}} Lab Guide** on the right. Other course types may use
+  an equivalent accurate adapted-source label.
+- Use the standard `.footer.guide-footer`, `.footer-author`, and `.footer-course`
+  markup. Align left/right on desktop; stack in readable order on narrow screens.
+- Keep the separate unofficial-learning-aid disclaimer elsewhere in the guide;
+  the shorter footer is not a claim of official authorship or endorsement.

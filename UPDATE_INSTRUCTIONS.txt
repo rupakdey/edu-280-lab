@@ -1,0 +1,7 @@
+Install files at the repository root preserving paths.
+Course: pilot-intro-lab1; template: main.
+User-supplied themed ZTB SVGs appear automatically in the matching light/dark mode.
+Page footer: Author: Rupak Dey (left) | Adapted EDU-280 Lab Guide (right).
+Template uses {{AUTHOR}} and {{COURSE_ID}} placeholders.
+Keep the unofficial disclaimer elsewhere on the page.
+Run Actions > Validate Lab Guide after committing.
