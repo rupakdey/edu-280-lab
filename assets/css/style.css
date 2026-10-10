@@ -743,3 +743,56 @@ html[data-theme="dark"] .figure.topology-figure.theme-topology > button.theme-to
   .guide-footer { flex-direction: column; gap: 5px; }
   .guide-footer .footer-course { margin-left: 0; text-align: left; }
 }
+
+/* Experience Center navigation breadcrumbs: use ONLY for verified menu paths.
+   The labels remain readable in both themes; long paths scroll horizontally. */
+.ec-nav-path {
+  --ec-nav-bg: #eaf1ff;
+  --ec-nav-border: #afc9fb;
+  --ec-nav-ink: #0b4cc3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 7px 1px;
+  margin: 3px 0;
+  vertical-align: middle;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ec-nav-border) transparent;
+}
+.ec-nav-step {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid var(--ec-nav-border);
+  border-radius: 12px;
+  padding: 7px 12px;
+  background: var(--ec-nav-bg);
+  color: var(--ec-nav-ink);
+  font-weight: 750;
+  font-size: .92rem;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+.ec-nav-separator {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 1.45rem;
+  font-weight: 750;
+  line-height: 1;
+  user-select: none;
+}
+[data-theme="dark"] .ec-nav-path {
+  --ec-nav-bg: #172c4d;
+  --ec-nav-border: #4d78bd;
+  --ec-nav-ink: #a9ccff;
+}
+/* Keep breadcrumbs visually separated from the accompanying Search Menu
+   and documentation references; don't turn other arrows into pills. */
+.resource-locator .ec-nav-path { margin: 8px 0 7px; }
+@media (max-width: 760px) {
+  .ec-nav-path { gap: 7px; }
+  .ec-nav-step { padding: 7px 10px; border-radius: 10px; font-size: .83rem; }
+}
